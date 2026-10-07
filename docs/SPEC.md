@@ -1,6 +1,6 @@
 # Back on the Broomstick website: specification
 
-Version 0.1 (2026-10-07). Owner: Chuck Forsyth, for Laylla and Chelle.
+Version 0.2 (2026-10-07). Owner: Chuck Forsyth, for Laylla and Chelle.
 
 ## 1. Purpose
 
@@ -73,10 +73,15 @@ The Ask the Archive service (Cloud Run) uses the same stylesheet and tokens so t
 
 ## 7. Ask the Archive service (separate, Cloud Run `botb-mcp`)
 
-Public: `/api/search?q=` (hybrid transcript search, rate limited per visitor plus a daily cap) and episode pages.
-Private (three logins: Chuck, Laylla, Chelle): the chat ("Ask the archive" with answers) and the MCP endpoint for
-Hermes and ChatGPT. Until it is deployed `links.archive_api` is empty and `/ask/` searches titles and notes in the
-browser, saying so.
+Live at https://botb-mcp-dsfh6rrlia-uc.a.run.app (source and full spec: `Back_on_the_Broomstick/archive`,
+`docs/SPEC.md`). Same Midnight Grimoire theme (`grimoire.css` copied from this repo).
+
+Public: archive search (`/api/search?q=`, rate limited per visitor plus a daily cap), insights charts
+(`/insights`), and episode pages with full transcripts. Private (three logins: Chuck, Laylla, Chelle): the Studio
+(answers with citations, "check for new episodes") and the MCP endpoint for Hermes, ChatGPT and Claude. The service
+checks the feeds itself every Friday 7pm and Saturday 9am Eastern.
+
+Until `links.archive_api` is set (W-2), `/ask/` searches titles and notes in the browser, saying so.
 
 ## 8. Build, check, ship
 
@@ -89,8 +94,9 @@ browser, saying so.
 | # | Item |
 | --- | --- |
 | W-1 | Real photos of Laylla and Chelle (portraits are initials for now) |
-| W-2 | Deploy the Ask the Archive service and set `links.archive_api` |
+| W-2 | Set `links.archive_api` to the live service (deployed 2026-10-07) and link Insights from the nav |
 | W-3 | Own booking and shop when the hosts move off Wix (today: links out) |
 | W-4 | Custom domain if the hosts adopt the site (backonthebroomstick.com) |
 | W-5 | Newsletter ("Wheel of the Year Newsletter") once they pick a provider |
 | W-6 | Their blog ("Musings") is not mirrored; link or import if they want |
+| W-7 | New episode pages published automatically by the archive refresh job (needs a single-repo GitHub token) |
