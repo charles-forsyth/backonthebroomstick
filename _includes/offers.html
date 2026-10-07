@@ -1,7 +1,7 @@
 <div class="offers">
-  <a class="offer reveal" href="{{ site.links.booking }}" target="_blank" rel="noopener"><h3>Voice Note Pull</h3><p class="price">$45</p><p class="muted">Quick and dirty. 15 min.</p></a>
-  <a class="offer reveal" href="{{ site.links.booking }}" target="_blank" rel="noopener"><h3>Emailed Reading</h3><p class="price">$50</p><p class="muted">Answers in your inbox. 30 min.</p></a>
-  <a class="offer reveal" href="{{ site.links.booking }}" target="_blank" rel="noopener"><h3>Zoom Reading</h3><p class="price">$75</p><p class="muted">Live, face to face. 15-30 min.</p></a>
-  <a class="offer reveal feature" href="{{ site.links.booking }}" target="_blank" rel="noopener"><h3>Solarium Sesh</h3><p class="price">$300</p><p class="muted">The witchy aunties are in. 45 min.</p></a>
-  <a class="offer reveal feature" href="{{ site.links.booking }}" target="_blank" rel="noopener"><h3>Tea, Toke &amp; Tarot</h3><p class="price">$420</p><p class="muted">An hour with both witches.</p></a>
+{%- for o in site.data.offers -%}
+{%- if o.available %}
+  <a class="offer reveal{% if o.featured %} feature{% endif %}{% if o.booked_up %} booked{% endif %}" href="{{ site.data.links.booking }}" target="_blank" rel="noopener"><h3>{{ o.name | escape }}</h3><p class="price">${{ o.price }}</p><p class="muted">{{ o.blurb | escape }}{% if o.length != "" %} {{ o.length | escape }}.{% endif %}</p>{% if o.booked_up %}<p class="fine">Booked up for now</p>{% endif %}</a>
+{%- endif -%}
+{%- endfor %}
 </div>

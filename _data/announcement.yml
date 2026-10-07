@@ -1,0 +1,5 @@
+# A banner across the top of every page. Leave text empty for no banner.
+# ends: the last day it shows (YYYY-MM-DD); empty = until removed. link: optional https link.
+text: ""
+link: ""
+ends: ""

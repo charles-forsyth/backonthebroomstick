@@ -261,3 +261,17 @@ body .back::before { content: ''; position: absolute; inset: 8px; border: 1px so
 .tarot-today img { width: 120px; }
 .draw .slots { margin-bottom: 18px; }
 @media (max-width: 860px) { .guest-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Host-editable bits: announcement banner, events, photo portraits, booked-up offers */
+.announce { background: linear-gradient(90deg, color-mix(in srgb, var(--accent2) 30%, var(--bg)), color-mix(in srgb, var(--accent) 22%, var(--bg))); border-bottom: 1px solid var(--line); text-align: center; padding: 10px 0; font-family: var(--f-display); letter-spacing: .04em; font-size: .95rem; }
+.announce a { color: var(--text); text-decoration: none; }
+.announce a:hover { color: var(--accent); }
+.events { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 14px; }
+.event { display: grid; grid-template-columns: 72px 1fr; gap: 18px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
+.event h3 { margin: 0 0 4px; font-size: 1.15rem; }
+.event p { margin: 4px 0 0; }
+.ev-date { text-align: center; border-right: 1px solid var(--line); padding-right: 14px; font-family: var(--f-display); }
+.ev-date b { display: block; color: var(--accent); text-transform: uppercase; font-size: .85rem; letter-spacing: .12em; }
+.ev-date span { font-size: 1.9rem; line-height: 1.1; }
+img.portrait.photo { object-fit: cover; padding: 0; border: 2px solid var(--accent); }
+.offer.booked { opacity: .7; }

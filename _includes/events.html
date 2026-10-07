@@ -1,0 +1,22 @@
+{%- comment -%}Upcoming events from _data/events.yml (past ones are hidden at build and again in the browser).{%- endcomment -%}
+{%- assign today = site.time | date: "%Y-%m-%d" -%}
+{%- assign evs = site.data.events | sort: "date" -%}
+{%- assign shown = 0 -%}
+{%- capture items -%}
+{%- for ev in evs -%}{%- assign d = ev.date | date: "%Y-%m-%d" -%}{%- if d >= today -%}{%- assign shown = shown | plus: 1 %}
+  <li class="event" data-date="{{ d }}"><div class="ev-date"><b>{{ ev.date | date: "%b" }}</b><span>{{ ev.date | date: "%-d" }}</span></div>
+    <div><h3>{% if ev.link != "" and ev.link != nil %}<a href="{{ ev.link }}" target="_blank" rel="noopener">{{ ev.title | escape }}</a>{% else %}{{ ev.title | escape }}{% endif %}</h3>
+      <p class="muted">{{ ev.date | date: "%A, %B %-d" }}{% if ev.time != "" and ev.time != nil %}, {{ ev.time | escape }}{% endif %}{% if ev.where != "" and ev.where != nil %} &middot; {{ ev.where | escape }}{% endif %}</p>
+      {% if ev.blurb != "" and ev.blurb != nil %}<p>{{ ev.blurb | escape }}</p>{% endif %}</div></li>
+{%- endif -%}{%- endfor -%}
+{%- endcapture -%}
+{%- if shown > 0 -%}
+<section class="band alt" data-events>
+  <div class="wrap narrow">
+    <p class="kicker">Coming up</p>
+    <h2>Gather with the witches</h2>
+    <ul class="events">{{ items }}
+    </ul>
+  </div>
+</section>
+{%- endif -%}

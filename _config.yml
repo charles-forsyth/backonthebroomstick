@@ -6,27 +6,6 @@ baseurl: /backonthebroomstick
 lang: en_US
 timezone: America/New_York
 
-# Where the show lives. Change links here, not in pages.
-links:
-  feed: https://rss.buzzsprout.com/2119523.rss
-  feed_swh: https://rss.buzzsprout.com/1909152.rss
-  apple: https://podcasts.apple.com/podcast/id1669652499
-  spotify: https://open.spotify.com/search/back%20on%20the%20broomstick
-  youtube: https://www.youtube.com/channel/UCpwXkp5XwIw_WVswz9bzBUw
-  youtube_swh: https://www.youtube.com/channel/UCyUA6TXPI48F6JLXc6I41xw
-  benefactor: https://www.buzzsprout.com/2119523/support
-  etsy: https://www.etsy.com/shop/BackOnTheBroomstick
-  instagram: https://instagram.com/backonthebroomstick
-  facebook: https://www.facebook.com/backonthebroomstick
-  threads: https://www.threads.net/@backonthebroomstick
-  group: https://www.facebook.com/groups/356274537401554
-  booking: https://www.backonthebroomstick.com/booking
-  circle: https://www.backonthebroomstick.com/crystalcitycircle
-  grimoire: https://www.backonthebroomstick.com/blog
-  email: backonthebroomstick@gmail.com
-  # The Ask the Archive service (Cloud Run). Empty until it is deployed; the page then shows a coming-soon note.
-  archive_api: ""
-
 markdown: kramdown
 kramdown:
   input: GFM

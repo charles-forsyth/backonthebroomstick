@@ -3,6 +3,7 @@ layout: default
 title: A modern witch's spoken word grimoire
 ---
 {%- assign latest = site.data.episodes | first -%}
+{%- for pair in site.data.episode_extras -%}{%- if pair[1].featured -%}{%- assign f = site.data.episodes | where: "slug", pair[0] | first -%}{%- if f -%}{%- assign latest = f -%}{%- assign featured = true -%}{%- endif -%}{%- endif -%}{%- endfor -%}
 <section class="hero">
   <div class="hero-bg" aria-hidden="true"></div>
   <div class="wrap hero-in">
@@ -24,7 +25,7 @@ title: A modern witch's spoken word grimoire
 
 <section id="listen" class="band">
   <div class="wrap">
-    <p class="kicker">Newest episode</p>
+    <p class="kicker">{% if featured %}Featured episode{% else %}Newest episode{% endif %}</p>
     <div class="now-playing reveal">
       <img class="np-art" src="{{ '/assets/img/cover.webp' | relative_url }}" alt="Back on the Broomstick cover art" width="220" height="220">
       <div class="np-body">
@@ -33,9 +34,9 @@ title: A modern witch's spoken word grimoire
         <p>{{ latest.notes | truncatewords: 55 }}</p>
         <audio controls preload="none" src="{{ latest.audio }}"></audio>
         <p class="np-links">{% if latest.youtube %}<a href="https://www.youtube.com/watch?v={{ latest.youtube }}" target="_blank" rel="noopener">Watch on YouTube</a> &middot;{% endif %}
-          <a href="{{ site.links.apple }}" target="_blank" rel="noopener">Apple Podcasts</a> &middot;
-          <a href="{{ site.links.spotify }}" target="_blank" rel="noopener">Spotify</a> &middot;
-          <a href="{{ site.links.feed }}">RSS</a></p>
+          <a href="{{ site.data.links.apple }}" target="_blank" rel="noopener">Apple Podcasts</a> &middot;
+          <a href="{{ site.data.links.spotify }}" target="_blank" rel="noopener">Spotify</a> &middot;
+          <a href="{{ site.data.links.feed }}">RSS</a></p>
       </div>
     </div>
     <div class="eps">
@@ -105,6 +106,8 @@ title: A modern witch's spoken word grimoire
   </div>
 </section>
 
+{% include events.html %}
+
 <section class="band">
   <div class="wrap">
     <p class="kicker">Readings with the witches</p>
@@ -117,12 +120,12 @@ title: A modern witch's spoken word grimoire
   <div class="wrap grid3">
     <div class="panel reveal"><p class="kicker">The circle</p><h3>Join the discussion group</h3>
       <p class="muted">The fan-run Facebook group: tips, tricks and magick between episodes.</p>
-      <a class="btn ghost" href="{{ site.links.group }}" target="_blank" rel="noopener">Join the group</a></div>
+      <a class="btn ghost" href="{{ site.data.links.group }}" target="_blank" rel="noopener">Join the group</a></div>
     <div class="panel reveal"><p class="kicker">The shop</p><h3>Sweatshirts, mugs, candles</h3>
       <p class="muted">The new BotB shop is coming soon. Until then, find them on Etsy.</p>
       <a class="btn ghost" href="{{ '/shop/' | relative_url }}">Visit the shop</a></div>
     <div class="panel reveal"><p class="kicker">Benefactors</p><h3>Keep the cauldron bubbling</h3>
       <p class="muted">Benefactors cover the show's costs and get exclusive perks.</p>
-      <a class="btn" href="{{ site.links.benefactor }}" target="_blank" rel="noopener">Become a Benefactor</a></div>
+      <a class="btn" href="{{ site.data.links.benefactor }}" target="_blank" rel="noopener">Become a Benefactor</a></div>
   </div>
 </section>
