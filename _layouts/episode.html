@@ -15,8 +15,8 @@ layout: default
       <audio controls preload="none" src="{{ e.audio }}"></audio>
       <p class="np-links">
         {% if e.youtube %}<a href="https://www.youtube.com/watch?v={{ e.youtube }}" target="_blank" rel="noopener">Watch on YouTube</a> &middot;{% endif %}
-        <a href="{{ site.links.apple }}" target="_blank" rel="noopener">Apple Podcasts</a> &middot;
-        <a href="{{ site.links.spotify }}" target="_blank" rel="noopener">Spotify</a>
+        <a href="{{ site.data.links.apple }}" target="_blank" rel="noopener">Apple Podcasts</a> &middot;
+        <a href="{{ site.data.links.spotify }}" target="_blank" rel="noopener">Spotify</a>
       </p>
     </div>
   </div>
@@ -24,6 +24,8 @@ layout: default
 <section class="band">
   <div class="wrap narrow prose">
     {% if e.guests.size > 0 %}<p class="kicker">With {{ e.guests | join: ", " }}</p>{% endif %}
+    {%- assign x = site.data.episode_extras[page.slug] -%}
+    {% if x.note and x.note != "" %}<p class="notice">{{ x.note | escape }}</p>{% endif %}
     {{ e.notes | escape | newline_to_br }}
     {% if e.sabbat %}
     <p class="ep-sabbat"><a href="{{ '/wheel/' | relative_url }}#{{ e.sabbat | downcase }}">&#10040; More {{ e.sabbat }} episodes on the Wheel</a></p>

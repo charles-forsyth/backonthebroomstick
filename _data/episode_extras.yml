@@ -1,0 +1,7 @@
+# Extras for episode pages, by episode slug (see the episode's web address). All optional.
+# note: a short note shown on the episode page. featured: true puts it on the home page instead of the newest.
+# Example:
+# 184-traveling-between-the-spokes-with-hecate-and-lilith:
+#   note: "Laylla's Hecate altar photos are on Instagram."
+#   featured: false
+{}

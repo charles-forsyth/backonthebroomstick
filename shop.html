@@ -6,10 +6,12 @@ lead: Sweatshirts, t-shirts, mugs, journals, candles and more. The new shop is o
 permalink: /shop/
 wide: true
 ---
-<div class="notice">The new Back on the Broomstick shop is coming soon. Until it opens, their Etsy shop is the place to go.</div>
+{%- assign shop = site.data.shop -%}
+{%- if shop.open and shop.url != "" -%}{%- assign shop_url = shop.url -%}{%- else -%}{%- assign shop_url = site.data.links.etsy -%}{%- endif -%}
+{% if shop.notice != "" %}<div class="notice">{{ shop.notice | escape }}</div>{% endif %}
 <div class="shop-grid">
-  <div class="shop-item"><div class="ico" aria-hidden="true">&#9790;</div><h3>Wearables</h3><p class="muted">Sweatshirts and t-shirts.</p></div>
-  <div class="shop-item"><div class="ico" aria-hidden="true">&#10040;</div><h3>For the altar</h3><p class="muted">Candles and journals.</p></div>
-  <div class="shop-item"><div class="ico" aria-hidden="true">&#9749;</div><h3>For the cauldron</h3><p class="muted">Mugs for your tea, whatever's in it.</p></div>
+{%- for it in shop.items %}
+  <div class="shop-item"><div class="ico" aria-hidden="true">{{ it.icon }}</div><h3>{{ it.name | escape }}</h3><p class="muted">{{ it.blurb | escape }}</p></div>
+{%- endfor %}
 </div>
-<p class="center"><a class="btn" href="{{ site.links.etsy }}" target="_blank" rel="noopener">Visit the Etsy shop</a></p>
+<p class="center"><a class="btn" href="{{ shop_url }}" target="_blank" rel="noopener">{% if shop.open and shop.url != "" %}Visit the shop{% else %}Visit the Etsy shop{% endif %}</a></p>

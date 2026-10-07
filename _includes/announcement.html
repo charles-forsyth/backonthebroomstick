@@ -1,0 +1,13 @@
+{%- comment -%}
+Announcement banner from _data/announcement.yml. The build bakes it in; the "ends" check also runs in the browser
+so an expired banner disappears on its date even if nothing is rebuilt that day.
+{%- endcomment -%}
+{%- assign a = site.data.announcement -%}
+{%- assign today = site.time | date: "%Y-%m-%d" -%}
+{%- if a.text != "" and a.text != nil -%}
+{%- if a.ends == "" or a.ends == nil or a.ends >= today -%}
+<div class="announce" data-ends="{{ a.ends }}" role="note">
+  <div class="wrap">{% if a.link != "" and a.link != nil %}<a href="{{ a.link }}" target="_blank" rel="noopener">{{ a.text | escape }} &rarr;</a>{% else %}{{ a.text | escape }}{% endif %}</div>
+</div>
+{%- endif -%}
+{%- endif -%}

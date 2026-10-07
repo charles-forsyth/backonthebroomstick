@@ -170,6 +170,14 @@
     });
   }
 
+  /* ---------- Host-edited content that expires by date ---------- */
+  function expiries() {
+    const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD, local time
+    $$('.announce[data-ends]').forEach((a) => { if (a.dataset.ends && a.dataset.ends < today) a.remove(); });
+    $$('.event[data-date]').forEach((e) => { if (e.dataset.date < today) e.remove(); });
+    $$('[data-events]').forEach((s) => { if (!$('.event', s)) s.remove(); });
+  }
+
   /* ---------- Chrome ---------- */
   function chrome() {
     $$('[data-burger]').forEach((b) => b.addEventListener('click', () => {
@@ -181,5 +189,5 @@
     } else $$('.reveal').forEach((el) => el.classList.add('in'));
   }
 
-  document.addEventListener('DOMContentLoaded', () => { chrome(); sky(); draw(); wheel(); browser(); ask(); });
+  document.addEventListener('DOMContentLoaded', () => { expiries(); chrome(); sky(); draw(); wheel(); browser(); ask(); });
 })();

@@ -1,0 +1,37 @@
+# Readings offered on the site. Edited by the hosts through the archive service (botb-mcp).
+# Fields: name, price (whole dollars), length, blurb, featured (true/false), available (true/false), booked_up (true/false)
+- name: Voice Note Pull
+  price: 45
+  length: 15 min
+  blurb: Quick and dirty.
+  featured: false
+  available: true
+  booked_up: false
+- name: Emailed Reading
+  price: 50
+  length: 30 min
+  blurb: Answers in your inbox.
+  featured: false
+  available: true
+  booked_up: false
+- name: Zoom Reading
+  price: 75
+  length: 15-30 min
+  blurb: Live, face to face.
+  featured: false
+  available: true
+  booked_up: false
+- name: Solarium Sesh
+  price: 300
+  length: 45 min
+  blurb: The witchy aunties are in.
+  featured: true
+  available: true
+  booked_up: false
+- name: Tea, Toke & Tarot
+  price: 420
+  length: ""
+  blurb: An hour with both witches.
+  featured: true
+  available: true
+  booked_up: false

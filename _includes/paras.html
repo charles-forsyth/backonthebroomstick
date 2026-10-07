@@ -1,0 +1,7 @@
+{%- comment -%}Plain text from _data to escaped paragraphs: include paras.html text=...{%- endcomment -%}
+{%- assign _ps = include.text | escape | split: "
+
+" -%}
+{%- for _p in _ps -%}{%- assign _t = _p | strip -%}{%- if _t != "" %}
+<p>{{ _t }}</p>
+{%- endif -%}{%- endfor -%}

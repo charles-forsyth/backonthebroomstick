@@ -10,20 +10,11 @@ wide: true
 
 <div class="narrow">
 <h2>Our story</h2>
-<p>Once upon a chilly fall of '93, Laylla and Chelle crossed paths on an upstate New York college campus, bonding over
-Spades and Magic: The Gathering. Their long discussions and mystic adventures grew into a magical sisterhood. They studied
-the craft together, trained with a diverse group of practitioners, and their monthly rituals, spellcraft and meditation
-sessions soon drew a core group of witches.</p>
-<p>A couple of years later they founded a full coven and tradition, Circle Amaurot. They taught witchcraft classes
-locally through the coven and CUUPS, took workshops and seminars on tour from Salem to Savannah, and led large rituals and
-events in the wider pagan community. Three decades later, they are still stirring the cauldron together.</p>
+{% include paras.html text=site.data.about.story %}
 
 <h2>The podcast</h2>
-<p>Like a lot of podcasts, this one was born in the pandemic, when even witches swapped broomsticks for Zoom links.
-Separated by 2,500 miles and a few life detours, they had both drifted from their practice. With Laylla's
-techno-wizardry and Chelle's gift of gab they conjured <a href="{{ '/episodes/?show=swh' | relative_url }}">The Stoned
-Witches Hour</a> in 2022: paranormal stories meet cannabis 101 meet witchy tips. Like any good spell it evolved, and in
-February 2023 it became Back on the Broomstick, a weekly ride for anyone yearning to reconnect with their inner witch.</p>
+{% include paras.html text=site.data.about.podcast %}
+<p class="fine"><a href="{{ '/episodes/?show=swh' | relative_url }}">Hear The Stoned Witches Hour episodes</a></p>
 
 </div>
 <h2>Guests in the circle</h2>
@@ -34,7 +25,6 @@ February 2023 it became Back on the Broomstick, a weekly ride for anyone yearnin
 </ul>
 <div class="narrow">
 <h2>Crystal City Circle</h2>
-<p>Laylla's community circle of pagans, heathens, witches and magickal souls in the Southern Tier of New York and North
-Central Pennsylvania. Monthly meet-ups on the first Saturday, plus Sabbat and Esbat celebrations.
-<a href="{{ site.links.circle }}" target="_blank" rel="noopener">Learn more about the circle</a>.</p>
+{% include paras.html text=site.data.about.circle %}
+<p><a href="{{ site.data.links.circle }}" target="_blank" rel="noopener">Learn more about the circle</a>.</p>
 </div>

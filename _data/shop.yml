@@ -1,0 +1,14 @@
+# The shop page. open: true when the hosts' own shop is live (then url is used instead of Etsy).
+open: false
+url: ""
+notice: The new Back on the Broomstick shop is coming soon. Until it opens, their Etsy shop is the place to go.
+items:
+  - icon: "&#9790;"
+    name: Wearables
+    blurb: Sweatshirts and t-shirts.
+  - icon: "&#10040;"
+    name: For the altar
+    blurb: Candles and journals.
+  - icon: "&#9749;"
+    name: For the cauldron
+    blurb: Mugs for your tea, whatever's in it.
