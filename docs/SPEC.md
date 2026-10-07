@@ -2,6 +2,9 @@
 
 Version 0.3 (2026-10-07). Owner: Chuck Forsyth, for Laylla and Chelle.
 
+
+> Naming (Chuck, 2026-10-07): the GitHub Pages site is the **dev site**. The hosts' **real site** is backonthebroomstick.com (Wix); nothing in these repos or services touches it. Only call ours the real site if the hosts ever switch over.
+
 ## 1. Purpose
 
 A professional home for the podcast that shows fans and customers what the show is, lets them listen, find any
