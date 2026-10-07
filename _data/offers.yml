@@ -15,12 +15,12 @@
   available: true
   booked_up: false
 - name: Zoom Reading
-  price: 85
+  price: 75
   length: 15-30 min
   blurb: Live, face to face.
   featured: false
   available: true
-  booked_up: true
+  booked_up: false
 - name: Solarium Sesh
   price: 300
   length: 45 min
@@ -30,7 +30,7 @@
   booked_up: false
 - name: Tea, Toke & Tarot
   price: 420
-  length: ''
+  length: ""
   blurb: An hour with both witches.
   featured: true
   available: true
