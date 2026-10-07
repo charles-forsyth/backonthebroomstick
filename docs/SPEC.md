@@ -1,6 +1,6 @@
 # Back on the Broomstick website: specification
 
-Version 0.4 (2026-10-07). Owner: Chuck Forsyth, for Laylla and Chelle.
+Version 0.5 (2026-10-07). Owner: Chuck Forsyth, for Laylla and Chelle.
 
 
 > Naming (Chuck, 2026-10-07): the GitHub Pages site is the **dev site**. The hosts' **real site** is backonthebroomstick.com (Wix); nothing in these repos or services touches it. Only call ours the real site if the hosts ever switch over.
@@ -128,3 +128,4 @@ checks the feeds itself every Friday 7pm and Saturday 9am Eastern.
 | W-7 | Done 2026-10-07: new episodes publish automatically; hosts edit content (4.1) |
 | W-8 | Press kit: fill Buzzsprout downloads and package prices with the hosts; source for any "#1 pagan podcast" claim (none found in public rankings on 2026-10-07; Apple Spirituality chart is the verifiable claim) |
 | W-9 | Real video on YouTube (today: audio over a still image from the feed) |
+| W-10 | Search engines: the dev site and botb-mcp are noindex (meta tag here; header + robots.txt on botb-mcp; no sitemap) until the hosts adopt the site as their main one. Remove all three together on their say-so |
