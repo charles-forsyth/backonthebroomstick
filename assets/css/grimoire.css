@@ -275,3 +275,28 @@ body .back::before { content: ''; position: absolute; inset: 8px; border: 1px so
 .ev-date span { font-size: 1.9rem; line-height: 1.1; }
 img.portrait.photo { object-fit: cover; padding: 0; border: 2px solid var(--accent); }
 .offer.booked { opacity: .7; }
+
+/* Press kit */
+.press-hero { margin: 8px 0 28px; }
+.press-hero h2 { margin-top: 0; }
+.press-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+.stat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 18px 0 28px; }
+.stat { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; gap: 4px; }
+.stat b { font-family: var(--f-display); font-size: 2rem; color: var(--accent); line-height: 1.1; }
+.stat span { font-weight: 600; }
+.stat small { color: var(--muted); font-size: 0.8rem; }
+.press-facts { margin-bottom: 28px; }
+.press-packages .price { font-size: 1.3rem; }
+.press-lists { padding-left: 1.2em; }
+.press-contact { margin-top: 28px; }
+@media (max-width: 760px) { .stat-grid { grid-template-columns: 1fr 1fr; } }
+@media print {
+  body.press { --bg: #fff; --panel: #fff; --text: #1a1320; --muted: #4a4256; --line: #b9b0c4; --accent: #5a2d73; --accent2: #5a2d73; --on-accent: #fff; background: #fff !important; color: var(--text) !important; }
+  .press header.top, .press .foot, .press .press-actions, .press canvas, .press .page-hero::before, .press .page-hero::after { display: none !important; }
+  .press .page-hero, .press .band { background: #fff !important; padding: 12px 0 !important; border: 0 !important; }
+  .press h1, .press h2, .press h3 { color: var(--text) !important; }
+  .press .stat, .press .panel, .press .offer { background: #fff !important; box-shadow: none !important; break-inside: avoid; }
+  .press a { color: var(--text) !important; }
+  .press .stat small, .press .fine { color: #333 !important; font-size: 0.85rem; }
+  .press .stat, .press .panel, .press .offer { border-color: #777 !important; }
+}
