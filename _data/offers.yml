@@ -15,7 +15,7 @@
   available: true
   booked_up: false
 - name: Zoom Reading
-  price: 75
+  price: 85
   length: 15-30 min
   blurb: Live, face to face.
   featured: false
@@ -30,7 +30,7 @@
   booked_up: false
 - name: Tea, Toke & Tarot
   price: 420
-  length: ""
+  length: ''
   blurb: An hour with both witches.
   featured: true
   available: true
