@@ -1,0 +1,13 @@
+---
+layout: default
+---
+<section class="page-hero">
+  <div class="wrap {% unless page.wide %}narrow{% endunless %}">
+    {% if page.kicker %}<p class="kicker">{{ page.kicker }}</p>{% endif %}
+    <h1>{{ page.heading | default: page.title }}</h1>
+    {% if page.lead %}<p class="lead">{{ page.lead }}</p>{% endif %}
+  </div>
+</section>
+<section class="band">
+  <div class="wrap {% unless page.wide %}narrow{% endunless %} prose">{{ content }}</div>
+</section>

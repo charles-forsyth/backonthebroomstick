@@ -1,0 +1,128 @@
+---
+layout: default
+title: A modern witch's spoken word grimoire
+---
+{%- assign latest = site.data.episodes | first -%}
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="wrap hero-in">
+    <p class="kicker">A modern witch's spoken word grimoire</p>
+    <h1>Back on the <em>Broomstick</em></h1>
+    <p class="lead">Laylla &amp; Chelle, ride-or-die witches since a college cafeteria in '93, talk modern witchcraft,
+      pagan practice, tarot and the occasional haunted brothel. New episodes every Friday.</p>
+    <div class="hero-btns">
+      <a class="btn" href="#listen">&#9654; Play the newest episode</a>
+      <a class="btn ghost" href="{{ '/ask/' | relative_url }}">Ask the archive anything</a>
+    </div>
+    <div class="sky" aria-label="Tonight's sky">
+      <div class="sky-cell"><span data-moon-disc="54"></span><div><b data-moon-name>The moon</b><small data-moon-lit>tonight</small></div></div>
+      <a class="sky-cell" data-sabbat-link href="{{ '/wheel/' | relative_url }}"><span class="sky-ico" aria-hidden="true">&#10040;</span><div><b><span data-sabbat-name>The Wheel</span> <span data-sabbat-days></span></b><small>next on the Wheel</small></div></a>
+      <a class="sky-cell" href="{{ '/tarot/' | relative_url }}"><img data-card-img class="sky-card" alt="" width="34" height="58" src="{{ '/assets/img/tarot/star.webp' | relative_url }}"><div><b data-card-name>Card of the day</b><small>card of the day</small></div></a>
+    </div>
+  </div>
+</section>
+
+<section id="listen" class="band">
+  <div class="wrap">
+    <p class="kicker">Newest episode</p>
+    <div class="now-playing reveal">
+      <img class="np-art" src="{{ '/assets/img/cover.webp' | relative_url }}" alt="Back on the Broomstick cover art" width="220" height="220">
+      <div class="np-body">
+        <p class="np-date">{{ latest.date | date: "%B %-d, %Y" }}{% if latest.number %} &middot; Episode {{ latest.number }}{% endif %}</p>
+        <h2><a href="{{ '/episodes/' | append: latest.slug | append: '/' | relative_url }}">{{ latest.title }}</a></h2>
+        <p>{{ latest.notes | truncatewords: 55 }}</p>
+        <audio controls preload="none" src="{{ latest.audio }}"></audio>
+        <p class="np-links">{% if latest.youtube %}<a href="https://www.youtube.com/watch?v={{ latest.youtube }}" target="_blank" rel="noopener">Watch on YouTube</a> &middot;{% endif %}
+          <a href="{{ site.links.apple }}" target="_blank" rel="noopener">Apple Podcasts</a> &middot;
+          <a href="{{ site.links.spotify }}" target="_blank" rel="noopener">Spotify</a> &middot;
+          <a href="{{ site.links.feed }}">RSS</a></p>
+      </div>
+    </div>
+    <div class="eps">
+      {%- for e in site.data.episodes offset: 1 limit: 6 -%}
+      <a class="ep" href="{{ '/episodes/' | append: e.slug | append: '/' | relative_url }}">
+        <span class="ep-date">{{ e.date | date: "%b %-d, %Y" }}</span>
+        <span class="ep-title">{{ e.title }}</span>
+        <span class="ep-notes">{{ e.notes | truncatewords: 22 }}</span>
+      </a>
+      {%- endfor -%}
+    </div>
+    <p class="center" style="margin-top:22px"><a class="btn ghost" href="{{ '/episodes/' | relative_url }}">All {{ site.data.stats.episodes }} episodes</a></p>
+  </div>
+</section>
+
+<section id="ask" class="band alt">
+  <div class="wrap narrow">
+    <p class="kicker">Ask the archive</p>
+    <h2>Every episode, searchable.</h2>
+    <p class="muted">{{ site.data.stats.episodes }} episodes and about {{ site.data.stats.hours }} hours of the two of them talking, across
+      Back on the Broomstick and The Stoned Witches Hour. Ask in plain language.</p>
+    <div class="ask" data-ask>
+      <form role="search" action="{{ '/ask/' | relative_url }}"><input type="search" name="q" placeholder="e.g. how do I protect my home?" aria-label="Ask the archive">
+        <button class="btn" type="submit">Ask</button></form>
+      <div class="chips" data-ask-chips></div>
+      <div class="ask-out" data-ask-out></div>
+    </div>
+  </div>
+</section>
+
+<section id="wheel" class="band">
+  <div class="wrap">
+    <p class="kicker">The Wheel of the Year</p>
+    <h2>Every sabbat they've celebrated</h2>
+    <div class="wheel" data-wheel>
+      <svg role="img" aria-label="Wheel of the Year"></svg>
+      <div class="wheel-panel" data-wheel-panel></div>
+    </div>
+  </div>
+</section>
+
+<section id="draw" class="band alt">
+  <div class="wrap">
+    <p class="kicker">Draw a card</p>
+    <h2>Past, present, path</h2>
+    <p class="muted">A three-card pull from the Major Arcana. Breathe, ask your question, then draw.</p>
+    {% include draw.html %}
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap grid3">
+    <div class="panel reveal"><p class="kicker">Coming up on the Wheel</p><h3 data-sabbat-name></h3><p data-sabbat-blurb class="muted"></p>
+      <p class="small">From the archive:</p><ul class="mini" data-sabbat-eps></ul></div>
+    <div class="panel reveal"><p class="kicker">This week in years past</p><ul class="mini" data-onthisday></ul></div>
+    <div class="panel reveal"><p class="kicker">Today's card</p><div class="cotd"><img data-card-img alt="" width="90" height="155" src="{{ '/assets/img/tarot/star.webp' | relative_url }}"><div><h3 data-card-name></h3><p data-card-meaning class="muted"></p></div></div></div>
+  </div>
+</section>
+
+<section id="witches" class="band alt">
+  <div class="wrap">
+    <p class="kicker">The witches</p>
+    <h2>Old witchcraft, new path</h2>
+    {% include witches.html %}
+    <p class="kicker center">Guests in the circle</p>
+    <div class="guests">{% for g in site.data.guests %}<a class="guest" href="{{ '/episodes/' | append: g.episodes[0] | append: '/' | relative_url }}">{{ g.name }}</a>{% endfor %}</div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <p class="kicker">Readings with the witches</p>
+    <h2>Pull up a chair</h2>
+    {% include offers.html %}
+  </div>
+</section>
+
+<section class="band alt">
+  <div class="wrap grid3">
+    <div class="panel reveal"><p class="kicker">The circle</p><h3>Join the discussion group</h3>
+      <p class="muted">The fan-run Facebook group: tips, tricks and magick between episodes.</p>
+      <a class="btn ghost" href="{{ site.links.group }}" target="_blank" rel="noopener">Join the group</a></div>
+    <div class="panel reveal"><p class="kicker">The shop</p><h3>Sweatshirts, mugs, candles</h3>
+      <p class="muted">The new BotB shop is coming soon. Until then, find them on Etsy.</p>
+      <a class="btn ghost" href="{{ '/shop/' | relative_url }}">Visit the shop</a></div>
+    <div class="panel reveal"><p class="kicker">Benefactors</p><h3>Keep the cauldron bubbling</h3>
+      <p class="muted">Benefactors cover the show's costs and get exclusive perks.</p>
+      <a class="btn" href="{{ site.links.benefactor }}" target="_blank" rel="noopener">Become a Benefactor</a></div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+---
+title: Episodes
+heading: Every episode
+kicker: The archive
+lead: Back on the Broomstick (2023 to now) and The Stoned Witches Hour (2022 to 2023). Search titles, show notes and guests.
+permalink: /episodes/
+wide: true
+---
+<div data-browser>
+  <div class="filters">
+    <input type="search" placeholder="Search episodes, e.g. Hecate, candle, Salem" aria-label="Search episodes">
+    <button type="button" class="chip" data-show="all">Both shows</button>
+    <button type="button" class="chip" data-show="botbs">Back on the Broomstick</button>
+    <button type="button" class="chip" data-show="swh">Stoned Witches Hour</button>
+  </div>
+  <p class="result-line" data-line></p>
+  <ul class="eplist-full" data-list>
+    {%- for e in site.data.episodes -%}
+    <li><span class="d">{{ e.date | date: "%b %-d, %Y" }}</span><div><a class="t" href="{{ '/episodes/' | append: e.slug | append: '/' | relative_url }}">{{ e.title }}</a></div></li>
+    {%- endfor -%}
+  </ul>
+</div>

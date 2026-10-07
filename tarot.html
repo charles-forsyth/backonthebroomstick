@@ -1,0 +1,18 @@
+---
+title: Draw a Card
+heading: Draw a card
+kicker: The Major Arcana
+lead: Breathe. Hold your question in mind. Then draw. A quarter of cards come up reversed, as they would from a shuffled deck.
+permalink: /tarot/
+wide: true
+---
+<div class="cotd tarot-today panel">
+  <img data-card-img alt="" width="120" height="207" src="{{ '/assets/img/tarot/star.webp' | relative_url }}">
+  <div><p class="kicker">Today's card, the same for everyone today</p><h2 data-card-name></h2><p data-card-meaning class="muted"></p></div>
+</div>
+
+<h2>Past, present, path</h2>
+{% include draw.html nocta=true %}
+
+<h2>One card for a quick answer</h2>
+{% include draw.html count=1 labels="Your card" %}

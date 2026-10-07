@@ -1,0 +1,36 @@
+---
+layout: default
+---
+{%- assign e = site.data.episodes | where: "slug", page.slug | first -%}
+{%- assign showname = "Back on the Broomstick" -%}
+{%- if e.show == "swh" -%}{%- assign showname = "The Stoned Witches Hour" -%}{%- endif -%}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <p class="kicker">
+      <a href="{{ '/episodes/' | relative_url }}{% if e.show == 'swh' %}?show=swh{% endif %}">{{ showname }}</a>
+      {% if e.number %}| Episode {{ e.number }}{% endif %} | {{ e.date | date: "%B %-d, %Y" }}{% if e.minutes > 0 %} | {{ e.minutes }} min{% endif %}
+    </p>
+    <h1>{{ e.title }}</h1>
+    <div class="ep-player">
+      <audio controls preload="none" src="{{ e.audio }}"></audio>
+      <p class="np-links">
+        {% if e.youtube %}<a href="https://www.youtube.com/watch?v={{ e.youtube }}" target="_blank" rel="noopener">Watch on YouTube</a> &middot;{% endif %}
+        <a href="{{ site.links.apple }}" target="_blank" rel="noopener">Apple Podcasts</a> &middot;
+        <a href="{{ site.links.spotify }}" target="_blank" rel="noopener">Spotify</a>
+      </p>
+    </div>
+  </div>
+</section>
+<section class="band">
+  <div class="wrap narrow prose">
+    {% if e.guests.size > 0 %}<p class="kicker">With {{ e.guests | join: ", " }}</p>{% endif %}
+    {{ e.notes | escape | newline_to_br }}
+    {% if e.sabbat %}
+    <p class="ep-sabbat"><a href="{{ '/wheel/' | relative_url }}#{{ e.sabbat | downcase }}">&#10040; More {{ e.sabbat }} episodes on the Wheel</a></p>
+    {% endif %}
+    <div class="ask-cta">
+      <p>Looking for something they said in this episode?</p>
+      <a class="btn ghost" href="{{ '/ask/' | relative_url }}">Ask the Archive</a>
+    </div>
+  </div>
+</section>

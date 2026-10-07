@@ -1,0 +1,16 @@
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="{{ '/' | relative_url }}"><span class="sigil" aria-hidden="true">&#9790;</span><span>Back on the Broomstick</span></a>
+    <button class="burger" data-burger="#menu" aria-label="Menu" aria-expanded="false">&#9776;</button>
+    <nav id="menu" class="menu" aria-label="Main">
+      <a href="{{ '/episodes/' | relative_url }}"{% if page.url == '/episodes/' %} aria-current="page"{% endif %}>Episodes</a>
+      <a href="{{ '/ask/' | relative_url }}"{% if page.url == '/ask/' %} aria-current="page"{% endif %}>Ask the Archive</a>
+      <a href="{{ '/wheel/' | relative_url }}"{% if page.url == '/wheel/' %} aria-current="page"{% endif %}>The Wheel</a>
+      <a href="{{ '/tarot/' | relative_url }}"{% if page.url == '/tarot/' %} aria-current="page"{% endif %}>Draw a Card</a>
+      <a href="{{ '/witches/' | relative_url }}"{% if page.url == '/witches/' %} aria-current="page"{% endif %}>The Witches</a>
+      <a href="{{ '/readings/' | relative_url }}"{% if page.url == '/readings/' %} aria-current="page"{% endif %}>Readings</a>
+      <a href="{{ '/shop/' | relative_url }}"{% if page.url == '/shop/' %} aria-current="page"{% endif %}>Shop</a>
+      <a class="btn-sm" href="{{ site.links.benefactor }}" target="_blank" rel="noopener">Support</a>
+    </nav>
+  </div>
+</header>

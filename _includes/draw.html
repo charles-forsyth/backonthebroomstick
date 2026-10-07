@@ -1,0 +1,10 @@
+<div class="draw" data-draw="{{ include.labels | default: 'Past,Present,Path' }}">
+  <div class="slots">
+    {%- assign n = include.count | default: 3 -%}
+    {%- for i in (1..n) -%}
+    <div class="slot" data-draw-slot><div class="card"><div class="back">&#9790;</div><div class="face"></div></div><p class="cap"></p></div>
+    {%- endfor -%}
+  </div>
+  <button class="btn" data-draw-btn>{% if n == 1 %}Draw a card{% else %}Draw {{ n }} cards{% endif %}</button>
+  {% unless include.nocta %}<p class="fine">Want a real reading from Laylla or Chelle? <a href="{{ '/readings/' | relative_url }}">Book one.</a></p>{% endunless %}
+</div>

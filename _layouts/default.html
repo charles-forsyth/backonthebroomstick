@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#120d1a" />
+    {% seo %}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap"
+    />
+    <link rel="stylesheet" href="{{ '/assets/css/grimoire.css' | relative_url }}" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23120d1a'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='%23d9a74a' font-family='serif'%3E%E2%98%BE%3C/text%3E%3C/svg%3E" />
+    <link rel="alternate" type="application/rss+xml" title="Back on the Broomstick (podcast feed)" href="{{ site.links.feed }}" />
+  </head>
+  <body class="{{ page.body_class }}">
+    <a class="skip" href="#main">Skip to content</a>
+    {% include header.html %}
+    <main id="main">{{ content }}</main>
+    {% include footer.html %}
+    <script>
+      window.BOTB = { base: '{{ site.baseurl }}', api: '{{ site.links.archive_api }}' };
+    </script>
+    <script src="{{ '/assets/js/sky.js' | relative_url }}" defer></script>
+    <script src="{{ '/assets/js/botb.js' | relative_url }}" defer></script>
+  </body>
+</html>
