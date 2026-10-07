@@ -1,6 +1,6 @@
 # Back on the Broomstick website: specification
 
-Version 0.3 (2026-10-07). Owner: Chuck Forsyth, for Laylla and Chelle.
+Version 0.4 (2026-10-07). Owner: Chuck Forsyth, for Laylla and Chelle.
 
 
 > Naming (Chuck, 2026-10-07): the GitHub Pages site is the **dev site**. The hosts' **real site** is backonthebroomstick.com (Wix); nothing in these repos or services touches it. Only call ours the real site if the hosts ever switch over.
@@ -35,6 +35,7 @@ they decide.
 | `/witches/` | Hosts, story, podcast history, guests with their episodes, Crystal City Circle |
 | `/readings/` | The five reading offers; booking goes to the current Wix booking page |
 | `/shop/` | Coming-soon placeholder, links to Etsy |
+| `/press/` | Press kit for sponsors and press: chart positions, ratings, downloads (when supplied), catalog facts, sponsor packages, past partners; every figure links its source and carries an as-of date; prints to a clean white PDF (Save as PDF) |
 
 ## 4. Data (`_data/`, generated)
 
@@ -68,6 +69,7 @@ commits with the editor's name. Every change is undoable from the Studio.
 | `about.yml` | Our story, The podcast, Crystal City Circle (plain text, blank line = new paragraph) |
 | `shop.yml` | open switch, own shop url, notice, categories |
 | `episode_extras.yml` | per-episode note; one featured episode on the home page |
+| `press.yml` | Press page: as-of date, headline, charts, audience, downloads (empty rows hidden), lists, packages (empty price shows "Ask us"), past partners. Charts move daily; re-check before a pitch. Research and quotes behind each figure: `strategy/research/2026-10-07_BotB_Rankings_and_Reach.md` in the archive project |
 
 New episode pages and `_data/episodes|stats|guests.json` are committed automatically by the archive service after
 each refresh (never deletes pages).
@@ -124,3 +126,5 @@ checks the feeds itself every Friday 7pm and Saturday 9am Eastern.
 | W-5 | Newsletter ("Wheel of the Year Newsletter") once they pick a provider |
 | W-6 | Their blog ("Musings") is not mirrored; link or import if they want |
 | W-7 | Done 2026-10-07: new episodes publish automatically; hosts edit content (4.1) |
+| W-8 | Press kit: fill Buzzsprout downloads and package prices with the hosts; source for any "#1 pagan podcast" claim (none found in public rankings on 2026-10-07; Apple Spirituality chart is the verifiable claim) |
+| W-9 | Real video on YouTube (today: audio over a still image from the feed) |

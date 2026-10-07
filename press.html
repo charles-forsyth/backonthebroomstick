@@ -1,0 +1,82 @@
+---
+title: Press & partners
+heading: Work with the witches
+kicker: Press kit
+lead: Sponsorships, guest spots, interviews and collaborations with Back on the Broomstick.
+permalink: /press/
+wide: true
+body_class: press
+---
+{%- assign p = site.data.press -%}
+{%- assign s = site.data.stats -%}
+
+<section class="press-hero panel">
+  <p class="kicker">As of {{ p.as_of | date: "%B %-d, %Y" }}</p>
+  <h2>{{ p.headline }}</h2>
+  <p class="muted">{{ p.headline_note }}</p>
+  <div class="press-actions">
+    <a class="btn" href="mailto:{{ site.data.links.email }}?subject=Partnering%20with%20Back%20on%20the%20Broomstick">Email the witches</a>
+    <button class="btn ghost" type="button" onclick="window.print()">Save as PDF</button>
+  </div>
+</section>
+
+<h2>By the numbers</h2>
+<div class="stat-grid">
+  {%- for c in p.charts %}
+  <div class="stat"><b>{{ c.value }}</b><span>{{ c.label }}</span><small>{{ c.detail }} &middot; <a href="{{ c.url }}" target="_blank" rel="noopener">{{ c.source }}</a></small></div>
+  {%- endfor %}
+  {%- for a in p.audience %}
+  <div class="stat"><b>{{ a.value }}</b><span>{{ a.label }}</span><small>{{ a.detail }} &middot; <a href="{{ a.url }}" target="_blank" rel="noopener">{{ a.source }}</a></small></div>
+  {%- endfor %}
+  {%- for d in p.downloads %}{% if d.value != "" %}
+  <div class="stat"><b>{{ d.value }}</b><span>{{ d.label }}</span><small>Buzzsprout</small></div>
+  {%- endif %}{% endfor %}
+</div>
+
+<div class="grid3 press-facts">
+  <div class="panel"><p class="kicker">The catalog</p><h3>{{ s.episodes }} episodes</h3>
+    <p class="muted">About {{ s.hours }} hours across Back on the Broomstick and The Stoned Witches Hour, new every Friday since February 2023.
+      Every episode is transcribed and searchable on this site.</p></div>
+  <div class="panel"><p class="kicker">The voices</p><h3>Two witches, 30+ years</h3>
+    <p class="muted">Laylla and Chelle have practiced together since 1993: founders of the Circle Amaurot coven, teachers, and
+      ritual leaders from Salem to Savannah.</p></div>
+  <div class="panel"><p class="kicker">The guests</p><h3>{{ s.guests }} guests</h3>
+    <p class="muted">Including Judika Illes, Phyllis Curott, Byron Ballard, Ivo Dominguez Jr, Patti Negri, Mhara Starling and
+      Brigit Esselmont of Biddy Tarot.</p></div>
+</div>
+
+<h2>What they talk about</h2>
+<p class="muted">Counted from every transcript in the archive: spellwork, tarot and divination, ghosts and hauntings,
+  community and coven life, crystals and tools, the moon, gods and goddesses, ancestors, herbs and the Wheel of the Year.
+  <a href="{{ site.data.links.archive_api }}/insights" target="_blank" rel="noopener">See the live charts</a>.</p>
+
+<h2>Partner with us</h2>
+<p>Our ads are read by Laylla and Chelle in their own words and recorded into the episode, so they stay in the back catalog
+  that new listeners keep discovering.</p>
+<div class="offers press-packages">
+  {%- for k in p.packages %}
+  <div class="offer"><h3>{{ k.name | escape }}</h3><p class="price">{% if k.price != "" %}{{ k.price | escape }}{% else %}Ask us{% endif %}</p><p class="muted">{{ k.what | escape }}</p></div>
+  {%- endfor %}
+</div>
+
+{%- if p.past_partners.size > 0 %}
+<h2>Past partners</h2>
+<ul class="press-lists">
+  {%- for pp in p.past_partners %}<li><a href="{{ pp.url }}" target="_blank" rel="noopener">{{ pp.name | escape }}</a> &middot; {{ pp.note | escape }}</li>{%- endfor %}
+</ul>
+{%- endif %}
+
+<h2>Also listed on</h2>
+<ul class="press-lists">
+  {%- for l in p.lists %}<li><a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.name }}</a> &middot; {{ l.place }}</li>{%- endfor %}
+</ul>
+
+<div class="panel press-contact">
+  <h3>Get in touch</h3>
+  <p><a href="mailto:{{ site.data.links.email }}">{{ site.data.links.email }}</a> &middot;
+    <a href="{{ site.data.links.instagram }}" target="_blank" rel="noopener">Instagram</a> &middot;
+    <a href="{{ site.data.links.facebook }}" target="_blank" rel="noopener">Facebook</a> &middot;
+    <a href="{{ site.data.links.youtube }}" target="_blank" rel="noopener">YouTube</a> &middot;
+    <a href="{{ site.data.links.apple }}" target="_blank" rel="noopener">Apple Podcasts</a></p>
+  <p class="fine">Chart positions change daily; each figure links to its public source and was checked on {{ p.as_of | date: "%B %-d, %Y" }}.</p>
+</div>
