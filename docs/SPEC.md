@@ -1,6 +1,6 @@
 # Back on the Broomstick website: specification
 
-Version 0.2 (2026-10-07). Owner: Chuck Forsyth, for Laylla and Chelle.
+Version 0.3 (2026-10-07). Owner: Chuck Forsyth, for Laylla and Chelle.
 
 ## 1. Purpose
 
@@ -48,6 +48,27 @@ labels confirmed by a full name in the title or notes.
 Episode pages `episodes/<slug>.md` hold only front matter (layout, slug, title, permalink); the layout looks the
 episode up by slug. Slugs are stable: `<number>-<title words>`, `swh-` prefix for the old show.
 
+## 4.1 Host-editable content (`_data/*.yml`)
+
+Laylla and Chelle edit these through the archive service (Studio > Edit site, or ChatGPT with the connector); nobody
+needs to touch the repo. The service can write ONLY these files plus resized photos in `assets/img/uploads/`,
+validates every value (plain text, https links, real dates, whole-dollar prices), shows a plain-words preview, and
+commits with the editor's name. Every change is undoable from the Studio.
+
+| File | Holds |
+| --- | --- |
+| `offers.yml` | readings: name, price, length, blurb, featured, available, booked_up |
+| `links.yml` | booking, shop, socials, email, support; `feed`, `feed_swh`, `archive_api` are locked |
+| `announcement.yml` | banner text, link, last day shown (also hidden in the browser after that day) |
+| `events.yml` | upcoming events; past ones hide at build and in the browser |
+| `witches.yml` | names, initials, bios, photo paths |
+| `about.yml` | Our story, The podcast, Crystal City Circle (plain text, blank line = new paragraph) |
+| `shop.yml` | open switch, own shop url, notice, categories |
+| `episode_extras.yml` | per-episode note; one featured episode on the home page |
+
+New episode pages and `_data/episodes|stats|guests.json` are committed automatically by the archive service after
+each refresh (never deletes pages).
+
 ## 5. Visual design (Midnight Grimoire)
 
 Tokens in the `:root` block of `assets/css/grimoire.css`:
@@ -81,7 +102,7 @@ Public: archive search (`/api/search?q=`, rate limited per visitor plus a daily 
 (answers with citations, "check for new episodes") and the MCP endpoint for Hermes, ChatGPT and Claude. The service
 checks the feeds itself every Friday 7pm and Saturday 9am Eastern.
 
-Until `links.archive_api` is set (W-2), `/ask/` searches titles and notes in the browser, saying so.
+`links.archive_api` points at the service, so `/ask/` searches every word of every transcript.
 
 ## 8. Build, check, ship
 
@@ -94,9 +115,9 @@ Until `links.archive_api` is set (W-2), `/ask/` searches titles and notes in the
 | # | Item |
 | --- | --- |
 | W-1 | Real photos of Laylla and Chelle (portraits are initials for now) |
-| W-2 | Set `links.archive_api` to the live service (deployed 2026-10-07) and link Insights from the nav |
+| W-2 | Link Insights from the nav |
 | W-3 | Own booking and shop when the hosts move off Wix (today: links out) |
 | W-4 | Custom domain if the hosts adopt the site (backonthebroomstick.com) |
 | W-5 | Newsletter ("Wheel of the Year Newsletter") once they pick a provider |
 | W-6 | Their blog ("Musings") is not mirrored; link or import if they want |
-| W-7 | New episode pages published automatically by the archive refresh job (needs a single-repo GitHub token) |
+| W-7 | Done 2026-10-07: new episodes publish automatically; hosts edit content (4.1) |
