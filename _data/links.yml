@@ -2,7 +2,7 @@
 feed: https://rss.buzzsprout.com/2119523.rss
 feed_swh: https://rss.buzzsprout.com/1909152.rss
 apple: https://podcasts.apple.com/podcast/id1669652499
-spotify: https://open.spotify.com/search/back%20on%20the%20broomstick
+spotify: https://open.spotify.com/show/3N1ikTRMatzYicR12zgPlu
 youtube: https://www.youtube.com/channel/UCpwXkp5XwIw_WVswz9bzBUw
 youtube_swh: https://www.youtube.com/channel/UCyUA6TXPI48F6JLXc6I41xw
 benefactor: https://www.buzzsprout.com/2119523/support
@@ -15,5 +15,7 @@ booking: https://www.backonthebroomstick.com/booking
 circle: https://www.backonthebroomstick.com/crystalcitycircle
 grimoire: https://www.backonthebroomstick.com/blog
 email: backonthebroomstick@gmail.com
+# Buzzsprout's fan mail form; every episode page links it ("Got a question for the witches?"). Empty hides it.
+fan_mail: https://www.buzzsprout.com/2119523/fan_mail/new
 # The Ask the Archive service (Cloud Run). Not editable by the hosts.
 archive_api: "https://botb-mcp-dsfh6rrlia-uc.a.run.app"

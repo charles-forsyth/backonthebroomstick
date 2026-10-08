@@ -142,7 +142,11 @@ title: A modern witch's spoken word grimoire
       <p class="muted">The fan-run Facebook group: tips, tricks and magick between episodes.</p>
       <a class="btn ghost" href="{{ site.data.links.group | escape }}" target="_blank" rel="noopener">Join the group</a></div>
     <div class="panel reveal"><p class="kicker">The shop</p><h3>Sweatshirts, mugs, candles</h3>
+      {%- if site.data.shop.open and site.data.shop.url != "" %}
+      <p class="muted">The BotB shop is open! Come take a look.</p>
+      {%- else %}
       <p class="muted">The new BotB shop is coming soon. Until then, find them on Etsy.</p>
+      {%- endif %}
       <a class="btn ghost" href="{{ '/shop/' | relative_url }}">Visit the shop</a></div>
     <div class="panel reveal"><p class="kicker">Benefactors</p><h3>Keep the cauldron bubbling</h3>
       <p class="muted">Benefactors cover the show's costs and get exclusive perks.</p>

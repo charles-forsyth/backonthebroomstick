@@ -1,6 +1,6 @@
 # Back on the Broomstick website: specification
 
-Version 0.8 (2026-10-08). Owner: Chuck Forsyth, for Laylla and Chelle.
+Version 0.9 (2026-10-08). Owner: Chuck Forsyth, for Laylla and Chelle.
 
 
 > Naming (Chuck, 2026-10-07): the GitHub Pages site is the **dev site**. The hosts' **real site** is backonthebroomstick.com (Wix); nothing in these repos or services touches it. Only call ours the real site if the hosts ever switch over.
@@ -28,13 +28,13 @@ they decide.
 | --- | --- |
 | `/` | Hero + tonight's sky, newest episode with player, 6 recent, Ask, Wheel, Draw, sabbat/this-week/card panels, witches + guests, readings, community |
 | `/episodes/` | All episodes; search (title, notes, guests), show filter; state in `?q=` and `?show=` |
-| `/episodes/<slug>/` | One episode: kicker (show, number, date, minutes), title, player, YouTube/Apple/Spotify, guests, notes, sabbat link, Ask CTA |
+| `/episodes/<slug>/` | One episode: kicker (show, number, date, minutes), title, player, YouTube/Apple/Spotify, guests, notes, sabbat link, "Got a question for the witches?" fan-mail link (`links.fan_mail`, hidden when empty), Ask CTA |
 | `/ask/` | Ask the Archive; `?q=` runs a query on load |
 | `/wheel/` | Wheel of the Year with episode counts; `#samhain` selects a sabbat; opens on the next one |
 | `/tarot/` | Today's card, 3-card and 1-card draws |
 | `/witches/` | Hosts, story, podcast history, guests with their episodes, Crystal City Circle |
 | `/readings/` | The five reading offers; booking goes to the current Wix booking page |
-| `/shop/` | Coming-soon placeholder, links to Etsy |
+| `/shop/` | Categories and notice from `shop.yml`. Closed: kicker "Coming soon", coming-soon lead, Etsy button. Open (`open: true` and a `url`): kicker/lead switch to the `kicker_open`/`lead_open` front matter, button goes to the shop. The home page shop panel follows the same switch |
 | `/blog/` | The Grimoire (the witches' blog): newest post as a feature card, then the rest as cards (cover or sigil art); search over titles, summaries, tags and full text with highlighted snippets; category chips; state in `?q=` and `?cat=`; archive by year once there are more than 6; Atom feed at `/blog/feed.xml` |
 | `/blog/<slug>/` | One post: category kicker, title, author, date (and updated), reading time, cover, Markdown body with drop cap, tags (link to a search), Listen cards for linked episodes (title, date, player), Share (phones) and Copy link, older/newer, up to 3 related posts by category |
 | `/press/` | Press kit for sponsors and press: chart positions, ratings, downloads (when supplied), catalog facts, sponsor packages, past partners; every figure links its source and carries an as-of date; prints to a clean white PDF (Save as PDF) |
@@ -44,6 +44,9 @@ they decide.
 `episodes.json`: one object per feed episode (deduped by Buzzsprout GUID), newest first:
 `slug, show (botbs|swh), number, title (number stripped), full_title, date (YYYY-MM-DD aired), minutes, notes, audio
 (Buzzsprout MP3), youtube (id or null), buzzsprout (id), sabbat (name or null, from the title), guests [names]`.
+Notes are plain text without the feed's shared sign-off (fan-mail link, support link, PO Box); the episode page adds
+the fan-mail link itself.
+
 
 `stats.json`: `episodes, botbs, swh, hours, words, guests, latest`.
 `guests.json`: `[{name, episodes: [slug]}]`. Guests come from titles ("... with Judika Illes") and transcript speaker
@@ -70,12 +73,12 @@ handlers; buttons are wired in `botb.js` (e.g. Press "Save as PDF" is `data-prin
 | File | Holds |
 | --- | --- |
 | `offers.yml` | readings: name, price, length, blurb, featured, available, booked_up |
-| `links.yml` | booking, shop, socials, email, support; `feed`, `feed_swh`, `archive_api` are locked |
+| `links.yml` | booking, shop, socials, email, support, Spotify show page, `fan_mail` (Buzzsprout fan mail form, optional); `feed`, `feed_swh`, `archive_api` are locked |
 | `announcement.yml` | banner text, link, last day shown (also hidden in the browser after that day) |
 | `events.yml` | upcoming events; past ones hide at build and in the browser |
 | `witches.yml` | names, initials, bios, photo paths |
 | `about.yml` | Our story, The podcast, Crystal City Circle (plain text, blank line = new paragraph) |
-| `shop.yml` | open switch, own shop url, notice, categories |
+| `shop.yml` | open switch, own shop url, notice, categories; `open` + `url` also switch the home panel and shop page copy |
 | `episode_extras.yml` | per-episode note; one featured episode on the home page |
 | `press.yml` | Press page: as-of date, headline, charts, audience, downloads (empty rows hidden), lists, packages (empty price shows "Ask us"), past partners. Charts move daily; re-check before a pitch. Research and quotes behind each figure: `strategy/research/2026-10-07_BotB_Rankings_and_Reach.md` in the archive project |
 
@@ -149,7 +152,8 @@ checks the feeds itself every Friday 7pm and Saturday 9am Eastern.
 - Local: `bundle exec jekyll build -d /tmp/botbsite && python3 tools/check_site.py /tmp/botbsite`.
 - `check_site.py` fails on: broken internal links, raw Liquid, secrets, bad episode data, and (since 0.8) any inline
   event-handler attribute (`on[a-z]+=` in a tag) or a `javascript:`/`vbscript:`/`data:text/html` URL in
-  `href`/`src`/`action`/`formaction`/`poster` (checked after decoding entities and dropping whitespace).
+  `href`/`src`/`action`/`formaction`/`poster` (checked after decoding entities and dropping whitespace), and (since
+  0.9) episode notes ending in a bare "Got a question?" (the fan-mail link text cut in half).
 - CI (`.github/workflows/check.yml`): the same two steps on every PR and push to main.
 - Changes go through a branch and PR; merge when Check is green. Pages deploys main.
 
@@ -172,6 +176,7 @@ checks the feeds itself every Friday 7pm and Saturday 9am Eastern.
 
 | Version | Date | Change |
 | --- | --- | --- |
+| 0.9 | 2026-10-08 | Review phase 2: Spotify links go to the real show page (was a Spotify search); shop kicker/lead and the home shop panel follow `shop.yml` `open` + `url` instead of hard-coded "coming soon"; episode pages link fan mail (`links.fan_mail`) and the 212 notes that ended in a bare "Got a question?" were regenerated without it (archive 0.12.1); `check_site.py` refuses that orphan (8) |
 | 0.8 | 2026-10-08 | Review fixes: the episode browser threw `cat is not defined` on every load (lines pasted from the blog code in 0.6), breaking the show chips, `?show=swh` and clearing the search; restored. Every host-editable and episode value printed with `\| escape`; Press "Save as PDF" no longer an inline `onclick`; `check_site.py` refuses inline event handlers and script URLs (8) |
 | 0.7 | 2026-10-08 | Imported the 13 Wix blog posts and 23 pictures (4.3); covers that must show whole (`cover_fit: contain`); in-post pictures capped at screen height |
 | 0.6 | 2026-10-08 | The Grimoire blog: `/blog/`, post layout, search/filter, Atom feed, home band, episode back-links (4.2); nav Grimoire; broom-pentacle sigil and favicon; full-retranscribe data export |

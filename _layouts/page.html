@@ -1,11 +1,16 @@
 ---
 layout: default
 ---
+{%- assign kicker = page.kicker -%}{%- assign lead = page.lead -%}
+{%- if site.data.shop.open and site.data.shop.url != "" -%}
+  {%- if page.kicker_open -%}{%- assign kicker = page.kicker_open -%}{%- endif -%}
+  {%- if page.lead_open -%}{%- assign lead = page.lead_open -%}{%- endif -%}
+{%- endif -%}
 <section class="page-hero">
   <div class="wrap {% unless page.wide %}narrow{% endunless %}">
-    {% if page.kicker %}<p class="kicker">{{ page.kicker }}</p>{% endif %}
+    {% if kicker %}<p class="kicker">{{ kicker }}</p>{% endif %}
     <h1>{{ page.heading | default: page.title }}</h1>
-    {% if page.lead %}<p class="lead">{{ page.lead }}</p>{% endif %}
+    {% if lead %}<p class="lead">{{ lead }}</p>{% endif %}
   </div>
 </section>
 <section class="band">

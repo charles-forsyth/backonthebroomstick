@@ -232,6 +232,7 @@ body .back::before { content: ''; position: absolute; inset: 8px; border: 1px so
 .prose h2 { margin-top: 1.4em; }
 .ep-player audio { width: 100%; margin: 14px 0 6px; color-scheme: dark; }
 .ep-sabbat { margin-top: 1.6em; }
+.ep-fanmail { margin-top: 1.6em; }
 .ask-cta { margin-top: 2.4em; padding: 22px; border: 1px dashed var(--line); border-radius: var(--radius); display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
 .ask-cta p { margin: 0; }
 .filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 0 0 22px; }
