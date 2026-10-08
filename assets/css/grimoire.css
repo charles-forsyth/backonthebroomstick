@@ -215,7 +215,7 @@ body .hero-bg {
     radial-gradient(1px 1px at 14% 72%, #fff4, transparent),
     linear-gradient(180deg, #0c0814, #120d1a 70%);
 }
-body .hero-bg::after { content: '\263E'; position: absolute; right: 7%; top: 12%; font-size: 15rem; line-height: 1; color: rgba(243, 230, 196, 0.08); }
+body .hero-bg::after { content: ''; position: absolute; right: 5%; top: 50%; transform: translateY(-50%); width: min(30rem, 46vw); aspect-ratio: 1; background: url('../img/hero-pentagram.webp') center / contain no-repeat; opacity: 0.12; pointer-events: none; }
 body .kicker::before { content: '\2726  '; }
 body .band.alt { background-image: radial-gradient(ellipse at 50% 0, rgba(166, 127, 216, 0.08), transparent 60%); }
 body .panel, body .wheel-panel { border-top: 3px solid var(--accent); }
