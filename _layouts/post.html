@@ -34,9 +34,9 @@ layout: default
         {%- assign e = site.data.episodes | where: "slug", slug | first -%}
         {% if e %}
         <div class="post-ep">
-          <a class="t" href="{{ '/episodes/' | append: e.slug | append: '/' | relative_url }}">{% if e.number %}{{ e.number }}: {% endif %}{{ e.title }}</a>
+          <a class="t" href="{{ '/episodes/' | append: e.slug | append: '/' | relative_url }}">{% if e.number %}{{ e.number | escape }}: {% endif %}{{ e.title | escape }}</a>
           <span class="post-ep-date">{{ e.date | date: "%b %-d, %Y" }}</span>
-          <audio controls preload="none" src="{{ e.audio }}"></audio>
+          <audio controls preload="none" src="{{ e.audio | escape }}"></audio>
         </div>
         {% endif %}
         {% endfor %}

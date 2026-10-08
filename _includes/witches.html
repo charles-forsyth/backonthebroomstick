@@ -1,6 +1,6 @@
 <div class="grid2">
 {%- for w in site.data.witches %}
-  <div class="witch reveal">{% if w.photo != "" %}<img class="portrait photo" src="{{ w.photo | relative_url }}" alt="{{ w.name | escape }}" width="84" height="84">{% else %}<div class="portrait" aria-hidden="true">{{ w.initial }}</div>{% endif %}<h3>{{ w.name | escape }}</h3>
+  <div class="witch reveal">{% if w.photo != "" %}<img class="portrait photo" src="{{ w.photo | relative_url | escape }}" alt="{{ w.name | escape }}" width="84" height="84">{% else %}<div class="portrait" aria-hidden="true">{{ w.initial | escape }}</div>{% endif %}<h3>{{ w.name | escape }}</h3>
     <p class="muted">{{ w.bio | escape }}</p></div>
 {%- endfor %}
 </div>

@@ -14,4 +14,4 @@ wide: true
   <div class="shop-item"><div class="ico" aria-hidden="true">{{ it.icon }}</div><h3>{{ it.name | escape }}</h3><p class="muted">{{ it.blurb | escape }}</p></div>
 {%- endfor %}
 </div>
-<p class="center"><a class="btn" href="{{ shop_url }}" target="_blank" rel="noopener">{% if shop.open and shop.url != "" %}Visit the shop{% else %}Visit the Etsy shop{% endif %}</a></p>
+<p class="center"><a class="btn" href="{{ shop_url | escape }}" target="_blank" rel="noopener">{% if shop.open and shop.url != "" %}Visit the shop{% else %}Visit the Etsy shop{% endif %}</a></p>
