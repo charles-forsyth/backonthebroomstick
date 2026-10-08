@@ -35,6 +35,9 @@ layout: default
     {% if posts_here.size > 0 %}
     <div class="ep-posts"><p class="kicker">In the Grimoire</p><ul class="mini">{% for p in posts_here %}<li><a href="{{ p.url | relative_url }}">{{ p.title | escape }}</a> <span class="muted">{{ p.date | date: "%b %-d, %Y" }}</span></li>{% endfor %}</ul></div>
     {% endif %}
+    {% if site.data.links.fan_mail and site.data.links.fan_mail != "" %}
+    <p class="ep-fanmail">Got a question for the witches? <a href="{{ site.data.links.fan_mail | escape }}" target="_blank" rel="noopener">Send them fan mail</a> and it might end up on the show.</p>
+    {% endif %}
     <div class="ask-cta">
       <p>Looking for something they said in this episode?</p>
       <a class="btn ghost" href="{{ '/ask/' | relative_url }}">Ask the Archive</a>

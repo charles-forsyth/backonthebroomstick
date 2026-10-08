@@ -79,6 +79,8 @@ for e in eps:
             problems.append(f"episode {e.get('slug')}: missing {k}")
     if not (site / "episodes" / e["slug"] / "index.html").exists():
         problems.append(f"no page for episode {e['slug']}")
+    if re.search(r"Got a question\?\s*$", e.get("notes") or ""):  # the feed's fan-mail link text, cut in half
+        problems.append(f"episode {e['slug']}: notes end with a bare 'Got a question?'")
 
 for p in problems[:60]:
     print("PROBLEM", p)
