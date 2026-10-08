@@ -3,20 +3,20 @@
     <p class="brand"><span class="sigil" aria-hidden="true"></span> Back on the Broomstick</p>
     <p class="muted">Be wise, be wicked, and keep it witchy.</p>
     <p class="foot-links">
-      <a href="{{ site.data.links.apple }}">Apple Podcasts</a> &middot;
-      <a href="{{ site.data.links.spotify }}">Spotify</a> &middot;
-      <a href="{{ site.data.links.youtube }}">YouTube</a> &middot;
-      <a href="{{ site.data.links.feed }}">Podcast RSS</a> &middot;
+      <a href="{{ site.data.links.apple | escape }}">Apple Podcasts</a> &middot;
+      <a href="{{ site.data.links.spotify | escape }}">Spotify</a> &middot;
+      <a href="{{ site.data.links.youtube | escape }}">YouTube</a> &middot;
+      <a href="{{ site.data.links.feed | escape }}">Podcast RSS</a> &middot;
       <a href="{{ '/blog/feed.xml' | relative_url }}">Blog RSS</a>
     </p>
     <p class="foot-links">
-      <a href="{{ site.data.links.instagram }}">Instagram</a> &middot;
-      <a href="{{ site.data.links.facebook }}">Facebook</a> &middot;
-      <a href="{{ site.data.links.threads }}">Threads</a> &middot;
-      <a href="{{ site.data.links.etsy }}">Etsy</a> &middot;
-      <a href="mailto:{{ site.data.links.email }}">{{ site.data.links.email }}</a>
+      <a href="{{ site.data.links.instagram | escape }}">Instagram</a> &middot;
+      <a href="{{ site.data.links.facebook | escape }}">Facebook</a> &middot;
+      <a href="{{ site.data.links.threads | escape }}">Threads</a> &middot;
+      <a href="{{ site.data.links.etsy | escape }}">Etsy</a> &middot;
+      <a href="mailto:{{ site.data.links.email | escape }}">{{ site.data.links.email | escape }}</a>
     </p>
-    <p class="fine"><a href="{{ site.data.links.archive_api }}/studio">Studio sign-in</a> (for Laylla and Chelle)</p>
+    <p class="fine"><a href="{{ site.data.links.archive_api | escape }}/studio">Studio sign-in</a> (for Laylla and Chelle)</p>
     <p class="fine">Tarot art: the public-domain Rider-Waite-Smith deck (Pamela Colman Smith, 1909).</p>
   </div>
 </footer>

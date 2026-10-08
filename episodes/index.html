@@ -16,7 +16,7 @@ wide: true
   <p class="result-line" data-line></p>
   <ul class="eplist-full" data-list>
     {%- for e in site.data.episodes -%}
-    <li><span class="d">{{ e.date | date: "%b %-d, %Y" }}</span><div><a class="t" href="{{ '/episodes/' | append: e.slug | append: '/' | relative_url }}">{{ e.title }}</a></div></li>
+    <li><span class="d">{{ e.date | date: "%b %-d, %Y" }}</span><div><a class="t" href="{{ '/episodes/' | append: e.slug | append: '/' | relative_url }}">{{ e.title | escape }}</a></div></li>
     {%- endfor -%}
   </ul>
 </div>

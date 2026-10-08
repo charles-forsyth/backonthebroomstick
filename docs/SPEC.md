@@ -1,6 +1,6 @@
 # Back on the Broomstick website: specification
 
-Version 0.7 (2026-10-08). Owner: Chuck Forsyth, for Laylla and Chelle.
+Version 0.8 (2026-10-08). Owner: Chuck Forsyth, for Laylla and Chelle.
 
 
 > Naming (Chuck, 2026-10-07): the GitHub Pages site is the **dev site**. The hosts' **real site** is backonthebroomstick.com (Wix); nothing in these repos or services touches it. Only call ours the real site if the hosts ever switch over.
@@ -59,7 +59,13 @@ episode up by slug. Slugs are stable: `<number>-<title words>`, `swh-` prefix fo
 Laylla and Chelle edit these through the archive service (Studio > Edit site, or ChatGPT with the connector); nobody
 needs to touch the repo. The service can write ONLY these files plus resized photos in `assets/img/uploads/`,
 validates every value (plain text, https links, real dates, whole-dollar prices), shows a plain-words preview, and
-commits with the editor's name. Every change is undoable from the Studio.
+commits with the editor's name. Every change is undoable from the Studio (unless the same file changed again
+since; then the undo is refused rather than wiping the later edit).
+
+Escaping: templates print every value from these files, and every episode/guest field from the generated data, with
+`| escape` (links too, inside `href="..."`; the API base in `window.BOTB` with `| jsonify`), on top of the service's
+validation (no `<` or `>` at all, `https://` links only, a strict email pattern). The site has no inline event
+handlers; buttons are wired in `botb.js` (e.g. Press "Save as PDF" is `data-print`).
 
 | File | Holds |
 | --- | --- |
@@ -122,7 +128,9 @@ The Ask the Archive service (Cloud Run) uses the same stylesheet and tokens so t
 
 - `sky.js` (pure, no DOM): moon phase from a reference new moon (good to a few hours), next sabbat from fixed dates,
   card of the day (`(dayNumber * 7) mod 22`, same for everyone that day). Shared with the archive service.
-- `botb.js`: sky widgets, draws (25% reversed), wheel (SVG, counts, panel, hash), episode browser, Ask, menu, reveal.
+- `botb.js`: sky widgets, draws (25% reversed), wheel (SVG, counts, panel, hash), episode browser (show chips,
+  `?show=` / `?q=`, clearing the search restores the full list), blog browser (search + category chips, `?q=` /
+  `?cat=`), Ask, share, menu, print button, reveal. Each feature has its own state; none reads another's variables.
 
 ## 7. Ask the Archive service (separate, Cloud Run `botb-mcp`)
 
@@ -139,6 +147,9 @@ checks the feeds itself every Friday 7pm and Saturday 9am Eastern.
 ## 8. Build, check, ship
 
 - Local: `bundle exec jekyll build -d /tmp/botbsite && python3 tools/check_site.py /tmp/botbsite`.
+- `check_site.py` fails on: broken internal links, raw Liquid, secrets, bad episode data, and (since 0.8) any inline
+  event-handler attribute (`on[a-z]+=` in a tag) or a `javascript:`/`vbscript:`/`data:text/html` URL in
+  `href`/`src`/`action`/`formaction`/`poster` (checked after decoding entities and dropping whitespace).
 - CI (`.github/workflows/check.yml`): the same two steps on every PR and push to main.
 - Changes go through a branch and PR; merge when Check is green. Pages deploys main.
 
@@ -161,6 +172,7 @@ checks the feeds itself every Friday 7pm and Saturday 9am Eastern.
 
 | Version | Date | Change |
 | --- | --- | --- |
+| 0.8 | 2026-10-08 | Review fixes: the episode browser threw `cat is not defined` on every load (lines pasted from the blog code in 0.6), breaking the show chips, `?show=swh` and clearing the search; restored. Every host-editable and episode value printed with `\| escape`; Press "Save as PDF" no longer an inline `onclick`; `check_site.py` refuses inline event handlers and script URLs (8) |
 | 0.7 | 2026-10-08 | Imported the 13 Wix blog posts and 23 pictures (4.3); covers that must show whole (`cover_fit: contain`); in-post pictures capped at screen height |
 | 0.6 | 2026-10-08 | The Grimoire blog: `/blog/`, post layout, search/filter, Atom feed, home band, episode back-links (4.2); nav Grimoire; broom-pentacle sigil and favicon; full-retranscribe data export |
 | 0.5 | 2026-10-07 | Dev site naming, press kit, host editing, noindex |

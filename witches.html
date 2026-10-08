@@ -20,11 +20,11 @@ wide: true
 <h2>Guests in the circle</h2>
 <ul class="guest-grid">
 {%- for g in site.data.guests -%}
-<li><b>{{ g.name }}</b>{% for s in g.episodes %}{% assign e = site.data.episodes | where: "slug", s | first %}<a href="{{ '/episodes/' | append: s | append: '/' | relative_url }}">{{ e.title }}</a>{% endfor %}</li>
+<li><b>{{ g.name | escape }}</b>{% for s in g.episodes %}{% assign e = site.data.episodes | where: "slug", s | first %}<a href="{{ '/episodes/' | append: s | append: '/' | relative_url }}">{{ e.title | escape }}</a>{% endfor %}</li>
 {%- endfor -%}
 </ul>
 <div class="narrow">
 <h2>Crystal City Circle</h2>
 {% include paras.html text=site.data.about.circle %}
-<p><a href="{{ site.data.links.circle }}" target="_blank" rel="noopener">Learn more about the circle</a>.</p>
+<p><a href="{{ site.data.links.circle | escape }}" target="_blank" rel="noopener">Learn more about the circle</a>.</p>
 </div>

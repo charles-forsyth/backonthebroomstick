@@ -29,26 +29,26 @@ title: A modern witch's spoken word grimoire
     <div class="now-playing reveal">
       <img class="np-art" src="{{ '/assets/img/cover.webp' | relative_url }}" alt="Back on the Broomstick cover art" width="220" height="220">
       <div class="np-body">
-        <p class="np-date">{{ latest.date | date: "%B %-d, %Y" }}{% if latest.number %} &middot; Episode {{ latest.number }}{% endif %}</p>
-        <h2><a href="{{ '/episodes/' | append: latest.slug | append: '/' | relative_url }}">{{ latest.title }}</a></h2>
-        <p>{{ latest.notes | truncatewords: 55 }}</p>
-        <audio controls preload="none" src="{{ latest.audio }}"></audio>
-        <p class="np-links">{% if latest.youtube %}<a href="https://www.youtube.com/watch?v={{ latest.youtube }}" target="_blank" rel="noopener">Watch on YouTube</a> &middot;{% endif %}
-          <a href="{{ site.data.links.apple }}" target="_blank" rel="noopener">Apple Podcasts</a> &middot;
-          <a href="{{ site.data.links.spotify }}" target="_blank" rel="noopener">Spotify</a> &middot;
-          <a href="{{ site.data.links.feed }}">RSS</a></p>
+        <p class="np-date">{{ latest.date | date: "%B %-d, %Y" }}{% if latest.number %} &middot; Episode {{ latest.number | escape }}{% endif %}</p>
+        <h2><a href="{{ '/episodes/' | append: latest.slug | append: '/' | relative_url }}">{{ latest.title | escape }}</a></h2>
+        <p>{{ latest.notes | truncatewords: 55 | escape }}</p>
+        <audio controls preload="none" src="{{ latest.audio | escape }}"></audio>
+        <p class="np-links">{% if latest.youtube %}<a href="https://www.youtube.com/watch?v={{ latest.youtube | escape }}" target="_blank" rel="noopener">Watch on YouTube</a> &middot;{% endif %}
+          <a href="{{ site.data.links.apple | escape }}" target="_blank" rel="noopener">Apple Podcasts</a> &middot;
+          <a href="{{ site.data.links.spotify | escape }}" target="_blank" rel="noopener">Spotify</a> &middot;
+          <a href="{{ site.data.links.feed | escape }}">RSS</a></p>
       </div>
     </div>
     <div class="eps">
       {%- for e in site.data.episodes offset: 1 limit: 6 -%}
       <a class="ep" href="{{ '/episodes/' | append: e.slug | append: '/' | relative_url }}">
         <span class="ep-date">{{ e.date | date: "%b %-d, %Y" }}</span>
-        <span class="ep-title">{{ e.title }}</span>
-        <span class="ep-notes">{{ e.notes | truncatewords: 22 }}</span>
+        <span class="ep-title">{{ e.title | escape }}</span>
+        <span class="ep-notes">{{ e.notes | truncatewords: 22 | escape }}</span>
       </a>
       {%- endfor -%}
     </div>
-    <p class="center" style="margin-top:22px"><a class="btn ghost" href="{{ '/episodes/' | relative_url }}">All {{ site.data.stats.episodes }} episodes</a></p>
+    <p class="center" style="margin-top:22px"><a class="btn ghost" href="{{ '/episodes/' | relative_url }}">All {{ site.data.stats.episodes | escape }} episodes</a></p>
   </div>
 </section>
 
@@ -76,7 +76,7 @@ title: A modern witch's spoken word grimoire
   <div class="wrap narrow">
     <p class="kicker">Ask the archive</p>
     <h2>Every episode, searchable.</h2>
-    <p class="muted">{{ site.data.stats.episodes }} episodes and about {{ site.data.stats.hours }} hours of the two of them talking, across
+    <p class="muted">{{ site.data.stats.episodes | escape }} episodes and about {{ site.data.stats.hours | escape }} hours of the two of them talking, across
       Back on the Broomstick and The Stoned Witches Hour. Ask in plain language.</p>
     <div class="ask" data-ask>
       <form role="search" action="{{ '/ask/' | relative_url }}"><input type="search" name="q" placeholder="e.g. how do I protect my home?" aria-label="Ask the archive">
@@ -122,7 +122,7 @@ title: A modern witch's spoken word grimoire
     <h2>Old witchcraft, new path</h2>
     {% include witches.html %}
     <p class="kicker center">Guests in the circle</p>
-    <div class="guests">{% for g in site.data.guests %}<a class="guest" href="{{ '/episodes/' | append: g.episodes[0] | append: '/' | relative_url }}">{{ g.name }}</a>{% endfor %}</div>
+    <div class="guests">{% for g in site.data.guests %}<a class="guest" href="{{ '/episodes/' | append: g.episodes[0] | append: '/' | relative_url }}">{{ g.name | escape }}</a>{% endfor %}</div>
   </div>
 </section>
 
@@ -140,12 +140,12 @@ title: A modern witch's spoken word grimoire
   <div class="wrap grid3">
     <div class="panel reveal"><p class="kicker">The circle</p><h3>Join the discussion group</h3>
       <p class="muted">The fan-run Facebook group: tips, tricks and magick between episodes.</p>
-      <a class="btn ghost" href="{{ site.data.links.group }}" target="_blank" rel="noopener">Join the group</a></div>
+      <a class="btn ghost" href="{{ site.data.links.group | escape }}" target="_blank" rel="noopener">Join the group</a></div>
     <div class="panel reveal"><p class="kicker">The shop</p><h3>Sweatshirts, mugs, candles</h3>
       <p class="muted">The new BotB shop is coming soon. Until then, find them on Etsy.</p>
       <a class="btn ghost" href="{{ '/shop/' | relative_url }}">Visit the shop</a></div>
     <div class="panel reveal"><p class="kicker">Benefactors</p><h3>Keep the cauldron bubbling</h3>
       <p class="muted">Benefactors cover the show's costs and get exclusive perks.</p>
-      <a class="btn" href="{{ site.data.links.benefactor }}" target="_blank" rel="noopener">Become a Benefactor</a></div>
+      <a class="btn" href="{{ site.data.links.benefactor | escape }}" target="_blank" rel="noopener">Become a Benefactor</a></div>
   </div>
 </section>

@@ -8,27 +8,27 @@ layout: default
   <div class="wrap narrow">
     <p class="kicker">
       <a href="{{ '/episodes/' | relative_url }}{% if e.show == 'swh' %}?show=swh{% endif %}">{{ showname }}</a>
-      {% if e.number %}| Episode {{ e.number }}{% endif %} | {{ e.date | date: "%B %-d, %Y" }}{% if e.minutes > 0 %} | {{ e.minutes }} min{% endif %}
+      {% if e.number %}| Episode {{ e.number | escape }}{% endif %} | {{ e.date | date: "%B %-d, %Y" }}{% if e.minutes > 0 %} | {{ e.minutes | escape }} min{% endif %}
     </p>
-    <h1>{{ e.title }}</h1>
+    <h1>{{ e.title | escape }}</h1>
     <div class="ep-player">
-      <audio controls preload="none" src="{{ e.audio }}"></audio>
+      <audio controls preload="none" src="{{ e.audio | escape }}"></audio>
       <p class="np-links">
-        {% if e.youtube %}<a href="https://www.youtube.com/watch?v={{ e.youtube }}" target="_blank" rel="noopener">Watch on YouTube</a> &middot;{% endif %}
-        <a href="{{ site.data.links.apple }}" target="_blank" rel="noopener">Apple Podcasts</a> &middot;
-        <a href="{{ site.data.links.spotify }}" target="_blank" rel="noopener">Spotify</a>
+        {% if e.youtube %}<a href="https://www.youtube.com/watch?v={{ e.youtube | escape }}" target="_blank" rel="noopener">Watch on YouTube</a> &middot;{% endif %}
+        <a href="{{ site.data.links.apple | escape }}" target="_blank" rel="noopener">Apple Podcasts</a> &middot;
+        <a href="{{ site.data.links.spotify | escape }}" target="_blank" rel="noopener">Spotify</a>
       </p>
     </div>
   </div>
 </section>
 <section class="band">
   <div class="wrap narrow prose">
-    {% if e.guests.size > 0 %}<p class="kicker">With {{ e.guests | join: ", " }}</p>{% endif %}
+    {% if e.guests.size > 0 %}<p class="kicker">With {{ e.guests | join: ", " | escape }}</p>{% endif %}
     {%- assign x = site.data.episode_extras[page.slug] -%}
     {% if x.note and x.note != "" %}<p class="notice">{{ x.note | escape }}</p>{% endif %}
     {{ e.notes | escape | newline_to_br }}
     {% if e.sabbat %}
-    <p class="ep-sabbat"><a href="{{ '/wheel/' | relative_url }}#{{ e.sabbat | downcase }}">&#10040; More {{ e.sabbat }} episodes on the Wheel</a></p>
+    <p class="ep-sabbat"><a href="{{ '/wheel/' | relative_url }}#{{ e.sabbat | downcase | escape }}">&#10040; More {{ e.sabbat | escape }} episodes on the Wheel</a></p>
     {% endif %}
     {%- assign posts_here = "" | split: "" -%}
     {%- for p in site.posts -%}{%- if p.episodes contains page.slug -%}{%- assign posts_here = posts_here | push: p -%}{%- endif -%}{%- endfor -%}

@@ -1,7 +1,7 @@
 <div class="offers">
 {%- for o in site.data.offers -%}
 {%- if o.available %}
-  <a class="offer reveal{% if o.featured %} feature{% endif %}{% if o.booked_up %} booked{% endif %}" href="{{ site.data.links.booking }}" target="_blank" rel="noopener"><h3>{{ o.name | escape }}</h3><p class="price">${{ o.price }}</p><p class="muted">{{ o.blurb | escape }}{% if o.length != "" %} {{ o.length | escape }}.{% endif %}</p>{% if o.booked_up %}<p class="fine">Booked up for now</p>{% endif %}</a>
+  <a class="offer reveal{% if o.featured %} feature{% endif %}{% if o.booked_up %} booked{% endif %}" href="{{ site.data.links.booking | escape }}" target="_blank" rel="noopener"><h3>{{ o.name | escape }}</h3><p class="price">${{ o.price }}</p><p class="muted">{{ o.blurb | escape }}{% if o.length != "" %} {{ o.length | escape }}.{% endif %}</p>{% if o.booked_up %}<p class="fine">Booked up for now</p>{% endif %}</a>
 {%- endif -%}
 {%- endfor %}
 </div>

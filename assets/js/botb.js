@@ -111,12 +111,6 @@
       const mark = (t, ws) => ws.reduce((s, w) => s.replace(new RegExp('(' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'), '<mark>$1</mark>'), esc(t));
       function render() {
         const ws = input.value.toLowerCase().split(/\s+/).filter((w) => w.length > 1);
-        if (!ws.length && !cat) {
-          grid.innerHTML = first.grid; line.textContent = first.line;
-          chips.forEach((c) => c.classList.toggle('on', c.dataset.cat === ''));
-          history.replaceState(null, '', location.pathname);
-          return;
-        }
         const hit = all.filter((e) => (show === 'all' || e.show === show) &&
           ws.every((w) => (e.title + ' ' + e.notes + ' ' + (e.guests || []).join(' ')).toLowerCase().includes(w)));
         chips.forEach((c) => c.classList.toggle('on', c.dataset.show === show));
@@ -246,6 +240,7 @@
 
   /* ---------- Chrome ---------- */
   function chrome() {
+    $$('[data-print]').forEach((b) => b.addEventListener('click', () => window.print())); // no inline handlers
     $$('[data-burger]').forEach((b) => b.addEventListener('click', () => {
       const m = $(b.dataset.burger); m.classList.toggle('open'); b.setAttribute('aria-expanded', m.classList.contains('open'));
     }));

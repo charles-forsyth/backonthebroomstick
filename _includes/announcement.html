@@ -6,8 +6,8 @@ so an expired banner disappears on its date even if nothing is rebuilt that day.
 {%- assign today = site.time | date: "%Y-%m-%d" -%}
 {%- if a.text != "" and a.text != nil -%}
 {%- if a.ends == "" or a.ends == nil or a.ends >= today -%}
-<div class="announce" data-ends="{{ a.ends }}" role="note">
-  <div class="wrap">{% if a.link != "" and a.link != nil %}<a href="{{ a.link }}" target="_blank" rel="noopener">{{ a.text | escape }} &rarr;</a>{% else %}{{ a.text | escape }}{% endif %}</div>
+<div class="announce" data-ends="{{ a.ends | escape }}" role="note">
+  <div class="wrap">{% if a.link != "" and a.link != nil %}<a href="{{ a.link | escape }}" target="_blank" rel="noopener">{{ a.text | escape }} &rarr;</a>{% else %}{{ a.text | escape }}{% endif %}</div>
 </div>
 {%- endif -%}
 {%- endif -%}
