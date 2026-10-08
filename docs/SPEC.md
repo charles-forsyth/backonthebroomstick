@@ -87,7 +87,7 @@ Tokens in the `:root` block of `assets/css/grimoire.css`:
 | `--accent2` | `#a67fd8` | Amethyst: SWH tags, glows |
 
 Type: Cinzel (h1), Cormorant Garamond (display), EB Garamond (body), JetBrains Mono (kickers, labels). Motifs: starfield
-hero, crescent moon sigil, kickers with a four-point star, gold top rule on panels.
+hero, broom-pentacle sigil (header, footer, favicon; faint pencil version behind the home hero), kickers with a four-point star, gold top rule on panels.
 
 The Ask the Archive service (Cloud Run) uses the same stylesheet and tokens so the two read as one site.
 

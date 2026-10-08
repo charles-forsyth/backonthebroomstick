@@ -22,7 +22,7 @@ img { max-width: 100%; height: auto; }
 .top { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
 .top-in { display: flex; align-items: center; gap: 18px; min-height: 62px; }
 .brand { display: flex; align-items: center; gap: 10px; font-family: var(--f-display); font-size: 1.3rem; color: var(--text); margin: 0; }
-.sigil { color: var(--accent); font-size: 1.3em; line-height: 1; }
+.sigil { display: inline-block; flex: none; width: 1.5em; height: 1.5em; background: var(--accent); -webkit-mask: url('../img/sigil-pentacle.png') center / contain no-repeat; mask: url('../img/sigil-pentacle.png') center / contain no-repeat; }
 .menu { margin-left: auto; display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
 .menu a { font-family: var(--f-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.4px; color: color-mix(in srgb, var(--text) 78%, var(--muted)); padding: 7px 10px; border-radius: 30px; }
 .menu a:hover { color: var(--text); background: var(--panel); }
