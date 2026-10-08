@@ -1,0 +1,11 @@
+---
+layout: null
+permalink: /assets/js/posts.json
+---
+[{%- for p in site.posts -%}
+{"url": {{ p.url | relative_url | jsonify }}, "title": {{ p.title | jsonify }}, "date": {{ p.date | date: "%Y-%m-%d" | jsonify }},
+ "author": {{ p.author | jsonify }}, "categories": {% if p.categories.size > 0 %}{{ p.categories | jsonify }}{% else %}[]{% endif %}, "tags": {% if p.tags.size > 0 %}{{ p.tags | jsonify }}{% else %}[]{% endif %},
+ "cover": {% if p.cover %}{{ p.cover | relative_url | jsonify }}{% else %}null{% endif %},
+ "summary": {{ p.summary | default: p.excerpt | strip_html | truncatewords: 26 | jsonify }},
+ "text": {{ p.content | strip_html | normalize_whitespace | truncatewords: 1500 | jsonify }}}{% unless forloop.last %},{% endunless %}
+{%- endfor -%}]

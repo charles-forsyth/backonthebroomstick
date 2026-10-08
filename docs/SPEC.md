@@ -1,6 +1,6 @@
 # Back on the Broomstick website: specification
 
-Version 0.5 (2026-10-07). Owner: Chuck Forsyth, for Laylla and Chelle.
+Version 0.6 (2026-10-08). Owner: Chuck Forsyth, for Laylla and Chelle.
 
 
 > Naming (Chuck, 2026-10-07): the GitHub Pages site is the **dev site**. The hosts' **real site** is backonthebroomstick.com (Wix); nothing in these repos or services touches it. Only call ours the real site if the hosts ever switch over.
@@ -35,6 +35,8 @@ they decide.
 | `/witches/` | Hosts, story, podcast history, guests with their episodes, Crystal City Circle |
 | `/readings/` | The five reading offers; booking goes to the current Wix booking page |
 | `/shop/` | Coming-soon placeholder, links to Etsy |
+| `/blog/` | The Grimoire (the witches' blog): newest post as a feature card, then the rest as cards (cover or sigil art); search over titles, summaries, tags and full text with highlighted snippets; category chips; state in `?q=` and `?cat=`; archive by year once there are more than 6; Atom feed at `/blog/feed.xml` |
+| `/blog/<slug>/` | One post: category kicker, title, author, date (and updated), reading time, cover, Markdown body with drop cap, tags (link to a search), Listen cards for linked episodes (title, date, player), Share (phones) and Copy link, older/newer, up to 3 related posts by category |
 | `/press/` | Press kit for sponsors and press: chart positions, ratings, downloads (when supplied), catalog facts, sponsor packages, past partners; every figure links its source and carries an as-of date; prints to a clean white PDF (Save as PDF) |
 
 ## 4. Data (`_data/`, generated)
@@ -70,6 +72,18 @@ commits with the editor's name. Every change is undoable from the Studio.
 | `shop.yml` | open switch, own shop url, notice, categories |
 | `episode_extras.yml` | per-episode note; one featured episode on the home page |
 | `press.yml` | Press page: as-of date, headline, charts, audience, downloads (empty rows hidden), lists, packages (empty price shows "Ask us"), past partners. Charts move daily; re-check before a pitch. Research and quotes behind each figure: `strategy/research/2026-10-07_BotB_Rankings_and_Reach.md` in the archive project |
+
+## 4.2 Blog posts (`_posts/`)
+
+One Markdown file per post, `_posts/YYYY-MM-DD-<slug>.md`, written only by the archive service (Studio > Blog, or
+the `blog_*` MCP tools from ChatGPT/Claude). Front matter: `layout: post`, `title`, `date`, `author`, optional
+`summary` (list cards, link previews; mirrored to `description`), `cover` + `cover_alt` (an upload under
+`assets/img/uploads/`; mirrored to `image` for link previews), `categories` (up to 3), `tags` (up to 10),
+`episodes` (episode slugs, shown as Listen cards), `updated`, `draft_id`. Permalink `/blog/:title/` from the file
+name, so the address never changes when the title is edited. Bodies are checked by the service: no HTML, Liquid or
+kramdown attribute lists; links are https:// or site pages written from the root (`/episodes/...`, which the post
+layout prefixes with the base path); pictures only from uploads. Drafts never reach this repo. Episode pages list
+the posts that link them ("In the Grimoire"); the home page shows the 3 newest posts once there is one.
 
 New episode pages and `_data/episodes|stats|guests.json` are committed automatically by the archive service after
 each refresh (never deletes pages).
@@ -124,8 +138,15 @@ checks the feeds itself every Friday 7pm and Saturday 9am Eastern.
 | W-3 | Own booking and shop when the hosts move off Wix (today: links out) |
 | W-4 | Custom domain if the hosts adopt the site (backonthebroomstick.com) |
 | W-5 | Newsletter ("Wheel of the Year Newsletter") once they pick a provider |
-| W-6 | Their blog ("Musings") is not mirrored; link or import if they want |
+| W-6 | Done 2026-10-08: the blog (The Grimoire, 4.2). Their 13 Wix posts (Sep 2023 to May 2026, feed backonthebroomstick.com/blog-feed.xml) are not imported; import on their say-so (text is theirs; the Wix feed carries only short excerpts, so it needs the post pages) |
 | W-7 | Done 2026-10-07: new episodes publish automatically; hosts edit content (4.1) |
 | W-8 | Press kit: fill Buzzsprout downloads and package prices with the hosts; source for any "#1 pagan podcast" claim (none found in public rankings on 2026-10-07; Apple Spirituality chart is the verifiable claim) |
 | W-9 | Real video on YouTube (today: audio over a still image from the feed) |
 | W-10 | Search engines: the dev site and botb-mcp are noindex (meta tag here; header + robots.txt on botb-mcp; no sitemap) until the hosts adopt the site as their main one. Remove all three together on their say-so |
+
+## 10. Change log
+
+| Version | Date | Change |
+| --- | --- | --- |
+| 0.6 | 2026-10-08 | The Grimoire blog: `/blog/`, post layout, search/filter, Atom feed, home band, episode back-links (4.2); nav Grimoire; broom-pentacle sigil and favicon; full-retranscribe data export |
+| 0.5 | 2026-10-07 | Dev site naming, press kit, host editing, noindex |

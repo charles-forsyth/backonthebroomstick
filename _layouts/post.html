@@ -1,0 +1,79 @@
+---
+layout: default
+---
+{%- assign words = content | strip_html | number_of_words -%}
+{%- assign minutes = words | divided_by: 230 | at_least: 1 -%}
+{%- comment -%} Posts link site pages from the root (/episodes/...); add the site's base path here. {%- endcomment -%}
+{%- assign href_base = 'href="' | append: site.baseurl | append: '/' -%}
+{%- assign src_base = 'src="' | append: site.baseurl | append: '/' -%}
+<article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+  <header class="page-hero post-hero">
+    <div class="wrap narrow">
+      <p class="kicker"><a href="{{ '/blog/' | relative_url }}">The Grimoire</a>{% for c in page.categories %} | <a href="{{ '/blog/' | relative_url }}?cat={{ c | url_encode }}">{{ c | escape }}</a>{% endfor %}</p>
+      <h1 itemprop="headline">{{ page.title | escape }}</h1>
+      <p class="post-meta">By <span itemprop="author">{{ page.author | escape }}</span> &middot;
+        <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%B %-d, %Y" }}</time>
+        {% if page.updated %}&middot; updated {{ page.updated | date: "%B %-d, %Y" }}{% endif %} &middot; {{ minutes }} min read</p>
+    </div>
+  </header>
+  {% if page.cover %}<div class="wrap narrow"><img class="post-cover" src="{{ page.cover | relative_url }}" alt="{{ page.cover_alt | escape }}" width="1200" height="675"></div>{% endif %}
+  <section class="band post-band">
+    <div class="wrap narrow">
+      <div class="post-body prose" itemprop="articleBody" data-post-body>
+        {{ content | replace: 'href="/', href_base | replace: 'src="/', src_base }}
+      </div>
+
+      {% if page.tags.size > 0 %}
+      <p class="post-tags">{% for t in page.tags %}<a class="chip" href="{{ '/blog/' | relative_url }}?q={{ t | url_encode }}">#{{ t | escape }}</a>{% endfor %}</p>
+      {% endif %}
+
+      {% if page.episodes.size > 0 %}
+      <div class="post-listen">
+        <p class="kicker">Listen</p>
+        {% for slug in page.episodes %}
+        {%- assign e = site.data.episodes | where: "slug", slug | first -%}
+        {% if e %}
+        <div class="post-ep">
+          <a class="t" href="{{ '/episodes/' | append: e.slug | append: '/' | relative_url }}">{% if e.number %}{{ e.number }}: {% endif %}{{ e.title }}</a>
+          <span class="post-ep-date">{{ e.date | date: "%b %-d, %Y" }}</span>
+          <audio controls preload="none" src="{{ e.audio }}"></audio>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="post-share">
+        <button type="button" class="btn ghost btn-sm" data-share data-title="{{ page.title | escape }}">Share</button>
+        <button type="button" class="btn ghost btn-sm" data-copy-link>Copy link</button>
+        <span class="muted" data-share-msg></span>
+      </div>
+
+      <nav class="post-nav" aria-label="More posts">
+        {% if page.previous %}<a class="post-nav-prev" href="{{ page.previous.url | relative_url }}"><small>Older</small>{{ page.previous.title | escape }}</a>{% else %}<span></span>{% endif %}
+        {% if page.next %}<a class="post-nav-next" href="{{ page.next.url | relative_url }}"><small>Newer</small>{{ page.next.title | escape }}</a>{% endif %}
+      </nav>
+
+      {%- assign related = "" | split: "" -%}
+      {%- for p in site.posts -%}
+        {%- if p.url != page.url and related.size < 3 -%}
+          {%- assign shared = false -%}
+          {%- for c in p.categories -%}{%- if page.categories contains c -%}{%- assign shared = true -%}{%- endif -%}{%- endfor -%}
+          {%- if shared -%}{%- assign related = related | push: p -%}{%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {% if related.size > 0 %}
+      <div class="post-related">
+        <p class="kicker">More from the Grimoire</p>
+        <div class="eps">
+          {% for p in related %}
+          <a class="ep" href="{{ p.url | relative_url }}"><span class="ep-date">{{ p.date | date: "%b %-d, %Y" }}</span>
+            <span class="ep-title">{{ p.title | escape }}</span>
+            <span class="ep-notes">{{ p.summary | default: p.excerpt | strip_html | truncatewords: 22 | escape }}</span></a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+</article>

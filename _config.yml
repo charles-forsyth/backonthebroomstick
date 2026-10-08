@@ -13,6 +13,7 @@ kramdown:
 
 plugins:
   - jekyll-seo-tag
+  - jekyll-feed
 # No jekyll-sitemap: the dev site stays out of search engines (see the robots meta tag in _layouts/default.html).
 
 defaults:
@@ -20,6 +21,18 @@ defaults:
       path: ""
     values:
       layout: page
+  # The witches' blog (The Grimoire): one Markdown file per post in _posts/, written through the archive service.
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      permalink: /blog/:title/
+      body_class: post-page
+
+feed:
+  path: blog/feed.xml
+  posts_limit: 30
 
 exclude:
   - README.md

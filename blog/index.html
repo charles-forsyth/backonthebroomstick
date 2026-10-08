@@ -1,0 +1,58 @@
+---
+title: The Grimoire
+heading: The Grimoire
+kicker: The witches' blog
+lead: Spells, spreads, sabbat lore and stories from Laylla and Chelle, between episodes.
+permalink: /blog/
+wide: true
+body_class: blog-index
+---
+{%- assign posts = site.posts -%}
+{%- if posts.size == 0 -%}
+<div class="blog-empty">
+  <p class="muted">The first pages of the Grimoire are being written. Check back soon, or listen while you wait.</p>
+  <p><a class="btn" href="{{ '/episodes/' | relative_url }}">Browse the episodes</a></p>
+</div>
+{%- else -%}
+{%- assign lead = posts | first -%}
+<a class="blog-lead reveal" href="{{ lead.url | relative_url }}">
+  {% if lead.cover %}<img src="{{ lead.cover | relative_url }}" alt="{{ lead.cover_alt | escape }}" width="1200" height="675" loading="eager">{% else %}<div class="blog-lead-art" aria-hidden="true"><span class="sigil"></span></div>{% endif %}
+  <div class="blog-lead-body">
+    <p class="kicker">Newest{% for c in lead.categories %} &middot; {{ c | escape }}{% endfor %}</p>
+    <h2>{{ lead.title | escape }}</h2>
+    <p>{{ lead.summary | default: lead.excerpt | strip_html | truncatewords: 50 | escape }}</p>
+    <p class="post-meta">By {{ lead.author | escape }} &middot; {{ lead.date | date: "%B %-d, %Y" }}</p>
+  </div>
+</a>
+
+<div data-blog-browser>
+  <div class="filters">
+    <input type="search" placeholder="Search the Grimoire, e.g. candle, Yule, tarot spread" aria-label="Search the blog">
+    <button type="button" class="chip on" data-cat="">All</button>
+    {%- assign cats = "" | split: "" -%}
+    {%- for p in posts -%}{%- for c in p.categories -%}{%- unless cats contains c -%}{%- assign cats = cats | push: c -%}{%- endunless -%}{%- endfor -%}{%- endfor -%}
+    {%- for c in cats -%}<button type="button" class="chip" data-cat="{{ c | escape }}">{{ c | escape }}</button>{%- endfor -%}
+  </div>
+  {%- assign more = posts.size | minus: 1 -%}
+  <p class="result-line" data-line>{% if more > 0 %}{{ more }} more post{% if more != 1 %}s{% endif %}{% else %}More posts will appear here{% endif %}</p>
+  <div class="blog-grid" data-posts>
+    {%- for p in posts offset: 1 -%}
+    <a class="blog-card" href="{{ p.url | relative_url }}">
+      {% if p.cover %}<img src="{{ p.cover | relative_url }}" alt="" loading="lazy" width="600" height="338">{% else %}<span class="blog-card-art" aria-hidden="true"><span class="sigil"></span></span>{% endif %}
+      <span class="ep-date">{{ p.date | date: "%b %-d, %Y" }}{% for c in p.categories %} &middot; {{ c | escape }}{% endfor %}</span>
+      <span class="ep-title">{{ p.title | escape }}</span>
+      <span class="ep-notes">{{ p.summary | default: p.excerpt | strip_html | truncatewords: 26 | escape }}</span>
+      <span class="blog-by">By {{ p.author | escape }}</span>
+    </a>
+    {%- endfor -%}
+  </div>
+  {%- assign years = posts | group_by_exp: "p", "p.date | date: '%Y'" -%}
+  {% if posts.size > 6 %}
+  <details class="blog-archive">
+    <summary>The archive, by year</summary>
+    {% for y in years %}<h3>{{ y.name }}</h3><ul class="mini">{% for p in y.items %}<li><a href="{{ p.url | relative_url }}">{{ p.title | escape }}</a> <span class="muted">{{ p.date | date: "%b %-d" }}</span></li>{% endfor %}</ul>{% endfor %}
+  </details>
+  {% endif %}
+</div>
+{%- endif -%}
+<p class="blog-rss"><a href="{{ '/blog/feed.xml' | relative_url }}">Follow the Grimoire by RSS</a></p>
