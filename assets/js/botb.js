@@ -207,7 +207,7 @@
         line.textContent = `${hit.length} of ${all.length} post${all.length === 1 ? '' : 's'}${cat ? ' in ' + cat : ''}${ws.length ? ' matching "' + input.value.trim() + '"' : ''}`;
         grid.innerHTML = hit.map((x) => {
           const sn = ws.length ? snippet(x.text, ws) : '';
-          return `<a class="blog-card" href="${esc(x.url)}">${x.cover ? `<img src="${esc(x.cover)}" alt="" loading="lazy" width="600" height="338">` : '<span class="blog-card-art" aria-hidden="true"><span class="sigil"></span></span>'}
+          return `<a class="blog-card" href="${esc(x.url)}">${x.cover ? `<img${x.fit === 'contain' ? ' class="fit-contain"' : ''} src="${esc(x.cover)}" alt="" loading="lazy" width="600" height="338">` : '<span class="blog-card-art" aria-hidden="true"><span class="sigil"></span></span>'}
             <span class="ep-date">${fmt(x.date)}${(x.categories || []).map((c) => ' &middot; ' + esc(c)).join('')}</span>
             <span class="ep-title">${mark(x.title, ws)}</span>
             <span class="ep-notes">${sn ? mark(sn, ws) : mark(x.summary, ws)}</span><span class="blog-by">By ${esc(x.author)}</span></a>`;

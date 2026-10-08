@@ -16,7 +16,7 @@ layout: default
         {% if page.updated %}&middot; updated {{ page.updated | date: "%B %-d, %Y" }}{% endif %} &middot; {{ minutes }} min read</p>
     </div>
   </header>
-  {% if page.cover %}<div class="wrap narrow"><img class="post-cover" src="{{ page.cover | relative_url }}" alt="{{ page.cover_alt | escape }}" width="1200" height="675"></div>{% endif %}
+  {% if page.cover %}<div class="wrap narrow"><img class="post-cover{% if page.cover_fit == 'contain' %} fit-contain{% endif %}" src="{{ page.cover | relative_url }}" alt="{{ page.cover_alt | escape }}" width="1200" height="675"></div>{% endif %}
   <section class="band post-band">
     <div class="wrap narrow">
       <div class="post-body prose" itemprop="articleBody" data-post-body>
