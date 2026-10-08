@@ -1,6 +1,6 @@
 # Back on the Broomstick website: specification
 
-Version 0.6 (2026-10-08). Owner: Chuck Forsyth, for Laylla and Chelle.
+Version 0.7 (2026-10-08). Owner: Chuck Forsyth, for Laylla and Chelle.
 
 
 > Naming (Chuck, 2026-10-07): the GitHub Pages site is the **dev site**. The hosts' **real site** is backonthebroomstick.com (Wix); nothing in these repos or services touches it. Only call ours the real site if the hosts ever switch over.
@@ -88,6 +88,19 @@ the posts that link them ("In the Grimoire"); the home page shows the 3 newest p
 New episode pages and `_data/episodes|stats|guests.json` are committed automatically by the archive service after
 each refresh (never deletes pages).
 
+## 4.3 Imported Wix posts
+
+`tools/import_wix_blog.py` (one-off; run with `uv run --no-project --with beautifulsoup4 --with pillow --with pyyaml
+--with httpx --with markdown-it-py python tools/import_wix_blog.py`) copied the 13 posts from
+backonthebroomstick.com/blog on 2026-10-08. It reads each post page's server-rendered text (the Wix feed has only
+excerpts), keeps the Wix slug, date and title, and turns the one-paragraph-per-line Wix layout into Markdown: bold lines
+and labels (Ingredients, You'll Need, Instructions...) become headings, item runs under them become lists, quoted chants
+become blockquotes, packed listing fields get their own lines. Pictures are downloaded full size, saved as 1200 px WebP
+(`assets/img/uploads/wix-<slug>-<n>.webp`, metadata dropped), the first becomes the cover and repeats are dropped.
+Portrait photos, charts and card spreads get `cover_fit: contain` so they show whole. Each post records
+`imported_from:` (its Wix URL); categories were picked by reading each post. Bodies pass the archive's `check_body`, so
+the hosts can edit or take down any of them through the blog tools like their own new posts.
+
 ## 5. Visual design (Midnight Grimoire)
 
 Tokens in the `:root` block of `assets/css/grimoire.css`:
@@ -138,7 +151,7 @@ checks the feeds itself every Friday 7pm and Saturday 9am Eastern.
 | W-3 | Own booking and shop when the hosts move off Wix (today: links out) |
 | W-4 | Custom domain if the hosts adopt the site (backonthebroomstick.com) |
 | W-5 | Newsletter ("Wheel of the Year Newsletter") once they pick a provider |
-| W-6 | Done 2026-10-08: the blog (The Grimoire, 4.2). Their 13 Wix posts (Sep 2023 to May 2026, feed backonthebroomstick.com/blog-feed.xml) are not imported; import on their say-so (text is theirs; the Wix feed carries only short excerpts, so it needs the post pages) |
+| W-6 | Done 2026-10-08: the blog (The Grimoire, 4.2), and all 13 Wix posts (Sep 2023 to May 2026) imported with their 23 pictures (4.3) |
 | W-7 | Done 2026-10-07: new episodes publish automatically; hosts edit content (4.1) |
 | W-8 | Press kit: fill Buzzsprout downloads and package prices with the hosts; source for any "#1 pagan podcast" claim (none found in public rankings on 2026-10-07; Apple Spirituality chart is the verifiable claim) |
 | W-9 | Real video on YouTube (today: audio over a still image from the feed) |
@@ -148,5 +161,6 @@ checks the feeds itself every Friday 7pm and Saturday 9am Eastern.
 
 | Version | Date | Change |
 | --- | --- | --- |
+| 0.7 | 2026-10-08 | Imported the 13 Wix blog posts and 23 pictures (4.3); covers that must show whole (`cover_fit: contain`); in-post pictures capped at screen height |
 | 0.6 | 2026-10-08 | The Grimoire blog: `/blog/`, post layout, search/filter, Atom feed, home band, episode back-links (4.2); nav Grimoire; broom-pentacle sigil and favicon; full-retranscribe data export |
 | 0.5 | 2026-10-07 | Dev site naming, press kit, host editing, noindex |

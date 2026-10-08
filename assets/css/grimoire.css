@@ -370,3 +370,10 @@ img.portrait.photo { object-fit: cover; padding: 0; border: 2px solid var(--acce
 .blog-grid:has(> :only-child) { grid-template-columns: minmax(0, 560px); }
 .prose .blog-rss, .blog-rss { margin-top: 44px; }
 @media (max-width: 860px) { .blog-grid:has(> :nth-child(2):last-child), .blog-grid:has(> :only-child) { grid-template-columns: minmax(0, 1fr); } }
+/* covers that must show whole (portrait photos, charts, card spreads) sit on a dark panel instead of being cropped */
+.blog-card img.fit-contain, .blog-card-home img.fit-contain, .blog-lead img.fit-contain { object-fit: contain; background: radial-gradient(circle at 50% 45%, #2c1f47, #160f24 72%); }
+.post-cover.fit-contain { width: auto; max-width: 100%; max-height: 70vh; margin-inline: auto; display: block; }
+/* pictures inside a post: never taller than the screen */
+.post-body img { display: block; max-width: 100%; width: auto; max-height: 75vh; margin: 28px auto; border-radius: var(--radius); }
+/* card bylines line up along the bottom */
+.blog-card > span:last-child, .blog-card-home > span:last-child { margin-top: auto; }
