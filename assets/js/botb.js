@@ -111,6 +111,12 @@
       const mark = (t, ws) => ws.reduce((s, w) => s.replace(new RegExp('(' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'), '<mark>$1</mark>'), esc(t));
       function render() {
         const ws = input.value.toLowerCase().split(/\s+/).filter((w) => w.length > 1);
+        if (!ws.length && !cat) {
+          grid.innerHTML = first.grid; line.textContent = first.line;
+          chips.forEach((c) => c.classList.toggle('on', c.dataset.cat === ''));
+          history.replaceState(null, '', location.pathname);
+          return;
+        }
         const hit = all.filter((e) => (show === 'all' || e.show === show) &&
           ws.every((w) => (e.title + ' ' + e.notes + ' ' + (e.guests || []).join(' ')).toLowerCase().includes(w)));
         chips.forEach((c) => c.classList.toggle('on', c.dataset.show === show));
@@ -170,6 +176,66 @@
     });
   }
 
+  /* ---------- The Grimoire (/blog/): search titles + full text, category chips; state in ?q= and ?cat= ---------- */
+  function blog() {
+    const root = $('[data-blog-browser]');
+    if (!root) return;
+    fetch(url('/assets/js/posts.json')).then((r) => r.json()).then((all) => {
+      const input = $('input', root), chips = $$('[data-cat]', root), grid = $('[data-posts]', root), line = $('[data-line]', root);
+      const first = { grid: grid.innerHTML, line: line.textContent };
+      const p = new URLSearchParams(location.search);
+      let cat = p.get('cat') || '';
+      input.value = p.get('q') || '';
+      const mark = (t, ws) => ws.reduce((s, w) => s.replace(new RegExp('(' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'), '<mark>$1</mark>'), esc(t));
+      const snippet = (text, ws) => {
+        const low = text.toLowerCase(), i = ws.length ? low.indexOf(ws[0]) : -1;
+        if (i < 0) return '';
+        const a = Math.max(0, i - 80), s = text.slice(a, i + 140).replace(/^\S*\s/, '').replace(/\s\S*$/, '');
+        return (a ? '...' : '') + s + '...';
+      };
+      function render() {
+        const ws = input.value.toLowerCase().split(/\s+/).filter((w) => w.length > 1);
+        if (!ws.length && !cat) {
+          grid.innerHTML = first.grid; line.textContent = first.line;
+          chips.forEach((c) => c.classList.toggle('on', c.dataset.cat === ''));
+          history.replaceState(null, '', location.pathname);
+          return;
+        }
+        const hit = all.filter((x) => (!cat || (x.categories || []).includes(cat)) &&
+          ws.every((w) => (x.title + ' ' + x.summary + ' ' + (x.tags || []).join(' ') + ' ' + x.text).toLowerCase().includes(w)));
+        chips.forEach((c) => c.classList.toggle('on', c.dataset.cat === cat));
+        line.textContent = `${hit.length} of ${all.length} post${all.length === 1 ? '' : 's'}${cat ? ' in ' + cat : ''}${ws.length ? ' matching "' + input.value.trim() + '"' : ''}`;
+        grid.innerHTML = hit.map((x) => {
+          const sn = ws.length ? snippet(x.text, ws) : '';
+          return `<a class="blog-card" href="${esc(x.url)}">${x.cover ? `<img src="${esc(x.cover)}" alt="" loading="lazy" width="600" height="338">` : '<span class="blog-card-art" aria-hidden="true"><span class="sigil"></span></span>'}
+            <span class="ep-date">${fmt(x.date)}${(x.categories || []).map((c) => ' &middot; ' + esc(c)).join('')}</span>
+            <span class="ep-title">${mark(x.title, ws)}</span>
+            <span class="ep-notes">${sn ? mark(sn, ws) : mark(x.summary, ws)}</span><span class="blog-by">By ${esc(x.author)}</span></a>`;
+        }).join('') || '<p class="muted">Nothing in the Grimoire matches. Try other words, or <a href="' + url('/ask/') + '?q=' + encodeURIComponent(input.value) + '">ask the archive</a>.</p>';
+        const q = new URLSearchParams();
+        if (input.value.trim()) q.set('q', input.value.trim());
+        if (cat) q.set('cat', cat);
+        history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : ''));
+      }
+      input.addEventListener('input', render);
+      chips.forEach((c) => c.addEventListener('click', () => { cat = c.dataset.cat; render(); }));
+      if (input.value || cat) render();
+    });
+  }
+
+  /* ---------- Share a post ---------- */
+  function share() {
+    const msg = $('[data-share-msg]');
+    $$('[data-share]').forEach((b) => {
+      if (!navigator.share) { b.remove(); return; }
+      b.addEventListener('click', () => navigator.share({ title: b.dataset.title, url: location.href }).catch(() => {}));
+    });
+    $$('[data-copy-link]').forEach((b) => b.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(location.href); if (msg) msg.textContent = 'Link copied.'; }
+      catch (e) { if (msg) msg.textContent = location.href; }
+    }));
+  }
+
   /* ---------- Host-edited content that expires by date ---------- */
   function expiries() {
     const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD, local time
@@ -189,5 +255,5 @@
     } else $$('.reveal').forEach((el) => el.classList.add('in'));
   }
 
-  document.addEventListener('DOMContentLoaded', () => { expiries(); chrome(); sky(); draw(); wheel(); browser(); ask(); });
+  document.addEventListener('DOMContentLoaded', () => { expiries(); chrome(); sky(); draw(); wheel(); browser(); ask(); blog(); share(); });
 })();

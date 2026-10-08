@@ -52,6 +52,26 @@ title: A modern witch's spoken word grimoire
   </div>
 </section>
 
+{% if site.posts.size > 0 %}
+<section id="grimoire" class="band alt">
+  <div class="wrap">
+    <p class="kicker">From the Grimoire</p>
+    <h2>Fresh from the witches' pens</h2>
+    <div class="eps">
+      {%- for p in site.posts limit: 3 -%}
+      <a class="ep blog-card-home" href="{{ p.url | relative_url }}">
+        {% if p.cover %}<img src="{{ p.cover | relative_url }}" alt="" loading="lazy" width="600" height="338">{% else %}<span class="blog-card-art" aria-hidden="true"><span class="sigil"></span></span>{% endif %}
+        <span class="ep-date">{{ p.date | date: "%b %-d, %Y" }}{% for c in p.categories %} &middot; {{ c | escape }}{% endfor %}</span>
+        <span class="ep-title">{{ p.title | escape }}</span>
+        <span class="ep-notes">{{ p.summary | default: p.excerpt | strip_html | truncatewords: 22 | escape }}</span>
+      </a>
+      {%- endfor -%}
+    </div>
+    <p class="center" style="margin-top:22px"><a class="btn ghost" href="{{ '/blog/' | relative_url }}">Read the Grimoire</a></p>
+  </div>
+</section>
+{% endif %}
+
 <section id="ask" class="band alt">
   <div class="wrap narrow">
     <p class="kicker">Ask the archive</p>
