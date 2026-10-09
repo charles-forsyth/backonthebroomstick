@@ -1,6 +1,6 @@
 # Back on the Broomstick website: specification
 
-Version 0.9 (2026-10-08). Owner: Chuck Forsyth, for Laylla and Chelle.
+Version 0.10 (2026-10-09). Owner: Chuck Forsyth, for Laylla and Chelle.
 
 
 > Naming (Chuck, 2026-10-07): the GitHub Pages site is the **dev site**. The hosts' **real site** is backonthebroomstick.com (Wix); nothing in these repos or services touches it. Only call ours the real site if the hosts ever switch over.
@@ -38,6 +38,24 @@ they decide.
 | `/blog/` | The Grimoire (the witches' blog): newest post as a feature card, then the rest as cards (cover or sigil art); search over titles, summaries, tags and full text with highlighted snippets; category chips; state in `?q=` and `?cat=`; archive by year once there are more than 6; Atom feed at `/blog/feed.xml` |
 | `/blog/<slug>/` | One post: category kicker, title, author, date (and updated), reading time, cover, Markdown body with drop cap, tags (link to a search), Listen cards for linked episodes (title, date, player), Share (phones) and Copy link, older/newer, up to 3 related posts by category |
 | `/press/` | Press kit for sponsors and press: chart positions, ratings, downloads (when supplied), catalog facts, sponsor packages, past partners; every figure links its source and carries an as-of date; prints to a clean white PDF (Save as PDF) |
+
+### 3.1 Top menu (`_includes/header.html`)
+
+Grouped so visitors see five choices, not ten (Chuck, 2026-10-09; the home page itself is unchanged):
+
+| Menu | Opens |
+| --- | --- |
+| Listen (dropdown) | All episodes, Ask the Archive |
+| Explore (dropdown) | The Wheel of the Year, Draw a Card, The Grimoire |
+| Book a Reading | `/readings/` |
+| About (dropdown) | Laylla & Chelle (`/witches/`), Press & partners |
+| Shop | `/shop/` |
+| Support (gold button) | `links.benefactor` |
+
+Each dropdown item has a one-line description. Desktop: opens on hover or click, Enter/Space toggles, Escape or a
+click elsewhere closes; the group holding the current page is gold (`.dd.here`), and an episode page lights Listen,
+a post lights Explore. Phone (860 px and below): the menu button shows every group as a gold heading with its links
+underneath, no second tap. The menu is code, not host-editable data; the Studio and MCP tools are unaffected.
 
 ## 4. Data (`_data/`, generated)
 
@@ -133,7 +151,7 @@ The Ask the Archive service (Cloud Run) uses the same stylesheet and tokens so t
   card of the day (`(dayNumber * 7) mod 22`, same for everyone that day). Shared with the archive service.
 - `botb.js`: sky widgets, draws (25% reversed), wheel (SVG, counts, panel, hash), episode browser (show chips,
   `?show=` / `?q=`, clearing the search restores the full list), blog browser (search + category chips, `?q=` /
-  `?cat=`), Ask, share, menu, print button, reveal. Each feature has its own state; none reads another's variables.
+  `?cat=`), Ask, share, menu (burger + grouped dropdowns, 3.1), print button, reveal. Each feature has its own state; none reads another's variables.
 
 ## 7. Ask the Archive service (separate, Cloud Run `botb-mcp`)
 
@@ -178,6 +196,7 @@ checks the feeds itself every Friday 7pm and Saturday 9am Eastern.
 
 | Version | Date | Change |
 | --- | --- | --- |
+| 0.10 | 2026-10-09 | Top menu grouped (3.1): Listen / Explore / Book a Reading / About / Shop / Support, dropdowns with one-line descriptions, current group highlighted, phone menu shows groups as headings. Home page unchanged |
 | 0.9 | 2026-10-08 | Review phase 2: Spotify links go to the real show page (was a Spotify search); shop kicker/lead and the home shop panel follow `shop.yml` `open` + `url` instead of hard-coded "coming soon"; episode pages link fan mail (`links.fan_mail`) and the 212 notes that ended in a bare "Got a question?" were regenerated without it (archive 0.12.1); `check_site.py` refuses that orphan (8) |
 | 0.8 | 2026-10-08 | Review fixes: the episode browser threw `cat is not defined` on every load (lines pasted from the blog code in 0.6), breaking the show chips, `?show=swh` and clearing the search; restored. Every host-editable and episode value printed with `\| escape`; Press "Save as PDF" no longer an inline `onclick`; `check_site.py` refuses inline event handlers and script URLs (8) |
 | 0.7 | 2026-10-08 | Imported the 13 Wix blog posts and 23 pictures (4.3); covers that must show whole (`cover_fit: contain`); in-post pictures capped at screen height |
