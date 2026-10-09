@@ -378,3 +378,32 @@ img.portrait.photo { object-fit: cover; padding: 0; border: 2px solid var(--acce
 .post-body img { display: block; max-width: 100%; width: auto; max-height: 75vh; margin: 28px auto; border-radius: var(--radius); }
 /* card bylines line up along the bottom */
 .blog-card > span:last-child, .blog-card-home > span:last-child { margin-top: auto; }
+
+/* Grouped top menu: Listen / Explore / Book a Reading / About / Shop / Support (site 0.10) */
+.dd { position: relative; }
+.dd-btn { font-family: var(--f-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.4px; color: color-mix(in srgb, var(--text) 78%, var(--muted)); background: none; border: 0; padding: 7px 10px; border-radius: 30px; cursor: pointer; }
+.dd-btn::after { content: ''; display: inline-block; width: 6px; height: 6px; margin-left: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-3px) rotate(45deg); opacity: 0.7; }
+.dd-btn:hover, .dd.open .dd-btn { color: var(--text); background: var(--panel); }
+.dd.here > .dd-btn, .menu .top-link[aria-current="page"] { color: var(--accent); }
+.dd-panel { display: none; position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); min-width: 270px; background: var(--panel); border: 1px solid var(--line); border-top: 2px solid var(--accent); border-radius: var(--radius); padding: 8px; box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45); z-index: 60; }
+.dd-panel::before { content: ''; position: absolute; left: 0; right: 0; top: -12px; height: 12px; }
+.dd.open .dd-panel { display: grid; gap: 2px; }
+@media (hover: hover) and (min-width: 861px) { .dd:hover .dd-panel, .dd:focus-within .dd-panel { display: grid; gap: 2px; } }
+.menu .dd-panel a { display: block; text-transform: none; letter-spacing: 0; font-family: var(--f-body); font-size: 1rem; padding: 9px 12px; border-radius: 6px; color: var(--text); }
+.dd-panel a b { display: block; font-family: var(--f-display); font-weight: 600; font-size: 1.08rem; }
+.dd-panel a small { display: block; color: color-mix(in srgb, var(--text) 72%, var(--muted)); font-size: 0.86rem; }
+.menu .dd-panel a:hover, .menu .dd-panel a:focus-visible { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.menu .dd-panel a[aria-current="page"] b { color: var(--accent); }
+@media (max-width: 860px) {
+  .menu { gap: 0; max-height: calc(100vh - 62px); overflow-y: auto; }
+  .dd { border-bottom: 1px solid var(--line); padding: 6px 0; }
+  .dd-btn { cursor: default; pointer-events: none; color: var(--accent); padding: 8px 10px 2px; }
+  .dd-btn::after { display: none; }
+  .dd-panel { display: grid; position: static; transform: none; min-width: 0; background: none; border: 0; box-shadow: none; padding: 0 0 4px; }
+  .dd-panel::before { display: none; }
+  .menu .dd-panel a { padding: 7px 10px; }
+  .dd-panel a small { display: none; }
+  .menu > .top-link { padding: 12px 10px; border-bottom: 1px solid var(--line); border-radius: 0; text-transform: none; letter-spacing: 0; font-family: var(--f-display); font-size: 1.08rem; color: var(--text); }
+  .menu.open { box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6); }
+  .menu > .btn-sm { margin-top: 10px; text-align: center; }
+}

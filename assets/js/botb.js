@@ -244,6 +244,15 @@
     $$('[data-burger]').forEach((b) => b.addEventListener('click', () => {
       const m = $(b.dataset.burger); m.classList.toggle('open'); b.setAttribute('aria-expanded', m.classList.contains('open'));
     }));
+    // Grouped menu: click (or Enter/Space) toggles a group; Escape or a click elsewhere closes it. Hover opens on desktop.
+    const dds = $$('.dd');
+    const closeAll = (except) => dds.forEach((d) => { if (d !== except) { d.classList.remove('open'); $('.dd-btn', d).setAttribute('aria-expanded', 'false'); } });
+    dds.forEach((d) => $('.dd-btn', d).addEventListener('click', (e) => {
+      e.stopPropagation(); closeAll(d);
+      const open = d.classList.toggle('open'); e.currentTarget.setAttribute('aria-expanded', String(open));
+    }));
+    document.addEventListener('click', (e) => { if (!e.target.closest('.dd')) closeAll(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { const o = $('.dd.open .dd-btn'); closeAll(); if (o) o.focus(); } });
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && e.target.classList.add('in')), { threshold: 0.12 });
       $$('.reveal').forEach((el) => io.observe(el));

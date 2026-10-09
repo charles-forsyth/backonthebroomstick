@@ -11,6 +11,9 @@ engines leave it alone.
 
 ## What's on it
 
+The top menu groups the pages: **Listen** (Episodes, Ask the Archive), **Explore** (The Wheel, Draw a Card, The
+Grimoire), **Book a Reading**, **About** (Laylla & Chelle, Press), **Shop** and **Support**.
+
 - **Home**: tonight's moon, days to the next sabbat, the card of the day, the newest episode with a player, recent
   episodes, the 3 newest Grimoire posts, Ask the Archive, the Wheel, a three-card draw, the witches, readings, the
   shop, community links.
