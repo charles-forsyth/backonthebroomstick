@@ -30,7 +30,8 @@ engines leave it alone.
 ## Who edits what
 
 The hosts edit the site without touching git. They use the **Studio** on the archive service (the "Studio sign-in"
-link in the footer) or ChatGPT/Claude through its MCP tools. Those edits are commits by the service, and only to:
+link in the footer; it has a light look and its own Studio bar, so it is never mistaken for the public site) or
+ChatGPT/Claude through its MCP tools. Those edits are commits by the service, and only to:
 
 - `_data/{about,announcement,episode_extras,events,links,offers,press,shop,witches}.yml`
 - `assets/img/uploads/` (resized photos)

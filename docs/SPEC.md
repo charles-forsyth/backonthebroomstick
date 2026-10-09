@@ -59,7 +59,7 @@ episode up by slug. Slugs are stable: `<number>-<title words>`, `swh-` prefix fo
 
 ## 4.1 Host-editable content (`_data/*.yml`)
 
-Laylla and Chelle edit these through the archive service (Studio > Edit site, or ChatGPT with the connector); nobody
+Laylla and Chelle edit these through the archive service (Studio > Change the dev site, or ChatGPT with the connector); nobody
 needs to touch the repo. The service can write ONLY these files plus resized photos in `assets/img/uploads/`,
 validates every value (plain text, https links, real dates, whole-dollar prices), shows a plain-words preview, and
 commits with the editor's name. Every change is undoable from the Studio (unless the same file changed again
@@ -84,7 +84,7 @@ handlers; buttons are wired in `botb.js` (e.g. Press "Save as PDF" is `data-prin
 
 ## 4.2 Blog posts (`_posts/`)
 
-One Markdown file per post, `_posts/YYYY-MM-DD-<slug>.md`, written only by the archive service (Studio > Blog, or
+One Markdown file per post, `_posts/YYYY-MM-DD-<slug>.md`, written only by the archive service (Studio > Write a post, or
 the `blog_*` MCP tools from ChatGPT/Claude). Front matter: `layout: post`, `title`, `date`, `author`, optional
 `summary` (list cards, link previews; mirrored to `description`), `cover` + `cover_alt` (an upload under
 `assets/img/uploads/`; mirrored to `image` for link previews), `categories` (up to 3), `tags` (up to 10),
@@ -138,11 +138,13 @@ The Ask the Archive service (Cloud Run) uses the same stylesheet and tokens so t
 ## 7. Ask the Archive service (separate, Cloud Run `botb-mcp`)
 
 Live at https://botb-mcp-dsfh6rrlia-uc.a.run.app (source and full spec: `Back_on_the_Broomstick/archive`,
-`docs/SPEC.md`). Same Midnight Grimoire theme (`grimoire.css` copied from this repo).
+`docs/SPEC.md`). Its public pages use the same Midnight Grimoire theme (`grimoire.css` copied from this repo); the
+signed-in Studio is a light "workroom" version of it with its own Studio bar (archive 0.13.0), so the hosts can always
+tell the back office from the public site. This site's look is unchanged.
 
 Public: archive search (`/api/search?q=`, rate limited per visitor plus a daily cap), insights charts
 (`/insights`), and episode pages with full transcripts. Private (three logins: Chuck, Laylla, Chelle): the Studio
-(answers with citations, "check for new episodes") and the MCP endpoint for Hermes, ChatGPT and Claude. The service
+(home tiles: write a post, change the dev site, ask the archive, who's listening, find sponsors, more) and the MCP endpoint for Hermes, ChatGPT and Claude. The service
 checks the feeds itself every Friday 7pm and Saturday 9am Eastern.
 
 `links.archive_api` points at the service, so `/ask/` searches every word of every transcript.
