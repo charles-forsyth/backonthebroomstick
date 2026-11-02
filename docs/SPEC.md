@@ -73,7 +73,7 @@ when ticked; "forget it" removes them.
 | Compatibility | Second person's details; the app's synastry reading |
 | Sky finder | Where each body is in the local sky (altitude/azimuth), horizon and compass; drag to look, or the phone's compass (iOS asks permission) |
 
-Files: `sky.html`; `assets/js/vendor/astronomy.min.js` (Astronomy Engine 2.1.19, MIT, unmodified); `astro-engine.js` (positions,
+Files: `sky.html`; `assets/js/lib/astronomy.min.js` (Astronomy Engine 2.1.19, MIT, unmodified); `astro-engine.js` (positions,
 houses, aspects, patterns, transits, returns, events, rise/set, planetary hours, void of course; same maths as the app's
 `Houses.kt`/`ChartEngine.kt`); `astro-reading.js` (the app's `ReadingComposer`); `astro-3d.js` (the app's `Orrery.kt` and
 `ChartWheel.kt` on canvas); `astro-page.js` (page controller); `assets/css/astro-glyphs.woff2` (35 Noto Sans Symbols glyphs, so

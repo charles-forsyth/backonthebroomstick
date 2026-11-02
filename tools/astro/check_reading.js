@@ -1,5 +1,5 @@
 // Composes a full reading for a known chart and checks it is complete (no template holes, every section has text).
-global.Astronomy = require('../../assets/js/vendor/astronomy.min.js');
+global.Astronomy = require('../../assets/js/lib/astronomy.min.js');
 global.BotbAstro = require('../../assets/js/astro-engine.js');
 const R = require('../../assets/js/astro-reading.js');
 const I = require('../../assets/data/astro/interpretations.json');

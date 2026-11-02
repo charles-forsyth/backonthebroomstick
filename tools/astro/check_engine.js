@@ -1,6 +1,6 @@
 // Checks assets/js/astro-engine.js against the Swiss Ephemeris reference charts (same file the app's tests use).
 // Run: node tools/astro/check_engine.js   Exit 1 if any value is outside tolerance.
-global.Astronomy = require('../../assets/js/vendor/astronomy.min.js');
+global.Astronomy = require('../../assets/js/lib/astronomy.min.js');
 const E = require('../../assets/js/astro-engine.js');
 const refs = require('./reference_charts.json');
 const LON_TOL = 0.05, ANGLE_TOL = 0.2, CUSP_TOL = 0.3;

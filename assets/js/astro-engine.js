@@ -3,7 +3,7 @@
    JPL tables. Pure functions, no DOM. Exposes window.BotbAstro (and module.exports for the Node reference test). */
 (function (root) {
   'use strict';
-  const A = root.Astronomy || (typeof require !== 'undefined' ? require('./vendor/astronomy.min.js') : null);
+  const A = root.Astronomy || (typeof require !== 'undefined' ? require('./lib/astronomy.min.js') : null);
   const D2R = Math.PI / 180, R2D = 180 / Math.PI;
   const norm = (d) => ((d % 360) + 360) % 360;
   const angDiff = (a, b) => { let d = (a - b) % 360; if (d > 180) d -= 360; if (d < -180) d += 360; return d; };
