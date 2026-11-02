@@ -1,6 +1,6 @@
 # Back on the Broomstick website: specification
 
-Version 0.10 (2026-10-09). Owner: Chuck Forsyth, for Laylla and Chelle.
+Version 0.10 (2026-10-09; spec text reviewed 2026-11-01). Owner: Chuck Forsyth, for Laylla and Chelle.
 
 
 > Naming (Chuck, 2026-10-07): the GitHub Pages site is the **dev site**. The hosts' **real site** is backonthebroomstick.com (Wix); nothing in these repos or services touches it. Only call ours the real site if the hosts ever switch over.
@@ -68,7 +68,9 @@ the fan-mail link itself.
 
 `stats.json`: `episodes, botbs, swh, hours, words, guests, latest`.
 `guests.json`: `[{name, episodes: [slug]}]`. Guests come from titles ("... with Judika Illes") and transcript speaker
-labels confirmed by a full name in the title or notes.
+labels confirmed by a full name in the title or notes. The cloud publish only adds guests: it merges with the
+guests.json already on the site and never removes a guest or episode (the cloud DB has no speaker labels, so it can't
+see guests found only by label; archive 0.13.2). Removing or correcting a guest is a laptop `botbs site-export` and a PR.
 
 `assets/js/episodes.json` is the same list, emitted by Jekyll for the browser.
 
@@ -112,8 +114,10 @@ kramdown attribute lists; links are https:// or site pages written from the root
 layout prefixes with the base path); pictures only from uploads. Drafts never reach this repo. Episode pages list
 the posts that link them ("In the Grimoire"); the home page shows the 3 newest posts once there is one.
 
-New episode pages and `_data/episodes|stats|guests.json` are committed automatically by the archive service after
-each refresh (never deletes pages).
+New episode pages and `_data/episodes|stats|guests.json` are committed automatically by the archive service on every
+refresh, new episodes or not; it commits only what changed, so a failed publish heals on the next run, and it never
+deletes pages (archive 0.13.1). These commits ("New episode: ...", "Photo: ...") are data, not spec changes, and don't
+bump this spec's version.
 
 ## 4.3 Imported Wix posts
 
@@ -163,7 +167,7 @@ tell the back office from the public site. This site's look is unchanged.
 Public: archive search (`/api/search?q=`, rate limited per visitor plus a daily cap), insights charts
 (`/insights`), and episode pages with full transcripts. Private (three logins: Chuck, Laylla, Chelle): the Studio
 (home tiles: write a post, change the dev site, ask the archive, who's listening, find sponsors, more) and the MCP endpoint for Hermes, ChatGPT and Claude. The service
-checks the feeds itself every Friday 7pm and Saturday 9am Eastern.
+checks the feeds itself Friday 7pm, Saturday 1am and Saturday 9am Eastern (episodes post at varying times).
 
 `links.archive_api` points at the service, so `/ask/` searches every word of every transcript.
 
@@ -182,7 +186,7 @@ checks the feeds itself every Friday 7pm and Saturday 9am Eastern.
 | # | Item |
 | --- | --- |
 | W-1 | Real photos of Laylla and Chelle (portraits are initials for now) |
-| W-2 | Link Insights from the nav |
+| W-2 | Link Insights from the nav (still open 2026-11-01: the grouped menu links Ask but not Insights) |
 | W-3 | Own booking and shop when the hosts move off Wix (today: links out) |
 | W-4 | Custom domain if the hosts adopt the site (backonthebroomstick.com) |
 | W-5 | Newsletter ("Wheel of the Year Newsletter") once they pick a provider |
@@ -196,6 +200,7 @@ checks the feeds itself every Friday 7pm and Saturday 9am Eastern.
 
 | Version | Date | Change |
 | --- | --- | --- |
+| docs | 2026-11-01 | Spec review, no site change: refresh schedule adds Sat 1am, guest merge rule (4), every-refresh self-healing publish and auto commits don't bump the version (4.2), W-2 status |
 | 0.10 | 2026-10-09 | Top menu grouped (3.1): Listen / Explore / Book a Reading / About / Shop / Support, dropdowns with one-line descriptions, current group highlighted, phone menu shows groups as headings. Home page unchanged |
 | 0.9 | 2026-10-08 | Review phase 2: Spotify links go to the real show page (was a Spotify search); shop kicker/lead and the home shop panel follow `shop.yml` `open` + `url` instead of hard-coded "coming soon"; episode pages link fan mail (`links.fan_mail`) and the 212 notes that ended in a bare "Got a question?" were regenerated without it (archive 0.12.1); `check_site.py` refuses that orphan (8) |
 | 0.8 | 2026-10-08 | Review fixes: the episode browser threw `cat is not defined` on every load (lines pasted from the blog code in 0.6), breaking the show chips, `?show=swh` and clearing the search; restored. Every host-editable and episode value printed with `\| escape`; Press "Save as PDF" no longer an inline `onclick`; `check_site.py` refuses inline event handlers and script URLs (8) |
