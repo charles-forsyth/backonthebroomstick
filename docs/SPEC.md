@@ -1,6 +1,6 @@
 # Back on the Broomstick website: specification
 
-Version 0.10 (2026-10-09; spec text reviewed 2026-11-01). Owner: Chuck Forsyth, for Laylla and Chelle.
+Version 0.11 (2026-11-01). Owner: Chuck Forsyth, for Laylla and Chelle.
 
 
 > Naming (Chuck, 2026-10-07): the GitHub Pages site is the **dev site**. The hosts' **real site** is backonthebroomstick.com (Wix); nothing in these repos or services touches it. Only call ours the real site if the hosts ever switch over.
@@ -45,7 +45,7 @@ Grouped so visitors see five choices, not ten (Chuck, 2026-10-09; the home page 
 
 | Menu | Opens |
 | --- | --- |
-| Listen (dropdown) | All episodes, Ask the Archive |
+| Listen (dropdown) | All episodes, Ask the Archive, Archive insights (`links.archive_api` + `/insights`, the charts page on botb-mcp; same tab) |
 | Explore (dropdown) | The Wheel of the Year, Draw a Card, The Grimoire |
 | Book a Reading | `/readings/` |
 | About (dropdown) | Laylla & Chelle (`/witches/`), Press & partners |
@@ -186,7 +186,7 @@ checks the feeds itself Friday 7pm, Saturday 1am and Saturday 9am Eastern (episo
 | # | Item |
 | --- | --- |
 | W-1 | Real photos of Laylla and Chelle (portraits are initials for now) |
-| W-2 | Link Insights from the nav (still open 2026-11-01: the grouped menu links Ask but not Insights) |
+| W-2 | Done 0.11 (2026-11-01): Insights linked from the Listen menu |
 | W-3 | Own booking and shop when the hosts move off Wix (today: links out) |
 | W-4 | Custom domain if the hosts adopt the site (backonthebroomstick.com) |
 | W-5 | Newsletter ("Wheel of the Year Newsletter") once they pick a provider |
@@ -200,6 +200,7 @@ checks the feeds itself Friday 7pm, Saturday 1am and Saturday 9am Eastern (episo
 
 | Version | Date | Change |
 | --- | --- | --- |
+| 0.11 | 2026-11-01 | W-2: Listen menu adds "Archive insights" (botb-mcp `/insights` charts) |
 | docs | 2026-11-01 | Spec review, no site change: refresh schedule adds Sat 1am, guest merge rule (4), every-refresh self-healing publish and auto commits don't bump the version (4.2), W-2 status |
 | 0.10 | 2026-10-09 | Top menu grouped (3.1): Listen / Explore / Book a Reading / About / Shop / Support, dropdowns with one-line descriptions, current group highlighted, phone menu shows groups as headings. Home page unchanged |
 | 0.9 | 2026-10-08 | Review phase 2: Spotify links go to the real show page (was a Spotify search); shop kicker/lead and the home shop panel follow `shop.yml` `open` + `url` instead of hard-coded "coming soon"; episode pages link fan mail (`links.fan_mail`) and the 212 notes that ended in a bare "Got a question?" were regenerated without it (archive 0.12.1); `check_site.py` refuses that orphan (8) |
