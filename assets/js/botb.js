@@ -241,6 +241,18 @@
   /* ---------- Chrome ---------- */
   function chrome() {
     $$('[data-print]').forEach((b) => b.addEventListener('click', () => window.print())); // no inline handlers
+    // Episode pages: ?t=<seconds> (from the Sky page's quotes) starts the player at that moment, 5 s early for context.
+    const t0 = parseInt(new URLSearchParams(location.search).get('t'), 10);
+    const player = $('.ep-player audio');
+    if (player && t0 > 0) {
+      const at = Math.max(0, t0 - 5), m = Math.floor(t0 / 60), sec = String(t0 % 60).padStart(2, '0');
+      player.preload = 'metadata';
+      player.addEventListener('loadedmetadata', () => { if (player.currentTime < 1) player.currentTime = at; }, { once: true });
+      player.addEventListener('play', () => { if (player.currentTime < 1) player.currentTime = at; }, { once: true });
+      const note = document.createElement('p'); note.className = 'ep-at';
+      note.innerHTML = `Starts at <b>${m}:${sec}</b>, the moment quoted on the Sky page. Press play.`;
+      player.insertAdjacentElement('afterend', note);
+    }
     $$('[data-burger]').forEach((b) => b.addEventListener('click', () => {
       const m = $(b.dataset.burger); m.classList.toggle('open'); b.setAttribute('aria-expanded', m.classList.contains('open'));
     }));

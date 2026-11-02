@@ -4,7 +4,7 @@
     <button class="burger" data-burger="#menu" aria-label="Menu" aria-expanded="false">&#9776;</button>
     {%- assign u = page.url -%}
     {%- assign in_listen = false -%}{%- if u == '/episodes/' or u == '/ask/' or page.layout == 'episode' -%}{%- assign in_listen = true -%}{%- endif -%}
-    {%- assign in_explore = false -%}{%- if u == '/wheel/' or u == '/tarot/' or u == '/blog/' or page.layout == 'post' -%}{%- assign in_explore = true -%}{%- endif -%}
+    {%- assign in_explore = false -%}{%- if u == '/wheel/' or u == '/sky/' or u == '/tarot/' or u == '/blog/' or page.layout == 'post' -%}{%- assign in_explore = true -%}{%- endif -%}
     {%- assign in_about = false -%}{%- if u == '/witches/' or u == '/press/' -%}{%- assign in_about = true -%}{%- endif %}
     <nav id="menu" class="menu" aria-label="Main">
       <div class="dd{% if in_listen %} here{% endif %}">
@@ -19,6 +19,7 @@
         <button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-explore">Explore</button>
         <div class="dd-panel" id="dd-explore">
           <a href="{{ '/wheel/' | relative_url }}"{% if u == '/wheel/' %} aria-current="page"{% endif %}><b>The Wheel of the Year</b><small>every sabbat they've celebrated</small></a>
+          <a href="{{ '/sky/' | relative_url }}"{% if u == '/sky/' %} aria-current="page"{% endif %}><b>The Sky</b><small>the planets in 3D, your birth chart and reading</small></a>
           <a href="{{ '/tarot/' | relative_url }}"{% if u == '/tarot/' %} aria-current="page"{% endif %}><b>Draw a Card</b><small>a three-card pull from the Major Arcana</small></a>
           <a href="{{ '/blog/' | relative_url }}"{% if u == '/blog/' or page.layout == 'post' %} aria-current="page"{% endif %}><b>The Grimoire</b><small>spells, recipes and notes from the witches</small></a>
         </div>
