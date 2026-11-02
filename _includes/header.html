@@ -12,6 +12,7 @@
         <div class="dd-panel" id="dd-listen">
           <a href="{{ '/episodes/' | relative_url }}"{% if u == '/episodes/' %} aria-current="page"{% endif %}><b>All episodes</b><small>every episode of both shows</small></a>
           <a href="{{ '/ask/' | relative_url }}"{% if u == '/ask/' %} aria-current="page"{% endif %}><b>Ask the Archive</b><small>search every word they've said</small></a>
+          <a href="{{ site.data.links.archive_api | append: '/insights' | escape }}"><b>Archive insights</b><small>charts of what they talk about, year by year</small></a>
         </div>
       </div>
       <div class="dd{% if in_explore %} here{% endif %}">
