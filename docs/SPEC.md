@@ -1,6 +1,6 @@
 # Back on the Broomstick website: specification
 
-Version 0.11 (2026-11-01). Owner: Chuck Forsyth, for Laylla and Chelle.
+Version 0.12 (2026-11-02). Owner: Chuck Forsyth, for Laylla and Chelle.
 
 
 > Naming (Chuck, 2026-10-07): the GitHub Pages site is the **dev site**. The hosts' **real site** is backonthebroomstick.com (Wix); nothing in these repos or services touches it. Only call ours the real site if the hosts ever switch over.
@@ -31,6 +31,7 @@ they decide.
 | `/episodes/<slug>/` | One episode: kicker (show, number, date, minutes), title, player, YouTube/Apple/Spotify, guests, notes, sabbat link, "Got a question for the witches?" fan-mail link (`links.fan_mail`, hidden when empty), Ask CTA |
 | `/ask/` | Ask the Archive; `?q=` runs a query on load |
 | `/wheel/` | Wheel of the Year with episode counts; `#samhain` selects a sabbat; opens on the next one |
+| `/sky/` | The Sky (section 3.2): 3D sky now, tonight, season ahead, birth chart (2D/3D wheel) and full reading with the witches' quotes, sign pages, compatibility, sky finder |
 | `/tarot/` | Today's card, 3-card and 1-card draws |
 | `/witches/` | Hosts, story, podcast history, guests with their episodes, Crystal City Circle |
 | `/readings/` | The five reading offers; booking goes to the current Wix booking page |
@@ -46,7 +47,7 @@ Grouped so visitors see five choices, not ten (Chuck, 2026-10-09; the home page 
 | Menu | Opens |
 | --- | --- |
 | Listen (dropdown) | All episodes, Ask the Archive, Archive insights (`links.archive_api` + `/insights`, the charts page on botb-mcp; same tab) |
-| Explore (dropdown) | The Wheel of the Year, Draw a Card, The Grimoire |
+| Explore (dropdown) | The Wheel of the Year, The Sky, Draw a Card, The Grimoire |
 | Book a Reading | `/readings/` |
 | About (dropdown) | Laylla & Chelle (`/witches/`), Press & partners |
 | Shop | `/shop/` |
@@ -56,6 +57,39 @@ Each dropdown item has a one-line description. Desktop: opens on hover or click,
 click elsewhere closes; the group holding the current page is gold (`.dd.here`), and an episode page lights Listen,
 a post lights Explore. Phone (860 px and below): the menu button shows every group as a gold heading with its links
 underneath, no second tap. The menu is code, not host-editable data; the Studio and MCP tools are unaffected.
+
+### 3.2 The Sky (`/sky/`, site 0.12)
+
+The website version of the Hedge Almanac app's Sky tab (app 0.2.0). Everything runs in the browser; no birth data, location
+or chart leaves the page. "Remember me" stores the visitor's own and partner's details in `localStorage` (`botb.sky.v1`) only
+when ticked; "forget it" removes them.
+
+| Part | What |
+| --- | --- |
+| Tabs | The sky now, Your chart, Sign by sign, Compatibility, Sky finder. `#chart`, `#signs`, `#match`, `#finder` open a tab; `#<sign>` (e.g. `#scorpio`) opens that sign |
+| The sky now | 3D sky from Earth (canvas, drag/pinch/wheel/arrow keys, tap a planet), slide or play a year either way, retrograde loops; Tonight (Sun/Moon/rising here, moon phase and % lit, sun and moon rise/set, planetary hour, void-of-course Moon, retrogrades) for Wellsboro or "Use my location"; the season ahead (lunations, eclipses, stations, ingresses for 120 days, each with its meaning and the witches' clips) |
+| Your chart | Name, date, time or "don't know", town (search). Shows the time zone and daylight saving it used. Wheel (Placidus or Whole Sign, Whole Sign above the polar circles) that tilts into 3D; tap a planet, house, sign or aspect. Table of positions and elements. Full reading in the app's 18 sections, each followed by "The witches on this"; copy or print/save as PDF |
+| Sign by sign | 12 signs: motto, element, mode, rulers, profile, shadow, tarot card (site art), keywords, crystals, herbs, colours, the witches on it |
+| Compatibility | Second person's details; the app's synastry reading |
+| Sky finder | Where each body is in the local sky (altitude/azimuth), horizon and compass; drag to look, or the phone's compass (iOS asks permission) |
+
+Files: `sky.html`; `assets/js/vendor/astronomy.min.js` (Astronomy Engine 2.1.19, MIT, unmodified); `astro-engine.js` (positions,
+houses, aspects, patterns, transits, returns, events, rise/set, planetary hours, void of course; same maths as the app's
+`Houses.kt`/`ChartEngine.kt`); `astro-reading.js` (the app's `ReadingComposer`); `astro-3d.js` (the app's `Orrery.kt` and
+`ChartWheel.kt` on canvas); `astro-page.js` (page controller); `assets/css/astro-glyphs.woff2` (35 Noto Sans Symbols glyphs, so
+signs never turn into emoji); `assets/data/astro/` (`interpretations.json` = the app's reading text, `witches.json` = quotes,
+`places.json` = towns).
+
+Accuracy: `node tools/astro/check_engine.js` compares the engine with the 8 Swiss Ephemeris reference charts the app's tests use
+(planets within 0.05 deg, angles 0.2, cusps 0.3; currently worst 0.005 / 0.01 / 0.01). `node tools/astro/check_reading.js`
+composes readings (with/without time, polar) and fails on any empty section or template hole. Run both after touching the
+engine, the reading or `interpretations.json`.
+
+Data: `tools/astro/build_sky_data.py` rebuilds `assets/data/astro/` from the app's offline index (Back on the Broomstick episodes
+only, never SWH), the app's `interpretations.json`/`astro_passages.json` and GeoNames (every town of 15,000+ worldwide plus US
+places of 1,000+; CC BY 4.0). Quotes carry episode slug and second; they link to `/episodes/<slug>/?t=<s>`, and the episode
+page starts the player 5 s before that moment. A sign+word pair quote is kept only when the two words sit within 45 characters
+with no other sign between (keeps zodiac-list passages out). Re-run after big new astrology episodes.
 
 ## 4. Data (`_data/`, generated)
 

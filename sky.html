@@ -1,0 +1,144 @@
+---
+title: The Sky
+heading: The Sky
+kicker: Astrology with the witches
+lead: The planets right now in 3D, your birth chart and a full reading, with Laylla and Chelle on every placement. Everything is worked out in your browser; nothing you type leaves this page.
+permalink: /sky/
+wide: true
+body_class: sky-page
+---
+<div class="astro" data-astro>
+  <nav class="astro-tabs" role="tablist" aria-label="Sky sections">
+    <button type="button" role="tab" data-tab="sky" aria-selected="true">The sky now</button>
+    <button type="button" role="tab" data-tab="chart" aria-selected="false">Your chart</button>
+    <button type="button" role="tab" data-tab="signs" aria-selected="false">Sign by sign</button>
+    <button type="button" role="tab" data-tab="match" aria-selected="false">Compatibility</button>
+    <button type="button" role="tab" data-tab="finder" aria-selected="false">Sky finder</button>
+  </nav>
+
+  <noscript><p class="notice">The Sky page works out the planets in your browser, so it needs JavaScript turned on.</p></noscript>
+
+  <!-- THE SKY NOW -->
+  <section class="astro-pane" data-pane="sky">
+    <div class="orrery-wrap">
+      <canvas class="orrery" data-orrery tabindex="0" aria-label="3D sky: the planets around Earth on the zodiac. Drag to turn, scroll or pinch to zoom, arrow keys also turn it."></canvas>
+      <div class="orrery-pick" data-orrery-pick hidden></div>
+      <div class="orrery-time">
+        <div class="orrery-time-row">
+          <button type="button" class="chip" data-play aria-pressed="false">&#9654; Play</button>
+          <input type="range" min="-365" max="365" step="1" value="0" data-day aria-label="Days from today">
+          <button type="button" class="chip" data-now>Now</button>
+        </div>
+        <p class="orrery-when" data-when aria-live="polite"></p>
+        <p class="fine">Slide through a year either way, or press play to watch the planets move. Tap a planet.</p>
+      </div>
+    </div>
+
+    <div class="astro-grid">
+      <div class="panel astro-tonight">
+        <p class="kicker">Tonight</p>
+        <h2 class="astro-h">The sky now</h2>
+        <div class="big3" data-big3></div>
+        <ul class="astro-facts" data-facts></ul>
+        <p class="astro-place"><span data-here-name>Wellsboro, Pennsylvania</span> &middot; <button type="button" class="linkish" data-locate>Use my location</button></p>
+      </div>
+      <div class="panel">
+        <p class="kicker">The season ahead</p>
+        <h2 class="astro-h">Lunations, eclipses and retrogrades</h2>
+        <ol class="astro-events" data-sky-events></ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- YOUR CHART -->
+  <section class="astro-pane" data-pane="chart" hidden>
+    <form class="panel birth" data-birth>
+      <p class="kicker">Cast your birth chart</p>
+      <div class="birth-grid">
+        <label>Name (optional)<input name="name" autocomplete="off" maxlength="40"></label>
+        <label>Birth date<input name="date" type="date" required min="1900-01-01" max="2099-12-31"></label>
+        <label>Birth time<input name="time" type="time"></label>
+        <label class="check"><input name="notime" type="checkbox"> I don't know the birth time</label>
+        <label class="birth-place">Birth place
+          <input name="place" autocomplete="off" placeholder="Town or city, e.g. Wellsboro" role="combobox" aria-expanded="false" aria-controls="place-list" aria-autocomplete="list">
+          <ul class="place-list" id="place-list" role="listbox" data-places hidden></ul>
+        </label>
+      </div>
+      <p class="fine" data-notime-note hidden>The chart will use noon. Planet signs will be right (the Moon may be off if it changed sign that day); rising sign and houses are left out.</p>
+      <p class="notice birth-tz" data-tz hidden></p>
+      <div class="birth-actions">
+        <button class="btn" type="submit">Cast my chart</button>
+        <label class="remember"><input type="checkbox" name="remember"> Remember me on this device</label>
+      </div>
+      <p class="fine">Worked out in your browser. Nothing is sent anywhere. "Remember me" keeps it in this browser only; <button type="button" class="linkish" data-forget>forget it</button>.</p>
+    </form>
+
+    <div class="chart-out" data-chart-out hidden>
+      <div class="chart-head">
+        <div>
+          <p class="kicker" data-chart-kicker></p>
+          <h2 class="astro-h" data-chart-title></h2>
+          <p class="chart-sub" data-chart-sub></p>
+        </div>
+        <div class="chart-ctrls">
+          <button type="button" class="chip on" data-view="2d" aria-pressed="true">Chart</button>
+          <button type="button" class="chip" data-view="3d" aria-pressed="false">3D wheel</button>
+          <button type="button" class="chip" data-houses>Placidus houses</button>
+          <button type="button" class="chip" data-edit>Change details</button>
+        </div>
+      </div>
+      <div class="chart-grid">
+        <div class="wheel-wrap">
+          <canvas class="chart-wheel" data-natal tabindex="0" aria-label="Birth chart wheel. Tap a planet, house, sign or aspect for its meaning; in 3D drag to turn it."></canvas>
+          <div class="wheel-hit panel" data-hit hidden></div>
+        </div>
+        <div class="chart-table panel" data-table></div>
+      </div>
+      <div class="reading" data-reading></div>
+      <p class="center"><button type="button" class="btn ghost" data-sky-copy>Copy my reading</button> <button type="button" class="btn ghost" data-sky-print>Print or save as PDF</button></p>
+    </div>
+  </section>
+
+  <!-- SIGNS -->
+  <section class="astro-pane" data-pane="signs" hidden>
+    <div class="sign-strip" data-sign-strip role="list"></div>
+    <article class="sign-page panel" data-sign-page></article>
+  </section>
+
+  <!-- COMPATIBILITY -->
+  <section class="astro-pane" data-pane="match" hidden>
+    <p class="lead small-lead">Cast your own chart first, then add the other person. Their details stay on this page too.</p>
+    <form class="panel birth" data-partner>
+      <p class="kicker">The other person</p>
+      <div class="birth-grid">
+        <label>Name<input name="name" autocomplete="off" maxlength="40"></label>
+        <label>Birth date<input name="date" type="date" required min="1900-01-01" max="2099-12-31"></label>
+        <label>Birth time<input name="time" type="time"></label>
+        <label class="check"><input name="notime" type="checkbox"> Time unknown</label>
+        <label class="birth-place">Birth place
+          <input name="place" autocomplete="off" placeholder="Town or city" role="combobox" aria-expanded="false" aria-controls="place-list-2" aria-autocomplete="list">
+          <ul class="place-list" id="place-list-2" role="listbox" data-places hidden></ul>
+        </label>
+      </div>
+      <div class="birth-actions"><button class="btn" type="submit">Compare our charts</button></div>
+    </form>
+    <div class="reading" data-match-out></div>
+  </section>
+
+  <!-- SKY FINDER -->
+  <section class="astro-pane" data-pane="finder" hidden>
+    <div class="finder-wrap">
+      <canvas class="finder" data-finder tabindex="0" aria-label="Sky finder: where each planet is around you. Drag to look around, or turn on the compass on a phone."></canvas>
+      <div class="finder-hud" data-finder-hud aria-live="polite"></div>
+    </div>
+    <p class="center finder-btns"><button type="button" class="btn" data-sensors>Use my phone's compass</button> <button type="button" class="btn ghost" data-locate>Use my location</button></p>
+    <p class="fine center">On a phone, hold it up to the sky and the planets line up with the real ones, even below the horizon. On a computer, drag to look around. Location is used only on this page.</p>
+  </section>
+</div>
+<p class="fine center astro-credit">Planet positions from <a href="https://github.com/cosinekitty/astronomy" target="_blank" rel="noopener">Astronomy Engine</a> (MIT), checked against Swiss Ephemeris charts to within 0.01&deg;. Places from <a href="https://www.geonames.org/" target="_blank" rel="noopener">GeoNames</a> (CC BY 4.0). Astrology is a mirror, not a sentence.</p>
+
+<script src="{{ '/assets/js/vendor/astronomy.min.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/astro-engine.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/astro-reading.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/astro-3d.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/astro-page.js' | relative_url }}" defer></script>
