@@ -1,6 +1,7 @@
 <header class="top">
   <div class="wrap top-in">
     <a class="brand" href="{{ '/' | relative_url }}"><span class="sigil" aria-hidden="true"></span><span>Back on the Broomstick</span></a>
+    <button class="look-btn" type="button" data-look-btn aria-expanded="false" aria-controls="looks" aria-label="Change the look" title="Change the look"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/><path d="M17 3.5l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4-1.4-.6 1.4-.6z"/></svg></button>
     <button class="burger" data-burger="#menu" aria-label="Menu" aria-expanded="false">&#9776;</button>
     {%- assign u = page.url -%}
     {%- assign in_listen = false -%}{%- if u == '/episodes/' or u == '/ask/' or page.layout == 'episode' -%}{%- assign in_listen = true -%}{%- endif -%}
@@ -35,5 +36,15 @@
       <a class="top-link" href="{{ '/shop/' | relative_url }}"{% if u == '/shop/' %} aria-current="page"{% endif %}>Shop</a>
       <a class="btn-sm" href="{{ site.data.links.benefactor | escape }}" target="_blank" rel="noopener">Support</a>
     </nav>
+    <div class="looks" id="looks" data-looks hidden>
+      <p class="kicker">Look</p>
+      <div role="radiogroup" aria-label="Look">
+        <button type="button" class="look-row" role="radio" data-look-pick="original" aria-checked="true"><span class="swatch"><i style="background:#10223f"></i><i style="background:#234b82"></i><i style="background:#4C8DFF"></i></span><span><b>Original</b><small>The broom pentacle, cobalt and silver</small></span><span class="radio"></span></button>
+        <button type="button" class="look-row" role="radio" data-look-pick="moonlit" aria-checked="false"><span class="swatch"><i style="background:#0f1726"></i><i style="background:#22334d"></i><i style="background:#5A9CFF"></i></span><span><b>Moonlit</b><small>Tonight's real moon, deeper navy</small></span><span class="radio"></span></button>
+        <button type="button" class="look-row" role="radio" data-look-pick="swh" aria-checked="false"><span class="swatch"><i style="background:#0a1f12"></i><i style="background:#1e472a"></i><i style="background:#7CCB80"></i></span><span><b>Stoned Witches</b><small data-swh-note>Green-black, sage, smoke and leaves (18+)</small></span><span class="radio"></span></button>
+      </div>
+      <label class="look-opt"><input type="checkbox" data-adult-toggle><span>I am 18 or older<small>Unlocks the Stoned Witches look. The Stoned Witches Hour is explicit adult content.</small></span></label>
+      <label class="look-opt"><input type="checkbox" data-aiart-toggle checked><span>Show AI-made art<small>The painted pentacle, sabbat scenes, cauldron and leaf wreath were made with AI image tools. Turn off to see only the show's own sigil, the NASA moon and the 1909 tarot.</small></span></label>
+    </div>
   </div>
 </header>

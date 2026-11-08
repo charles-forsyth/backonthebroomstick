@@ -1,24 +1,31 @@
 ---
 layout: default
+body_class: home
 title: A modern witch's spoken word grimoire
 ---
 {%- assign latest = site.data.episodes | first -%}
 {%- for pair in site.data.episode_extras -%}{%- if pair[1].featured -%}{%- assign f = site.data.episodes | where: "slug", pair[0] | first -%}{%- if f -%}{%- assign latest = f -%}{%- assign featured = true -%}{%- endif -%}{%- endif -%}{%- endfor -%}
-<section class="hero">
+<section class="today hero">
   <div class="hero-bg" aria-hidden="true"></div>
-  <div class="wrap hero-in">
-    <p class="kicker">A modern witch's spoken word grimoire</p>
-    <h1>Back on the <em>Broomstick</em></h1>
-    <p class="lead">Laylla &amp; Chelle, ride-or-die witches since a college cafeteria in '93, talk modern witchcraft,
+  <div class="wrap today-in">
+    <a class="today-art" href="{{ '/sky/' | relative_url }}" data-hero aria-label="Open the Sky">
+      <img class="art-pentacle" src="{{ '/assets/img/brand/hero_pentacle.webp' | relative_url }}" alt="" width="1400" height="1400" fetchpriority="high">
+    </a>
+    <h1 class="wordmark"><small>Back on the</small><span>Broomstick</span></h1>
+    <p class="today-date" data-today-date></p>
+    <p class="today-sky"><span data-moon-disc="26"></span><span><span data-moon-name>The moon</span> &middot; <span data-moon-lit>tonight</span></span></p>
+    <p class="today-sky2"><a data-sabbat-link href="{{ '/wheel/' | relative_url }}"><span data-sabbat-name>The Wheel</span> <span data-sabbat-days></span></a></p>
+    <p class="today-tag">Laylla &amp; Chelle, ride-or-die witches since a college cafeteria in '93, talk modern witchcraft,
       pagan practice, tarot and the occasional haunted brothel. New episodes every Friday.</p>
-    <div class="hero-btns">
-      <a class="btn" href="#listen">&#9654; Play the newest episode</a>
-      <a class="btn ghost" href="{{ '/ask/' | relative_url }}">Ask the archive anything</a>
-    </div>
-    <div class="sky" aria-label="Tonight's sky">
-      <div class="sky-cell"><span data-moon-disc="54"></span><div><b data-moon-name>The moon</b><small data-moon-lit>tonight</small></div></div>
-      <a class="sky-cell" data-sabbat-link href="{{ '/wheel/' | relative_url }}"><span class="sky-ico" aria-hidden="true">&#10040;</span><div><b><span data-sabbat-name>The Wheel</span> <span data-sabbat-days></span></b><small>next on the Wheel</small></div></a>
-      <a class="sky-cell" href="{{ '/tarot/' | relative_url }}"><img data-card-img class="sky-card" alt="" width="34" height="58" src="{{ '/assets/img/tarot/star.webp' | relative_url }}"><div><b data-card-name>Card of the day</b><small>card of the day</small></div></a>
+    <div class="today-cards">
+      <div class="hcard">
+        <button class="jewel" type="button" data-play-latest aria-label="Play the newest episode"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></button>
+        <div><p class="kicker">{% if featured %}Featured episode{% else %}Newest episode{% endif %}</p><a href="{{ '/episodes/' | append: latest.slug | append: '/' | relative_url }}"><b>{% if latest.number %}{{ latest.number | escape }}: {% endif %}{{ latest.title | escape }}</b></a><small>{{ latest.date | date: "%b %-d, %Y" }}{% if latest.minutes > 0 %} &middot; {{ latest.minutes | escape }} min{% endif %}</small></div>
+      </div>
+      <a class="hcard" href="{{ '/tarot/' | relative_url }}">
+        <span class="tcard"><span class="tcard-in"><span class="tcard-face"><img data-card-img alt="" width="58" height="99" src="{{ '/assets/img/tarot/star.webp' | relative_url }}"></span></span></span>
+        <div><p class="kicker">Card of the day</p><b data-card-name>Card of the day</b><small data-card-meaning></small></div>
+      </a>
     </div>
   </div>
 </section>
@@ -32,7 +39,7 @@ title: A modern witch's spoken word grimoire
         <p class="np-date">{{ latest.date | date: "%B %-d, %Y" }}{% if latest.number %} &middot; Episode {{ latest.number | escape }}{% endif %}</p>
         <h2><a href="{{ '/episodes/' | append: latest.slug | append: '/' | relative_url }}">{{ latest.title | escape }}</a></h2>
         <p>{{ latest.notes | truncatewords: 55 | escape }}</p>
-        <audio controls preload="none" src="{{ latest.audio | escape }}"></audio>
+        <audio controls preload="none" data-latest-audio src="{{ latest.audio | escape }}"></audio>
         <p class="np-links">{% if latest.youtube %}<a href="https://www.youtube.com/watch?v={{ latest.youtube | escape }}" target="_blank" rel="noopener">Watch on YouTube</a> &middot;{% endif %}
           <a href="{{ site.data.links.apple | escape }}" target="_blank" rel="noopener">Apple Podcasts</a> &middot;
           <a href="{{ site.data.links.spotify | escape }}" target="_blank" rel="noopener">Spotify</a> &middot;

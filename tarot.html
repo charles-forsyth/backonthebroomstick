@@ -6,9 +6,13 @@ lead: Breathe. Hold your question in mind. Then draw. A quarter of cards come up
 permalink: /tarot/
 wide: true
 ---
-<div class="cotd tarot-today panel">
-  <img data-card-img alt="" width="120" height="207" src="{{ '/assets/img/tarot/star.webp' | relative_url }}">
-  <div><p class="kicker">Today's card, the same for everyone today</p><h2 data-card-name></h2><p data-card-meaning class="muted"></p></div>
+<div class="tarot-big">
+  <div class="tcard big" data-flip data-tilt role="button" tabindex="0" aria-label="Today's card. Tap to turn it over.">
+    <span class="tcard-in"><span class="tcard-face"><img data-card-img alt="" width="720" height="1230" src="{{ '/assets/img/tarot/star.webp' | relative_url }}"></span><span class="tcard-back" aria-hidden="true"></span></span>
+    <span class="tcard-refl" aria-hidden="true"><img data-card-img alt="" width="720" height="1230" src="{{ '/assets/img/tarot/star.webp' | relative_url }}"></span>
+  </div>
+  <div><p class="kicker">Today's card, the same for everyone today</p><h2 data-card-name></h2><p data-card-meaning class="muted"></p>
+    <p class="tcard-hint">Drag the card to turn it; tap to see its back.</p></div>
 </div>
 
 <h2>Past, present, path</h2>

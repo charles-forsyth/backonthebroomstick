@@ -58,6 +58,12 @@
     return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" aria-hidden="true"><circle cx="${r}" cy="${r}" r="${r - 0.5}" class="moon-dark"/><path d="${d}" class="moon-lit"/></svg>`;
   }
 
+  // The real Moon (30 Blender renders from NASA LRO/LOLA maps, shared with the app): nearest step to the phase.
+  function moonImg(f, size, base, big) {
+    const i = Math.round((((f % 1) + 1) % 1) * 30) % 30, n = String(i).padStart(2, '0');
+    return `<img class="moon-img" src="${base || ''}/assets/img/${big ? 'moonbig' : 'moon'}/moon_${n}.webp" width="${size}" height="${size}" alt="" loading="lazy">`;
+  }
+
   function nextSabbat(now) {
     const y = now.getFullYear(), today = new Date(y, now.getMonth(), now.getDate());
     const all = SABBATS.flatMap(([n, m, d, b]) => [y, y + 1].map((yy) => ({ n, b, dt: new Date(yy, m - 1, d) })));
@@ -71,5 +77,5 @@
     return CARDS[(day * 7) % CARDS.length];
   }
 
-  root.BotbSky = { SABBATS, CARDS, moon, moonSVG, nextSabbat, cardOfDay };
+  root.BotbSky = { SABBATS, CARDS, moon, moonSVG, moonImg, nextSabbat, cardOfDay };
 })(typeof window !== 'undefined' ? window : globalThis);

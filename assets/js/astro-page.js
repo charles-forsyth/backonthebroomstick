@@ -2,6 +2,8 @@
    Birth details live only in this page (and localStorage if the visitor ticks "Remember me"). */
 (function () {
   'use strict';
+  // 3D silver sign glyphs rendered in Blender for the app (assets/img/astro3d); the font glyph is the fallback.
+  const i3d = (s) => `<img class="i3d" src="${(window.BOTB || { base: '' }).base}/assets/img/astro3d/sign_${s.key}.webp" alt="" width="256" height="256" loading="lazy">`;
   const E = window.BotbAstro, R = window.BotbReading, V = window.BotbSky3D, B0 = window.BOTB || { base: '' };
   const root = document.querySelector('[data-astro]');
   if (!root || !E || !R || !V) return;
@@ -296,7 +298,7 @@
 
   /* ---------- SIGNS ---------- */
   const TAROT = { aries: ['emperor', 'The Emperor'], taurus: ['hierophant', 'The Hierophant'], gemini: ['lovers', 'The Lovers'], cancer: ['chariot', 'The Chariot'], leo: ['strength', 'Strength'], virgo: ['hermit', 'The Hermit'], libra: ['justice', 'Justice'], scorpio: ['death', 'Death'], sagittarius: ['temperance', 'Temperance'], capricorn: ['devil', 'The Devil'], aquarius: ['star', 'The Star'], pisces: ['moon', 'The Moon'] };
-  $('[data-sign-strip]').innerHTML = E.SIGNS.map((s) => `<button type="button" role="listitem" class="sign-chip el-${s.element.toLowerCase()}" data-sign="${s.key}" aria-label="${s.label}">${vs(s.glyph)}<small>${s.label}</small></button>`).join('');
+  $('[data-sign-strip]').innerHTML = E.SIGNS.map((s) => `<button type="button" role="listitem" class="sign-chip el-${s.element.toLowerCase()}" data-sign="${s.key}" aria-label="${s.label}">${i3d(s)}<small>${s.label}</small></button>`).join('');
   $('[data-sign-strip]').addEventListener('click', (e) => { const b = e.target.closest('[data-sign]'); if (b) renderSign(E.SIGNS.find((s) => s.key === b.dataset.sign)); });
   async function renderSign(s) {
     const I = await get('interpretations.json'), sj = I.signs[s.key], t = TAROT[s.key];
@@ -304,11 +306,11 @@
     const rulers = s.key === 'scorpio' ? 'Mars and Pluto' : s.key === 'aquarius' ? 'Saturn and Uranus' : s.key === 'pisces' ? 'Jupiter and Neptune' : E.B[s.ruler].label;
     const prev = E.SIGNS[(s.i + 11) % 12], next = E.SIGNS[(s.i + 1) % 12];
     const list = (k, title) => sj[k] ? `<div><p class="kicker">${title}</p><p>${esc(Array.isArray(sj[k]) ? sj[k].join(', ') : sj[k])}</p></div>` : '';
-    $('[data-sign-page]').innerHTML = `<div class="sign-top"><span class="sign-big el-${s.element.toLowerCase()}">${vs(s.glyph)}</span><div><p class="kicker">${s.dates}</p><h2 class="astro-h">${s.label}</h2>
+    $('[data-sign-page]').innerHTML = `<div class="sign-top"><span class="sign-big el-${s.element.toLowerCase()}">${i3d(s)}</span><div><p class="kicker">${s.dates}</p><h2 class="astro-h">${s.label}</h2>
       <p class="muted">${s.element} &middot; ${s.modality} &middot; ruled by ${rulers}</p><p class="sign-motto">\u201C${esc(sj.motto)}\u201D</p></div></div>
       <div class="sign-body"><div>${sj.profile.split('\n\n').map((p) => `<p>${esc(p)}</p>`).join('')}${sj.body ? `<p>${esc(sj.body)}</p>` : ''}
       ${sj.shadow ? `<p class="kicker ember-k">When it's out of balance</p><p>${esc(sj.shadow)}</p>` : ''}</div>
-      <aside class="sign-side"><figure class="sign-tarot"><img src="${url('/assets/img/tarot/' + t[0] + '.webp')}" alt="${esc(t[1])}" loading="lazy" width="150" height="260"><figcaption><small>Tarot</small>${esc(t[1])}${typeof sj.tarot === 'string' ? `<span>${esc(sj.tarot)}</span>` : ''}</figcaption></figure>
+      <aside class="sign-side"><figure class="sign-tarot"><img src="${url('/assets/img/tarot/' + t[0] + '.webp')}" alt="${esc(t[1])}" loading="lazy" width="150" height="260"><figcaption><small>Tarot</small>${esc(t[1])}${typeof sj.tarot === 'string' && sj.tarot.toLowerCase() !== String(t[1]).toLowerCase() && sj.tarot.toLowerCase() !== t[0] ? `<span>${esc(sj.tarot)}</span>` : ''}</figcaption></figure>
       ${list('keywords', 'Keywords')}${list('crystals', 'Crystals')}${list('herbs', 'Herbs')}${list('colours', 'Colours')}</aside></div>
       <div data-sign-w></div>
       <p class="sign-nav"><button type="button" class="linkish" data-sign-go="${prev.key}">&lsaquo; ${prev.label}</button><button type="button" class="linkish" data-sign-go="${next.key}">${next.label} &rsaquo;</button></p>`;
@@ -352,18 +354,18 @@
       if (cv.width !== Math.round(w * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
       const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, w, h);
       const hy = toScreen(finder.az, 0, w, h)[1];
-      const sky = g.createLinearGradient(0, 0, 0, h); sky.addColorStop(0, '#07050d'); sky.addColorStop(1, '#1b1030'); g.fillStyle = sky; g.fillRect(0, 0, w, h);
-      for (const st of fstars) { const p = toScreen(st[0], st[1], w, h); if (p[2] && p[1] < hy) { g.fillStyle = `rgba(238,228,211,${0.15 + 0.55 * st[2]})`; g.beginPath(); g.arc(p[0], p[1], 0.5 + st[2], 0, Math.PI * 2); g.fill(); } }
+      const sky = g.createLinearGradient(0, 0, 0, h); sky.addColorStop(0, V.colors.bg); sky.addColorStop(1, V.colors.plate0 || '#0B0F18'); g.fillStyle = sky; g.fillRect(0, 0, w, h);
+      for (const st of fstars) { const p = toScreen(st[0], st[1], w, h); if (p[2] && p[1] < hy) { g.fillStyle = `rgba(255,255,255,${0.15 + 0.55 * st[2]})`; g.beginPath(); g.arc(p[0], p[1], 0.5 + st[2], 0, Math.PI * 2); g.fill(); } }
       // altitude rings every 30 degrees, faint
-      g.setLineDash([2, 6]); g.strokeStyle = 'rgba(166,127,216,0.25)'; g.lineWidth = 1;
-      for (const a of [30, 60]) { const y = toScreen(finder.az, a, w, h)[1]; if (y > 0 && y < h) { g.beginPath(); g.moveTo(0, y); g.lineTo(w, y); g.stroke(); g.font = "10px 'JetBrains Mono', monospace"; g.fillStyle = 'rgba(176,163,191,0.7)'; g.textAlign = 'left'; g.fillText(a + '\u00B0', 6, y - 4); } }
+      g.setLineDash([2, 6]); g.strokeStyle = 'rgba(156,196,255,0.22)'; g.lineWidth = 1;
+      for (const a of [30, 60]) { const y = toScreen(finder.az, a, w, h)[1]; if (y > 0 && y < h) { g.beginPath(); g.moveTo(0, y); g.lineTo(w, y); g.stroke(); g.font = "10px Inter, sans-serif"; g.fillStyle = V.colors.muted; g.textAlign = 'left'; g.fillText(a + '\u00B0', 6, y - 4); } }
       g.setLineDash([]);
       const ground = g.createLinearGradient(0, hy, 0, h); ground.addColorStop(0, 'rgba(26,18,10,0.92)'); ground.addColorStop(1, 'rgba(8,6,4,0.97)');
       g.fillStyle = ground; g.fillRect(0, hy, w, h - hy);
-      g.font = "10px 'JetBrains Mono', monospace"; g.fillStyle = 'rgba(176,163,191,0.6)'; g.textAlign = 'left'; if (hy < h - 30) g.fillText('BELOW THE HORIZON', 8, h - 10);
-      g.strokeStyle = 'rgba(217,167,74,0.6)'; g.lineWidth = 1.2; g.beginPath(); g.moveTo(0, hy); g.lineTo(w, hy); g.stroke();
-      for (let a = 0; a < 360; a += 15) { const p = toScreen(a, 0, w, h); if (!p[2]) continue; g.strokeStyle = 'rgba(217,167,74,0.6)'; g.beginPath(); g.moveTo(p[0], hy); g.lineTo(p[0], hy + (a % 45 ? 5 : 10)); g.stroke(); }
-      [['N', 0], ['NE', 45], ['E', 90], ['SE', 135], ['S', 180], ['SW', 225], ['W', 270], ['NW', 315]].forEach(([t, a]) => { const p = toScreen(a, 0, w, h); if (p[2]) { g.font = "600 13px 'JetBrains Mono', monospace"; g.fillStyle = '#d9a74a'; g.textAlign = 'center'; g.fillText(t, p[0], hy + 24); } });
+      g.font = "10px Inter, sans-serif"; g.fillStyle = V.colors.muted; g.textAlign = 'left'; if (hy < h - 30) g.fillText('BELOW THE HORIZON', 8, h - 10);
+      g.strokeStyle = V.colors.gold; g.lineWidth = 1.2; g.beginPath(); g.moveTo(0, hy); g.lineTo(w, hy); g.stroke();
+      for (let a = 0; a < 360; a += 15) { const p = toScreen(a, 0, w, h); if (!p[2]) continue; g.strokeStyle = V.colors.gold; g.beginPath(); g.moveTo(p[0], hy); g.lineTo(p[0], hy + (a % 45 ? 5 : 10)); g.stroke(); }
+      [['N', 0], ['NE', 45], ['E', 90], ['SE', 135], ['S', 180], ['SW', 225], ['W', 270], ['NW', 315]].forEach(([t, a]) => { const p = toScreen(a, 0, w, h); if (p[2]) { g.font = "600 13px Inter, sans-serif"; g.fillStyle = V.colors.gold; g.textAlign = 'center'; g.fillText(t, p[0], hy + 24); } });
       const now = new Date(); let best = null, bd = 1e9;
       for (const b of E.BODIES) {
         if (b.key === 'node') continue;
@@ -373,12 +375,12 @@
         g.globalAlpha = below ? 0.45 : 1;
         const grd = g.createRadialGradient(p[0], p[1], 0, p[0], p[1], r * 2.4); grd.addColorStop(0, V.colors.body[b.key]); grd.addColorStop(0.4, V.colors.body[b.key]); grd.addColorStop(1, 'rgba(0,0,0,0)');
         g.fillStyle = grd; g.beginPath(); g.arc(p[0], p[1], r * 2.4, 0, Math.PI * 2); g.fill();
-        g.font = "15px 'Astro Glyphs', serif"; g.fillStyle = '#eee4d3'; g.textAlign = 'center'; g.fillText(b.glyph + '\uFE0E', p[0], p[1] - r - 8);
-        g.font = "11px 'JetBrains Mono', monospace"; g.fillStyle = '#b0a3bf'; g.fillText(b.label + (below ? ' (below)' : ''), p[0], p[1] + r + 16);
+        g.font = "15px 'Astro Glyphs', serif"; g.fillStyle = V.colors.text; g.textAlign = 'center'; g.fillText(b.glyph + '\uFE0E', p[0], p[1] - r - 8);
+        g.font = "11px Inter, sans-serif"; g.fillStyle = V.colors.muted; g.fillText(b.label + (below ? ' (below)' : ''), p[0], p[1] + r + 16);
         g.globalAlpha = 1;
         const d = (p[0] - w / 2) ** 2 + (p[1] - h / 2) ** 2; if (d < bd) { bd = d; best = { b, hz }; }
       }
-      g.strokeStyle = 'rgba(238,228,211,0.4)'; g.beginPath(); g.arc(w / 2, h / 2, 16, 0, Math.PI * 2); g.stroke();
+      g.strokeStyle = 'rgba(255,255,255,0.4)'; g.beginPath(); g.arc(w / 2, h / 2, 16, 0, Math.PI * 2); g.stroke();
       if (best && bd < 120 * 120) {
         const pos = E.position(best.b.key, now), dir = ['north', 'northeast', 'east', 'southeast', 'south', 'southwest', 'west', 'northwest'][Math.round(best.hz.az / 45) % 8];
         hud.innerHTML = `<b>${vs(best.b.glyph)} ${best.b.label} in ${pos.sign.label}</b> ${E.fmtDeg(pos.degInSign)}${pos.retro ? ' &middot; retrograde' : ''} &middot; ${Math.abs(Math.round(best.hz.alt))}&deg; ${best.hz.alt >= 0 ? 'above' : 'below'} the horizon, toward the ${dir}`;
