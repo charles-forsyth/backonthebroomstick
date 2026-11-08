@@ -45,7 +45,7 @@ pull requests here.
 
 ## How it is built
 
-Plain Jekyll on GitHub Pages, one theme (Midnight Grimoire) in `assets/css/grimoire.css`, no build tools.
+Plain Jekyll on GitHub Pages, one stylesheet (the Hybrid look shared with the Hedge Almanac app, three Looks) in `assets/css/grimoire.css`, no build tools.
 Episode data is generated, not hand-edited:
 
 ```bash
@@ -71,5 +71,5 @@ See `docs/SPEC.md` for the full design. The archive service has its own spec in 
 
 ## Credits
 
-Tarot images: the public-domain Rider-Waite-Smith deck (Pamela Colman Smith, 1909). Episode text and audio belong to
+Tarot images: the 1909 deck by Pamela Colman Smith (public domain). Episode text and audio belong to
 Back on the Broomstick.

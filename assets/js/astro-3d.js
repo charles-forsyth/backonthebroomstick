@@ -10,6 +10,18 @@
     element: { Fire: '#e08a4f', Earth: '#9db07a', Air: '#b9c6e8', Water: '#7fa6d8' },
     aspect: { conjunction: '#d9a74a', trine: '#a67fd8', sextile: '#a67fd8', square: '#c4584a', opposition: '#c4584a' }
   };
+  // The app's Hybrid palette (site 0.13): 'gold' is now the look's silver and 'amethyst' its accent, read from the
+  // CSS tokens so the canvases follow Settings > Look. Redrawn on the botb:look event.
+  function theme() {
+    const cs = root.getComputedStyle ? root.getComputedStyle(document.documentElement) : null;
+    const v = (n, d) => { const x = cs && cs.getPropertyValue(n).trim(); return /^#[0-9a-f]{6}$/i.test(x) ? x : d; };
+    C.gold = v('--silver', '#DCE4F2'); C.amethyst = v('--accent', '#4C8DFF'); C.text = v('--text', '#FFFFFF'); C.muted = v('--muted', '#8B97AB');
+    C.line = v('--line-strong', '#26324D'); C.bg = v('--bg', '#05070D'); C.ember = v('--danger', '#C4584A');
+    C.plate0 = v('--panel', '#0B0F18'); C.plate1 = v('--bg2', '#080B13');
+    C.body.node = C.gold;
+    C.aspect = { conjunction: C.gold, trine: C.amethyst, sextile: C.amethyst, square: C.ember, opposition: C.ember };
+  }
+  if (typeof document !== 'undefined') { theme(); document.addEventListener('botb:look', theme); }
   const GLYPH_FONT = "'Astro Glyphs', 'Noto Sans Symbols', 'Segoe UI Symbol', serif";
   const vs = (s) => s + '\uFE0E';
   const rgba = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`; };
@@ -84,7 +96,7 @@
       // stars
       for (let i = 0; i < 260; i++) {
         const d = cam.project(stars[i * 4], stars[i * 4 + 1], stars[i * 4 + 2], tmp); if (d <= 0.5) continue;
-        const b = stars[i * 4 + 3]; g.fillStyle = rgba('#eee4d3', 0.18 + 0.55 * b); g.beginPath(); g.arc(tmp[0], tmp[1], (0.6 + b) * 0.8, 0, TAU); g.fill();
+        const b = stars[i * 4 + 3]; g.fillStyle = rgba(C.text, 0.18 + 0.55 * b); g.beginPath(); g.arc(tmp[0], tmp[1], (0.6 + b) * 0.8, 0, TAU); g.fill();
       }
       // zodiac band
       const r1 = 9.8, r2 = 11;
@@ -144,8 +156,8 @@
         let yy = y - pr - 11, tries = 0;
         while (tries < 6 && placed.some((q) => Math.abs(q[0] - x) < 26 && Math.abs(q[1] - yy) < 16)) { yy -= 15; tries++; }
         placed.push([x, yy]);
-        g.strokeStyle = 'rgba(238,228,211,0.18)'; g.lineWidth = 0.7; g.beginPath(); g.moveTo(x, y - pr); g.lineTo(x, yy + 7); g.stroke();
-        glyphAt(g, E.B[b.key].glyph + (b.retro ? '\u211E' : ''), x, yy, 13, b.retro ? '#ee9a88' : 'rgba(238,228,211,0.9)');
+        g.strokeStyle = rgba(C.text, 0.18); g.lineWidth = 0.7; g.beginPath(); g.moveTo(x, y - pr); g.lineTo(x, yy + 7); g.stroke();
+        glyphAt(g, E.B[b.key].glyph + (b.retro ? '\u211E' : ''), x, yy, 13, b.retro ? rgba(C.ember, 0.95) : rgba(C.text, 0.9));
       }
     }
     function drawMoonPhase(g, x, y, r, sunLon, moonLon, ang) {
@@ -254,6 +266,7 @@
       stop() { cancelAnimationFrame(raf); }
     };
     function kick() { if (!raf) raf = requestAnimationFrame(loop); }
+    document.addEventListener('botb:look', () => kick());
     let lastT = 0;
     function loop(t) {
       const dt = lastT ? Math.min(50, t - lastT) : 16; lastT = t;
@@ -284,12 +297,12 @@
         for (let k = 0; k < 144; k++) {
           const l0 = k * 2.5, l1 = (k + 1) * 2.5, a = at(1, l0), b = at(1, l1), a2 = at(1, l0, -0.07), b2 = at(1, l1, -0.07);
           const shade = (0.35 + 0.45 * ((Math.cos(ang(l0) + 0.8) + 1) / 2)) * tilt;
-          g.fillStyle = mix('#3b2a12', C.gold, shade * 0.6); g.globalAlpha = tilt;
+          g.fillStyle = mix(C.bg, C.gold, shade * 0.6); g.globalAlpha = tilt;
           g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.lineTo(b2[0], b2[1]); g.lineTo(a2[0], a2[1]); g.closePath(); g.fill(); g.globalAlpha = 1;
         }
       }
       path(1); g.closePath();
-      const plate = g.createRadialGradient(c.x, c.y, 0, c.x, c.y, r * 1.1); plate.addColorStop(0, '#241a38'); plate.addColorStop(0.75, '#181026'); plate.addColorStop(1, '#120d1a');
+      const plate = g.createRadialGradient(c.x, c.y, 0, c.x, c.y, r * 1.1); plate.addColorStop(0, mix(C.plate0, '#ffffff', 0.06)); plate.addColorStop(0.75, C.plate0); plate.addColorStop(1, C.bg);
       g.fillStyle = plate; g.fill();
       for (let s = 0; s < 12; s++) {
         const sign = E.SIGNS[s];
@@ -330,15 +343,15 @@
       const gsize = Math.max(14, r * 0.085);
       for (const i of order) {
         const k = keys[i], p = chart.pos[k], sel = k === hl;
-        line(at(0.84, p.lon), at(0.795, p.lon), 'rgba(238,228,211,0.75)', 1.4);
-        line(at(0.795, p.lon), at(0.745, disp[i]), 'rgba(238,228,211,0.22)', 0.8);
+        line(at(0.84, p.lon), at(0.795, p.lon), rgba(C.text, 0.75), 1.4);
+        line(at(0.795, p.lon), at(0.745, disp[i]), rgba(C.text, 0.22), 0.8);
         const base = at(0.69, disp[i]), sc = depthScale(0.69, disp[i]);
         if (tilt > 0.05) {
           const lift = (0.12 + 0.07 * (i % 3)) * tilt, top = at(0.69, disp[i], lift), rad = r * 0.042 * sc * sc * (0.5 + 0.5 * tilt);
           const sx = base[0] + rad * 0.5, sy = base[1] + rad * 0.15;
           const sh = g.createRadialGradient(sx, sy, 0, sx, sy, rad * 1.4); sh.addColorStop(0, `rgba(0,0,0,${0.6 * tilt})`); sh.addColorStop(1, 'rgba(0,0,0,0)');
           g.fillStyle = sh; g.beginPath(); g.ellipse(sx, sy, rad * 1.4, rad * 0.5, 0, 0, TAU); g.fill();
-          line(base, top, `rgba(90,67,24,${0.9 * tilt})`, 2.2 * sc);
+          line(base, top, rgba(C.gold, 0.4 * tilt), 2.2 * sc);
           line([base[0] - 0.6, base[1]], [top[0] - 0.6, top[1]], rgba(C.gold, 0.8 * tilt), 0.8 * sc);
           g.fillStyle = rgba(C.gold, 0.7 * tilt); g.beginPath(); g.arc(base[0], base[1], 1.6 * sc, 0, TAU); g.fill();
           const bc = C.body[k], cx = top[0] - rad * 0.38, cy = top[1] - rad * 0.42, grd = g.createRadialGradient(cx, cy, 0, cx, cy, rad * 1.65);
@@ -348,7 +361,7 @@
           if (k === 'sun') { const s2 = g.createRadialGradient(top[0], top[1], 0, top[0], top[1], rad * 3); s2.addColorStop(0, 'rgba(255,210,122,0.4)'); s2.addColorStop(1, 'rgba(255,210,122,0)'); g.fillStyle = s2; g.beginPath(); g.arc(top[0], top[1], rad * 3, 0, TAU); g.fill(); }
           if (sel) { g.strokeStyle = C.gold; g.lineWidth = 1.6; g.beginPath(); g.arc(top[0], top[1], rad + 3, 0, TAU); g.stroke(); }
           const gy = top[1] - rad - 10 * sc;
-          g.fillStyle = 'rgba(18,13,26,0.8)'; g.beginPath(); g.arc(top[0], gy, 9 * sc, 0, TAU); g.fill();
+          g.fillStyle = rgba(C.bg, 0.8); g.beginPath(); g.arc(top[0], gy, 9 * sc, 0, TAU); g.fill();
           glyphAt(g, E.B[k].glyph, top[0], gy, 13 * sc, p.retro ? C.ember : C.text);
         } else {
           if (sel) { g.fillStyle = rgba(C.gold, 0.25); g.beginPath(); g.arc(base[0], base[1], gsize * 0.85, 0, TAU); g.fill(); }

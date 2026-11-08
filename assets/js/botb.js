@@ -12,12 +12,16 @@
   const epUrl = (e) => url('/episodes/' + e.slug + '/');
   const tag = (show) => `<span class="tag ${show}">${show === 'swh' ? 'SWH' : 'BotB'}</span>`;
   let EPS = null;
+  const aiArt = () => document.documentElement.dataset.aiart !== 'off';
+  const cauldron = () => (aiArt() ? `<img class="cauldron" src="${url('/assets/img/brand/cauldron.webp')}" alt="" width="150" height="150" loading="lazy">` : '');
+  const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   const episodes = () => (EPS ||= fetch(url('/assets/js/episodes.json')).then((r) => r.json()));
 
   /* ---------- Tonight's sky (home hero, wheel page, tarot page) ---------- */
   function sky() {
     const now = new Date(), m = S.moon(now), s = S.nextSabbat(now), c = S.cardOfDay(now);
-    $$('[data-moon-disc]').forEach((el) => (el.innerHTML = S.moonSVG(m.f, +el.dataset.moonDisc || 54)));
+    $$('[data-moon-disc]').forEach((el) => (el.innerHTML = S.moonImg(m.f, +el.dataset.moonDisc || 54, B.base)));
+    $$('[data-today-date]').forEach((el) => (el.textContent = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })));
     $$('[data-moon-name]').forEach((el) => (el.textContent = m.name));
     $$('[data-moon-lit]').forEach((el) => (el.textContent = Math.round(m.lit * 100) + '% lit'));
     $$('[data-sabbat-name]').forEach((el) => (el.textContent = s.n));
@@ -80,15 +84,15 @@
         h += `<line x1="${C + 58 * Math.cos(a)}" y1="${C + 58 * Math.sin(a)}" x2="${x}" y2="${y}" class="spoke"/>`;
         h += `<g class="node" data-n="${n}" tabindex="0" role="button" aria-label="${n}, ${by[n].length} episodes"><circle cx="${x}" cy="${y}" r="17"/>
               <text x="${x}" y="${y + 4}" text-anchor="middle">${by[n].length}</text>
-              <text x="${C + (R + 34) * Math.cos(a)}" y="${C + (R + 34) * Math.sin(a) + 4}" text-anchor="middle" class="lbl">${n}</text></g>`;
+              <text x="${C + (R + 34 + 14 * Math.abs(Math.cos(a))) * Math.cos(a)}" y="${C + (R + 34) * Math.sin(a) + 4}" text-anchor="middle" class="lbl">${n}</text></g>`;
       });
       h += `<text x="${C}" y="${C - 4}" text-anchor="middle" class="hub">${all.length}</text><text x="${C}" y="${C + 14}" text-anchor="middle" class="hub-sub">episodes</text>`;
-      svg.setAttribute('viewBox', '-30 -10 380 340');
+      svg.setAttribute('viewBox', '-44 -10 408 340');
       svg.innerHTML = h;
       function pick(n, push) {
         $$('.node', svg).forEach((g) => g.classList.toggle('on', g.dataset.n === n));
         const s = S.SABBATS.find((x) => x[0] === n);
-        panel.innerHTML = `<h3>${n}</h3><p class="muted">${esc(s[3])}</p><ul class="eplist">${by[n].map((e) =>
+        panel.innerHTML = (aiArt() ? `<img class="wheel-scene" src="${url('/assets/img/sabbat/' + n.toLowerCase() + '.webp')}" alt="" width="1080" height="1935" loading="lazy">` : '') + `<h3>${n}</h3><p class="muted">${esc(s[3])}</p><ul class="eplist">${by[n].map((e) =>
           `<li>${tag(e.show)} <a href="${epUrl(e)}">${esc(e.title)}</a> <span class="muted">${fmt(e.date)}</span></li>`).join('')}</ul>`;
         if (push) history.replaceState(null, '', '#' + n.toLowerCase());
       }
@@ -96,6 +100,7 @@
       svg.addEventListener('keydown', (e) => { const g = e.target.closest('.node'); if (g && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); pick(g.dataset.n, true); } });
       const fromHash = order.find((n) => n.toLowerCase() === location.hash.slice(1).toLowerCase());
       pick(fromHash || S.nextSabbat(new Date()).n, false);
+      wheelRefresh = () => pick(($('.node.on', svg) || {}).dataset?.n || S.nextSabbat(new Date()).n, false);
     }));
   }
 
@@ -115,9 +120,11 @@
           ws.every((w) => (e.title + ' ' + e.notes + ' ' + (e.guests || []).join(' ')).toLowerCase().includes(w)));
         chips.forEach((c) => c.classList.toggle('on', c.dataset.show === show));
         line.textContent = `${hit.length} of ${all.length} episodes${show !== 'all' ? (show === 'swh' ? ' of The Stoned Witches Hour' : ' of Back on the Broomstick') : ''}${ws.length ? ' matching "' + input.value.trim() + '"' : ''}`;
-        list.innerHTML = hit.slice(0, 400).map((e) => `<li><span class="d">${fmt(e.date)}</span><div>
+        list.innerHTML = hit.slice(0, 400).map((e) => `<li class="${e.show}"><span class="d">${fmt(e.date)}</span><div>
           <a class="t" href="${epUrl(e)}">${tag(e.show)} ${e.number ? e.number + ': ' : ''}${mark(e.title, ws)}</a>
-          <span class="n">${mark(e.notes.slice(0, 180).replace(/\s+\S*$/, ''), ws)}...</span></div></li>`).join('');
+          <span class="n">${mark(e.notes.slice(0, 180).replace(/\s+\S*$/, ''), ws)}...</span></div>
+          <a class="jewel" href="${epUrl(e)}?play=1" aria-label="Play ${esc(e.title)}"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></a></li>`).join('')
+          || `<li class="empty">${cauldron()}<p class="center muted">Nothing in the cauldron for that. Try other words, or <a href="${url('/ask/')}?q=${encodeURIComponent(input.value)}">ask the archive</a>.</p></li>`;
         const q = new URLSearchParams();
         if (input.value.trim()) q.set('q', input.value.trim());
         if (show !== 'all') q.set('show', show);
@@ -158,7 +165,7 @@
           const d = await r.json();
           out.innerHTML = (d.passages || []).map((p) => `<article class="hit"><div class="hit-meta">${tag(p.show)} ${esc(p.episode)} <span class="muted">&middot; ${fmt(p.date)}</span></div>
             <p class="hit-text">"${esc(p.text.slice(0, 420).trim())}..."</p><a class="hit-link" href="${esc(p.url)}" target="_blank" rel="noopener">&#9654; Listen from this moment</a></article>`).join('')
-            || '<p class="muted">Nothing found. Try other words.</p>';
+            || cauldron() + '<p class="muted center">Nothing in the cauldron for that. Try other words.</p>';
         } catch (e) {
           out.innerHTML = '<p class="ask-note">The archive did not answer. Try again in a moment.</p>';
         }
@@ -238,6 +245,77 @@
     $$('[data-events]').forEach((s) => { if (!$('.event', s)) s.remove(); });
   }
 
+
+  /* ---------- Looks (app Settings > Look): Original, Moonlit, Stoned Witches 18+; AI-art switch ---------- */
+  function looks() {
+    const H = document.documentElement, btn = $('[data-look-btn]'), box = $('[data-looks]');
+    if (!btn || !box) return;
+    const get = (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+    const put = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+    const adult = $('[data-adult-toggle]', box), ai = $('[data-aiart-toggle]', box);
+    function paint() {
+      const isAdult = get('botb.adult') === '1';
+      adult.checked = isAdult; ai.checked = H.dataset.aiart !== 'off';
+      let l = get('botb.look') || 'original'; if (l === 'swh' && !isAdult) l = 'original';
+      H.dataset.look = l;
+      $$('[data-look-pick]', box).forEach((r) => { r.setAttribute('aria-checked', String(r.dataset.lookPick === l)); if (r.dataset.lookPick === 'swh') r.disabled = !isAdult; });
+      $('[data-swh-note]', box).textContent = isAdult ? 'Green-black, sage, smoke and leaves' : 'Tick "I am 18 or older" below to unlock';
+      hero(); document.dispatchEvent(new CustomEvent('botb:look'));
+    }
+    btn.addEventListener('click', (e) => { e.stopPropagation(); box.hidden = !box.hidden; btn.setAttribute('aria-expanded', String(!box.hidden)); });
+    document.addEventListener('click', (e) => { if (!box.hidden && !e.target.closest('[data-looks]')) { box.hidden = true; btn.setAttribute('aria-expanded', 'false'); } });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !box.hidden) { box.hidden = true; btn.setAttribute('aria-expanded', 'false'); btn.focus(); } });
+    $$('[data-look-pick]', box).forEach((r) => r.addEventListener('click', () => { put('botb.look', r.dataset.lookPick); paint(); }));
+    adult.addEventListener('change', () => { put('botb.adult', adult.checked ? '1' : '0'); paint(); });
+    ai.addEventListener('change', () => { put('botb.aiart', ai.checked ? 'on' : 'off'); H.dataset.aiart = ai.checked ? 'on' : 'off'; paint(); wheelRefresh(); });
+    paint();
+  }
+
+  /* ---------- Today hero: pentacle (Original), tonight's real Moon (Moonlit, SWH), sabbat painting on the day ---------- */
+  function hero() {
+    const box = $('[data-hero]');
+    if (!box) return;
+    const now = new Date(), s = S.nextSabbat(now), m = S.moon(now), look = document.documentElement.dataset.look || 'original';
+    const moonBig = S.moonImg(m.f, 768, B.base, true).replace('moon-img', 'art-moon');
+    let html, kind;
+    if (s.days === 0 && aiArt()) { kind = 'sabbat'; html = `<img src="${url('/assets/img/sabbat/' + s.n.toLowerCase() + '.webp')}" alt="${esc(s.n)}" width="1080" height="1935">`; }
+    else if (look === 'original') { kind = 'pentacle'; html = aiArt()
+      ? `<img class="art-pentacle" src="${url('/assets/img/brand/hero_pentacle.webp')}" alt="" width="1400" height="1400">`
+      : `<img class="art-sigil" src="${url('/assets/img/brand/pentacle_glow.webp')}" alt="" width="1024" height="1024">`; }
+    else if (look === 'swh') { kind = 'swh'; html = moonBig + (aiArt() ? `<img class="art-wreath" src="${url('/assets/img/brand/swh_wreath.webp')}" alt="" width="1024" height="1024">` : '') + '<span class="smoke"><i></i><i></i><i></i></span>'; }
+    else { kind = 'moon'; html = moonBig; }
+    if (box.dataset.hero !== kind) { box.dataset.hero = kind; box.innerHTML = html; }
+    if (kind === 'sabbat') { const d = $('[data-today-date]'); if (d) d.textContent = 'Blessed ' + s.n + ' \u00b7 ' + now.toLocaleDateString('en-US', { month: 'long', day: 'numeric' }); }
+  }
+
+  /* ---------- Tarot frame: drag to turn, tap to flip (app TarotCard3D) ---------- */
+  function cards() {
+    $$('.tcard[data-flip]').forEach((c) => {
+      let x0 = null, moved = false;
+      const set = (ry) => c.style.setProperty('--ry', ry + 'deg');
+      c.addEventListener('pointerdown', (e) => { x0 = e.clientX; moved = false; c.setPointerCapture(e.pointerId); });
+      c.addEventListener('pointermove', (e) => { if (x0 === null) return; const dx = e.clientX - x0; if (Math.abs(dx) > 4) moved = true; set(Math.max(-35, Math.min(35, dx * 0.4))); });
+      const end = () => { if (x0 === null) return; x0 = null; set(0); if (!moved) c.classList.toggle('flipped'); };
+      c.addEventListener('pointerup', end); c.addEventListener('pointercancel', () => { x0 = null; set(0); });
+      c.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); c.classList.toggle('flipped'); } });
+      if (!reduced()) { let t = 0; const idle = () => { if (x0 === null && !document.hidden) { t += 0.016; c.style.setProperty('--ry', (Math.sin(t * 1.05) * 8).toFixed(2) + 'deg'); c.style.setProperty('--rx', '4deg'); } requestAnimationFrame(idle); }; requestAnimationFrame(idle); }
+    });
+  }
+
+  /* ---------- One-tap play: the jewel on Today, ?play=1 on episode pages ---------- */
+  function play() {
+    const j = $('[data-play-latest]'), a = $('[data-latest-audio]');
+    if (j && a) {
+      const icon = (p) => (j.innerHTML = p ? '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>' : '<svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg>');
+      j.addEventListener('click', () => (a.paused ? a.play() : a.pause()));
+      a.addEventListener('play', () => { icon(true); j.classList.add('playing'); j.setAttribute('aria-label', 'Pause'); });
+      a.addEventListener('pause', () => { icon(false); j.classList.remove('playing'); j.setAttribute('aria-label', 'Play the newest episode'); });
+    }
+    const p = $('.ep-player audio');
+    if (p && new URLSearchParams(location.search).get('play') === '1') { p.preload = 'metadata'; p.play().catch(() => {}); }
+  }
+
+  let wheelRefresh = () => {};
   /* ---------- Chrome ---------- */
   function chrome() {
     $$('[data-print]').forEach((b) => b.addEventListener('click', () => window.print())); // no inline handlers
@@ -271,5 +349,5 @@
     } else $$('.reveal').forEach((el) => el.classList.add('in'));
   }
 
-  document.addEventListener('DOMContentLoaded', () => { expiries(); chrome(); sky(); draw(); wheel(); browser(); ask(); blog(); share(); });
+  document.addEventListener('DOMContentLoaded', () => { expiries(); chrome(); sky(); looks(); hero(); cards(); play(); draw(); wheel(); browser(); ask(); blog(); share(); });
 })();

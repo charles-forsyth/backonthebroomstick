@@ -169,22 +169,42 @@ img { max-width: 100%; height: auto; }
   .slot, .card { width: 100px; } .card { height: 173px; }
   .ask form { flex-direction: column; }
 }
-/* ---------- Theme tokens: Midnight Grimoire - deep aubergine night, candle gold and amethyst, starfield, ornate serif.
-   Closest to Nordhaven's bones (dark bands, mono kickers) re-dressed for a witch's study at midnight. */
-body {
-  --bg: #120d1a; --bg2: #19122a; --panel: #211735; --line: #3a2a55;
-  --text: #eee4d3; --muted: #b0a3bf; --accent: #d9a74a; --accent2: #a67fd8; --on-accent: #1b1206;
-  --moon: #f3e6c4;
-  --f-display: 'Cormorant Garamond', Georgia, serif; --f-body: 'EB Garamond', Georgia, serif;
-  --f-ui: 'EB Garamond', Georgia, serif; --f-mono: 'JetBrains Mono', monospace;
-  --radius: 6px;
+/* ---------- Theme tokens: the Hybrid look, matching the Hedge Almanac app (site 0.13; app SPEC 12).
+   Three looks like the app's Settings > Look: Original (default), Moonlit, Stoned Witches (18+). The look is a
+   data-look attribute on <html>, set before first paint from localStorage (default.html). ---------- */
+:root, html[data-look="original"] {
+  --bg: #05070D; --bg2: #080B13; --panel: #0B0F18; --line: #182033; --line-strong: #26324D;
+  --text: #FFFFFF; --muted: #8B97AB; --kicker: #C9D4E4; --accent: #4C8DFF; --on-accent: #FFFFFF;
+  --swh: #6FBF73; --glow: #0E2A5C; --danger: #C4584A; --moon: #E6ECF5; --silver: #DCE4F2; --ice: #9CC4FF;
+  --card-hi: #13306A; --card-lo: #070C1C;
 }
-body h1 { font-family: 'Cinzel', 'Cormorant Garamond', serif; font-weight: 700; letter-spacing: 1px; font-variant-ligatures: no-common-ligatures no-discretionary-ligatures; font-feature-settings: 'liga' 0, 'dlig' 0; }
-body h1 em { font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+html[data-look="moonlit"] {
+  --bg: #03050C; --bg2: #060A16; --panel: #0A1022; --line: #16213F; --line-strong: #253662;
+  --muted: #8C9BB8; --kicker: #D2DDF0; --accent: #5A9CFF; --glow: #123574;
+  --silver: #E2EAF8; --ice: #A6CBFF; --card-hi: #173A80; --card-lo: #050A1A;
+}
+html[data-look="swh"] {
+  --bg: #040805; --bg2: #07100A; --panel: #0B170F; --line: #17291C; --line-strong: #26422F;
+  --text: #F4FAF3; --muted: #8EA594; --kicker: #CDE3CF; --accent: #7CCB80; --on-accent: #04140A;
+  --swh: #9BD99E; --glow: #123D1F; --moon: #E9F2E8; --silver: #DCEBDD; --ice: #A9E2AE;
+  --card-hi: #16452A; --card-lo: #050D07;
+}
+body {
+  --accent2: var(--swh);
+  --f-title: 'Cinzel', Georgia, serif;
+  --f-display: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; --f-body: var(--f-display);
+  --f-ui: var(--f-display); --f-mono: var(--f-display);
+  --radius: 14px; --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  font-size: 1rem; line-height: 1.6;
+}
+h1, h2 { font-family: var(--f-title); font-weight: 600; letter-spacing: 0.5px; font-variant-ligatures: no-common-ligatures no-discretionary-ligatures; font-feature-settings: 'liga' 0, 'dlig' 0; }
+h3 { font-weight: 600; letter-spacing: -0.1px; }
+body h1 { font-family: var(--f-title); font-weight: 600; letter-spacing: 1px; }
+body h1 em { font-family: var(--f-title); font-style: normal; color: var(--text); }
+.kicker { font-weight: 500; font-size: 0.72rem; letter-spacing: 2.5px; color: var(--kicker); }
 body .hero-bg {
   background:
-    radial-gradient(ellipse at 78% 18%, rgba(243, 230, 196, 0.16), transparent 40%),
-    radial-gradient(ellipse at 15% 90%, rgba(166, 127, 216, 0.22), transparent 50%),
+    radial-gradient(ellipse at 50% 28%, color-mix(in srgb, var(--glow) 85%, transparent), transparent 55%),
     radial-gradient(1px 1px at 12% 22%, #fff8, transparent),
     radial-gradient(1px 1px at 33% 12%, #fff6, transparent),
     radial-gradient(1.5px 1.5px at 52% 30%, #fff9, transparent),
@@ -213,20 +233,18 @@ body .hero-bg {
     radial-gradient(1.5px 1.5px at 36% 70%, #fff5, transparent),
     radial-gradient(1px 1px at 98% 55%, #fff6, transparent),
     radial-gradient(1px 1px at 14% 72%, #fff4, transparent),
-    linear-gradient(180deg, #0c0814, #120d1a 70%);
+    linear-gradient(180deg, var(--bg), var(--bg) 70%);
 }
-body .hero-bg::after { content: ''; position: absolute; right: 5%; top: 50%; transform: translateY(-50%); width: min(30rem, 46vw); aspect-ratio: 1; background: url('../img/hero-pentagram.webp') center / contain no-repeat; opacity: 0.12; pointer-events: none; }
-@media (max-width: 640px) { body .hero-bg::after { top: 24px; right: 4%; transform: none; width: 58vw; } }
 body .kicker::before { content: '\2726  '; }
-body .band.alt { background-image: radial-gradient(ellipse at 50% 0, rgba(166, 127, 216, 0.08), transparent 60%); }
-body .panel, body .wheel-panel { border-top: 3px solid var(--accent); }
-body .btn { border-radius: 4px; letter-spacing: 1px; text-transform: uppercase; font-size: 0.82rem; font-family: 'JetBrains Mono', monospace; }
-body .back { background: radial-gradient(circle, #2c1f47, #160f24); }
-body .back::before { content: ''; position: absolute; inset: 8px; border: 1px solid var(--accent); border-radius: 6px; opacity: 0.6; }
+body .band.alt { background-image: none; }
+body .btn { border-radius: 40px; letter-spacing: 0.2px; text-transform: none; font-size: 0.95rem; font-family: var(--f-ui); font-weight: 600; }
+body .back { background: radial-gradient(circle at 50% 42%, var(--card-hi), var(--card-lo) 78%); }
+body .back::before { content: ''; position: absolute; inset: 7px; border: 1px solid color-mix(in srgb, var(--silver) 55%, transparent); border-radius: 7px; }
+body .back::after { content: ''; position: absolute; inset: 16%; background: url('../img/brand/pentacle_glow.webp') center / contain no-repeat; filter: drop-shadow(0 0 10px color-mix(in srgb, var(--accent) 60%, transparent)); }
 
 /* ---------- Site pages (beyond the home page) ---------- */
 .page-hero { position: relative; padding: 80px 0 40px; border-bottom: 1px solid var(--line);
-  background: radial-gradient(ellipse at 80% 0, rgba(166, 127, 216, 0.16), transparent 55%), linear-gradient(180deg, #0c0814, var(--bg)); }
+  background: radial-gradient(ellipse at 50% 0, color-mix(in srgb, var(--glow) 70%, transparent), transparent 60%), var(--bg); }
 .page-hero h1 { font-family: 'Cinzel', 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.2rem); }
 .prose p { margin: 0 0 1.1em; }
 .prose h2 { margin-top: 1.4em; }
@@ -307,7 +325,7 @@ img.portrait.photo { object-fit: cover; padding: 0; border: 2px solid var(--acce
 .blog-lead { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 0; background: var(--panel); border: 1px solid var(--line); border-radius: calc(var(--radius) * 1.5); overflow: hidden; color: var(--text); margin: 0 0 40px; transition: border-color 0.2s, transform 0.2s; }
 .blog-lead:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
 .blog-lead img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 16 / 9; }
-.blog-lead-art { display: grid; place-items: center; min-height: 260px; background: radial-gradient(circle at 50% 40%, #2c1f47, #120d1a 70%); }
+.blog-lead-art { display: grid; place-items: center; min-height: 260px; background: radial-gradient(circle at 50% 40%, var(--card-hi), var(--bg) 70%); }
 .blog-lead-art .sigil { width: 7rem; height: 7rem; opacity: 0.5; }
 .blog-lead-body { padding: 30px 32px; align-self: center; }
 .blog-lead-body h2 { margin: 0 0 0.4em; }
@@ -361,7 +379,7 @@ img.portrait.photo { object-fit: cover; padding: 0; border: 2px solid var(--acce
   .post-nav { grid-template-columns: minmax(0, 1fr); }
   .post-nav-next { text-align: left; }
 }
-.blog-card-art { display: grid; place-items: center; aspect-ratio: 16 / 9; margin-bottom: 8px; padding: 0 !important; background: radial-gradient(circle at 50% 45%, #2c1f47, #160f24 72%); border-bottom: 1px solid var(--line); }
+.blog-card-art { display: grid; place-items: center; aspect-ratio: 16 / 9; margin-bottom: 8px; padding: 0 !important; background: radial-gradient(circle at 50% 45%, var(--card-hi), var(--card-lo) 72%); border-bottom: 1px solid var(--line); }
 .blog-card-art .sigil { width: 3.4rem; height: 3.4rem; opacity: 0.45; }
 .post-body > p.lead { color: color-mix(in srgb, var(--text) 82%, var(--muted)); font-size: 1.22rem; }
 .post-tags .chip { color: color-mix(in srgb, var(--text) 85%, var(--muted)); padding: 8px 15px; }
@@ -372,7 +390,7 @@ img.portrait.photo { object-fit: cover; padding: 0; border: 2px solid var(--acce
 .prose .blog-rss, .blog-rss { margin-top: 44px; }
 @media (max-width: 860px) { .blog-grid:has(> :nth-child(2):last-child), .blog-grid:has(> :only-child) { grid-template-columns: minmax(0, 1fr); } }
 /* covers that must show whole (portrait photos, charts, card spreads) sit on a dark panel instead of being cropped */
-.blog-card img.fit-contain, .blog-card-home img.fit-contain, .blog-lead img.fit-contain { object-fit: contain; background: radial-gradient(circle at 50% 45%, #2c1f47, #160f24 72%); }
+.blog-card img.fit-contain, .blog-card-home img.fit-contain, .blog-lead img.fit-contain { object-fit: contain; background: radial-gradient(circle at 50% 45%, var(--card-hi), var(--card-lo) 72%); }
 .post-cover.fit-contain { width: auto; max-width: 100%; max-height: 70vh; margin-inline: auto; display: block; }
 /* pictures inside a post: never taller than the screen */
 .post-body img { display: block; max-width: 100%; width: auto; max-height: 75vh; margin: 28px auto; border-radius: var(--radius); }
@@ -417,13 +435,13 @@ img.portrait.photo { object-fit: cover; padding: 0; border: 2px solid var(--acce
 .astro-tabs button[aria-selected='true'] { color: var(--accent); border-bottom-color: var(--accent); }
 .astro-tabs button:hover { color: var(--text); }
 .astro-h { font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin: 0 0 0.4em; }
-.orrery-wrap { position: relative; border: 1px solid var(--line); border-radius: calc(var(--radius) * 1.5); overflow: hidden; background: radial-gradient(ellipse at 50% 40%, #1d1330, #07050d 75%); }
+.orrery-wrap { position: relative; border: 1px solid var(--line); border-radius: calc(var(--radius) * 1.5); overflow: hidden; background: radial-gradient(ellipse at 50% 40%, color-mix(in srgb, var(--glow) 80%, var(--bg)), var(--bg) 75%); }
 .orrery { display: block; width: 100%; height: min(72vh, 620px); touch-action: none; cursor: grab; }
 .orrery:active { cursor: grabbing; }
 .orrery:focus-visible, .chart-wheel:focus-visible, .finder:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .orrery-pick { position: absolute; top: 14px; left: 14px; display: grid; gap: 2px; background: color-mix(in srgb, var(--panel) 88%, transparent); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 14px; backdrop-filter: blur(6px); max-width: 70%; }
 .orrery-pick b { font-family: var(--f-display); font-size: 1.15rem; }
-.orrery-time { position: absolute; left: 0; right: 0; bottom: 0; padding: 30px 16px 6px; background: linear-gradient(transparent, rgba(7, 5, 13, 0.85) 45%, rgba(7, 5, 13, 0.95)); pointer-events: none; }
+.orrery-time { position: absolute; left: 0; right: 0; bottom: 0; padding: 30px 16px 6px; background: linear-gradient(transparent, color-mix(in srgb, var(--bg) 85%, transparent) 45%, color-mix(in srgb, var(--bg) 95%, transparent)); pointer-events: none; }
 .orrery-time > * { pointer-events: auto; }
 .orrery-time-row { display: flex; gap: 10px; align-items: center; }
 .orrery-time input[type='range'] { flex: 1; accent-color: var(--accent); }
@@ -439,7 +457,7 @@ img.portrait.photo { object-fit: cover; padding: 0; border: 2px solid var(--acce
 .b3 .muted { font-family: var(--f-mono); font-size: 0.75rem; }
 .astro-facts { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; font-size: 0.98rem; }
 .astro-facts li::before { content: '\2726'; color: var(--accent); margin-right: 8px; font-size: 0.8em; }
-.ember { color: #ee9a88; }
+.ember { color: color-mix(in srgb, var(--danger) 70%, #fff); }
 .gold { color: var(--accent); }
 .astro-place { font-family: var(--f-mono); font-size: 0.78rem; color: var(--muted); margin: 14px 0 0; }
 .linkish { background: none; border: 0; padding: 0; font: inherit; color: var(--accent); cursor: pointer; }
@@ -552,3 +570,220 @@ img.portrait.photo { object-fit: cover; padding: 0; border: 2px solid var(--acce
   .sky-page .muted, .sky-page .fine { color: #444 !important; }
 }
 .ep-at { font-family: var(--f-mono); font-size: 0.78rem; color: var(--accent); margin: 4px 0 0; }
+
+/* ================= The Hybrid look, app parts (site 0.13). Ports of the Hedge Almanac app's Today hero, cards,
+   tarot frame, real moon, Looks picker and bottom bar. Everything still when reduced motion is on. ================= */
+/* top bar: app-style active pill, silver labels */
+.menu a, .dd-btn { font-weight: 500; letter-spacing: 1.2px; }
+.dd.here > .dd-btn, .menu .top-link[aria-current="page"] { color: var(--text); background: color-mix(in srgb, var(--accent) 20%, transparent); }
+.dd-panel { border-top: 1px solid var(--line-strong); border-color: var(--line-strong); border-radius: 16px; }
+.dd-panel a b { font-family: var(--f-ui); font-weight: 600; font-size: 1rem; }
+.brand { font-family: var(--f-title); font-size: 1.05rem; letter-spacing: 1.5px; text-transform: uppercase; }
+.sigil { background: var(--silver); filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 55%, transparent)); }
+.menu .btn-sm { border-radius: 30px; }
+.panel, .wheel-panel, .now-playing, .ep, .witch, .offer, .event, .stat, .rd, .blog-card, .blog-card-home, .blog-lead, .shop-item, .post-listen { border-color: var(--line-strong); border-radius: var(--radius); }
+body .panel, body .wheel-panel { border-top: 1px solid var(--line-strong); }
+.shop-item, .post-listen { border-top: 1px solid var(--line-strong); }
+.ep:hover, .blog-card:hover, .blog-card-home:hover, .blog-lead:hover { border-color: color-mix(in srgb, var(--accent) 70%, var(--line-strong)); }
+.ep-date, .eplist-full .d, .ev-date b, .post-nav small { color: var(--kicker); }
+.price, .stat b { color: var(--text); font-family: var(--f-title); }
+.offer.feature { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+.portrait { background: radial-gradient(circle at 35% 30%, var(--card-hi), var(--card-lo)); color: var(--silver); border: 1px solid var(--line-strong); font-family: var(--f-title); }
+.tag { background: color-mix(in srgb, var(--accent) 22%, transparent); color: var(--text); border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent); font-weight: 600; }
+.tag.swh { background: color-mix(in srgb, var(--swh) 18%, transparent); color: var(--swh); border-color: color-mix(in srgb, var(--swh) 55%, transparent); }
+.chip { border-color: var(--line-strong); font-weight: 500; }
+.chip.on { background: color-mix(in srgb, var(--accent) 20%, transparent); color: var(--text); border-color: var(--accent); }
+.hit { border-left: 3px solid var(--accent); border-color: var(--line-strong); border-left-color: var(--accent); }
+.notice { border-color: var(--line-strong); background: var(--panel); }
+.announce { background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 70%, var(--bg)), color-mix(in srgb, var(--accent) 22%, var(--bg))); font-family: var(--f-ui); }
+.post-body > p:first-child::first-letter { font-family: var(--f-title); color: var(--silver); }
+.post-body li::marker, .post-body hr::after { color: var(--kicker); }
+.astro-tabs button[aria-selected='true'] { color: var(--text); border-bottom-color: var(--accent); }
+.witches .kicker { color: var(--kicker); }
+.wq { border-left-color: var(--accent); background: color-mix(in srgb, var(--accent) 7%, transparent); }
+.b3-g, .ev-g, .ptable td:first-child, .astro-facts li::before { color: var(--silver); }
+.rd-g { border-color: var(--line-strong); color: var(--silver); background: radial-gradient(circle at 35% 30%, var(--card-hi), var(--bg)); }
+.place-list { border-color: var(--line-strong); }
+.page-hero h1 { font-family: var(--f-title); }
+.foot .brand { font-size: 1rem; }
+.ep-title, .eplist-full .t, .post-nav a, .post-ep .t, .guest-grid b, .orrery-pick b, .sky-cell b, .ev-t b, .sign-tarot figcaption, .finder-hud b, .reading-sum, .sign-motto, .orrery-when { font-family: var(--f-ui); }
+.ep-title, .eplist-full .t { font-weight: 600; }
+
+/* Today hero (home): centred art, Cinzel wordmark, date kicker, one moon + sabbat line */
+.today { position: relative; overflow: hidden; text-align: center; padding: 26px 0 40px; border-bottom: 1px solid var(--line); }
+.today .hero-bg { z-index: 0; }
+.today-in { position: relative; z-index: 1; display: grid; justify-items: center; }
+.today-art { position: relative; width: min(470px, 86vw); aspect-ratio: 1; margin: 0 auto -18px; display: grid; place-items: center; }
+.today-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.today-art .art-pentacle { -webkit-mask: radial-gradient(circle at 50% 50%, #000 52%, transparent 71%); mask: radial-gradient(circle at 50% 50%, #000 52%, transparent 71%); animation: breathe 8s ease-in-out infinite alternate; }
+.today-art .art-sigil { inset: 12%; width: 76%; height: 76%; animation: spin 180s linear infinite, breathe 8s ease-in-out infinite alternate; }
+.today-art .art-moon { inset: 9%; width: 82%; height: 82%; filter: drop-shadow(0 0 40px color-mix(in srgb, var(--glow) 90%, transparent)); animation: rock 14s ease-in-out infinite alternate; }
+.today-art .art-wreath { inset: 0; animation: spin 240s linear infinite; }
+.today-art .smoke { position: absolute; inset: 0; pointer-events: none; }
+.today-art .smoke i { position: absolute; bottom: 18%; width: 38%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--kicker) 16%, transparent), transparent 70%); filter: blur(8px); animation: smoke 16s ease-in infinite; opacity: 0; }
+.today-art .smoke i:nth-child(1) { left: 12%; animation-delay: 0s; } .today-art .smoke i:nth-child(2) { left: 42%; animation-delay: 5s; } .today-art .smoke i:nth-child(3) { left: 62%; animation-delay: 10s; }
+.today-art[data-hero="sabbat"] { width: min(760px, 100%); aspect-ratio: 16 / 10; margin-bottom: 0; border-radius: 18px; overflow: hidden; }
+.today-art[data-hero="sabbat"] img { object-fit: cover; object-position: 50% 30%; -webkit-mask: linear-gradient(#000 60%, transparent); mask: linear-gradient(#000 60%, transparent); }
+.wordmark { margin: 0; font-family: var(--f-title); font-weight: 400; line-height: 1.05; color: var(--text); }
+.wordmark small { display: block; font-size: clamp(0.8rem, 1.6vw, 0.95rem); letter-spacing: 0.4em; color: var(--kicker); margin-bottom: 4px; }
+.wordmark span { display: block; font-size: clamp(2.1rem, 6vw, 3.4rem); letter-spacing: 0.14em; }
+.today-date { margin: 14px 0 4px; font-size: 0.74rem; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: var(--kicker); }
+.today-sky { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 6px 0 2px; font-size: 1rem; }
+.today-sky img { width: 26px; height: 26px; }
+.today-sky2 { margin: 0; font-size: 0.82rem; letter-spacing: 0.4px; color: var(--kicker); }
+.today-sky2 a { color: var(--kicker); } .today-sky2 a:hover { color: var(--text); }
+.today-tag { max-width: 560px; margin: 16px auto 0; color: var(--muted); font-size: 0.98rem; }
+.today-cards { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; width: min(860px, 100%); margin: 26px auto 0; text-align: left; }
+.hcard { display: flex; gap: 16px; align-items: center; background: var(--panel); border: 1px solid var(--line-strong); border-radius: 16px; padding: 16px 18px; color: var(--text); }
+a.hcard:hover { color: var(--text); border-color: color-mix(in srgb, var(--accent) 70%, var(--line-strong)); }
+.hcard .kicker { margin: 0 0 4px; }
+.hcard b { display: block; font-weight: 600; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.hcard small { color: var(--muted); font-size: 0.85rem; }
+.jewel { flex: none; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--accent) 80%, #fff), var(--accent) 55%, color-mix(in srgb, var(--accent) 60%, #000)); box-shadow: 0 0 0 2px color-mix(in srgb, var(--silver) 70%, transparent), 0 0 22px color-mix(in srgb, var(--accent) 45%, transparent); color: var(--on-accent); border: 0; cursor: pointer; }
+.jewel svg { width: 20px; height: 20px; margin-left: 3px; fill: currentColor; }
+.jewel.playing svg { margin-left: 0; }
+.hcard .tcard { width: 58px; flex: none; }
+@keyframes breathe { from { opacity: 0.9; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+@keyframes spin { to { rotate: 360deg; } }
+@keyframes rock { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+@keyframes smoke { 0% { opacity: 0; transform: translateY(0) scale(0.6); } 25% { opacity: 0.8; } 100% { opacity: 0; transform: translateY(-70%) scale(1.5); } }
+
+/* Real moon renders (NASA LRO/LOLA, Blender) instead of the drawn moon */
+.moon-img { display: block; border-radius: 50%; filter: drop-shadow(0 0 8px color-mix(in srgb, var(--moon) 30%, transparent)); }
+.sky-cell { border-color: var(--line-strong); border-radius: 14px; }
+.sky-ico { color: var(--silver); }
+
+/* Tarot card in the app's Moonlit frame: halo, silver frame, holo sheen, 3D tilt, tap to flip, glass reflection */
+.tcard { position: relative; perspective: 900px; display: inline-block; }
+.tcard-in { position: relative; aspect-ratio: 720 / 1230; transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(.2,.7,.2,1); transform: rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg)); }
+.tcard.flipped .tcard-in { transform: rotateY(calc(var(--ry, 0deg) + 180deg)) rotateX(var(--rx, 0deg)); }
+.tcard-face, .tcard-back { position: absolute; inset: 0; border-radius: 4.5%/2.6%; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: var(--panel); box-shadow: 0 0 0 1px color-mix(in srgb, var(--silver) 85%, transparent); }
+.tcard-face img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.tcard-face::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.16) 50%, transparent 65%); background-size: 260% 100%; mix-blend-mode: screen; animation: sheen 7s linear infinite; pointer-events: none; }
+.tcard-back { transform: rotateY(180deg); background: radial-gradient(circle at 50% 42%, var(--card-hi), var(--card-lo) 78%); }
+.tcard-back::before { content: ''; position: absolute; inset: 5%; border: 1px solid color-mix(in srgb, var(--silver) 60%, transparent); border-radius: 3%/1.8%; }
+.tcard-back::after { content: ''; position: absolute; inset: 18%; background: url('../img/brand/pentacle_glow.webp') center / contain no-repeat; filter: drop-shadow(0 0 10px color-mix(in srgb, var(--accent) 60%, transparent)); }
+.tcard::before { content: ''; position: absolute; inset: -12% -16%; background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 34%, transparent), color-mix(in srgb, var(--ice) 8%, transparent) 70%, transparent); animation: halo 8.4s ease-in-out infinite alternate; pointer-events: none; }
+.tcard.big .tcard-face { box-shadow: 0 0 0 1.4px color-mix(in srgb, var(--silver) 85%, transparent), inset 0 0 0 7px var(--panel), inset 0 0 0 8px color-mix(in srgb, var(--accent) 45%, transparent); }
+.tcard.big .tcard-face img { padding: 0; }
+.tcard.rev .tcard-face img { transform: rotate(180deg); }
+.tcard[data-flip] { cursor: pointer; }
+@keyframes sheen { from { background-position: 130% 0; } to { background-position: -130% 0; } }
+@keyframes halo { from { opacity: 0.55; } to { opacity: 1; } }
+.tarot-big { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 46px; align-items: center; margin: 10px 0 60px; }
+.tarot-big .tcard { width: 260px; }
+.tarot-big h2 { margin-top: 0; }
+.tcard-hint { font-size: 0.82rem; color: var(--muted); margin-top: 26px; }
+/* draw: the slots use the same frame */
+.slot .face { box-shadow: 0 0 0 1px color-mix(in srgb, var(--silver) 85%, transparent); border: 0; }
+.slot .back { border: 0; box-shadow: 0 0 0 1px color-mix(in srgb, var(--silver) 60%, transparent), 0 0 30px color-mix(in srgb, var(--accent) 22%, transparent); font-size: 0; }
+.slot .face img { object-fit: contain; background: var(--panel); }
+.card { height: auto; aspect-ratio: 720 / 1230; }
+.cotd img, .tarot-today img { border-radius: 4px; }
+
+/* Wheel page: the sabbat's painting at the top of its panel (as in the app's Almanac) */
+.wheel-scene { display: block; width: calc(100% + 48px); margin: -24px -24px 16px; aspect-ratio: 16 / 9; object-fit: cover; object-position: 50% 32%; border-radius: var(--radius) var(--radius) 0 0; -webkit-mask: linear-gradient(#000 70%, transparent); mask: linear-gradient(#000 70%, transparent); }
+.wheel .node circle { stroke: var(--silver); }
+.wheel .node.on circle, .wheel .node:hover circle { fill: var(--accent); stroke: var(--accent); }
+.wheel .node.on .lbl { fill: var(--text); }
+.wheel .hub { fill: var(--text); font-family: var(--f-title); }
+.wheel .ring.inner { fill: color-mix(in srgb, var(--glow) 40%, transparent); }
+
+/* Empty states: the cauldron */
+.cauldron { display: block; width: 150px; margin: 10px auto 6px; border-radius: 50%; -webkit-mask: radial-gradient(circle, #000 55%, transparent 71%); mask: radial-gradient(circle, #000 55%, transparent 71%); }
+
+/* 3D silver sign and planet icons (Sky page) */
+.i3d { display: inline-block; width: 1.25em; height: 1.25em; object-fit: contain; vertical-align: middle; }
+.sign-chip .i3d { width: 34px; height: 34px; }
+.sign-big .i3d { width: 78px; height: 78px; }
+.sign-chip { border-color: var(--line-strong); border-radius: 12px; }
+
+/* Episode list: one card per episode with the jewel play link (app Listen) */
+.eplist-full { display: grid; gap: 10px; }
+.eplist-full li { grid-template-columns: 110px minmax(0, 1fr) 44px; align-items: center; background: var(--panel); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 18px; }
+.eplist-full li.swh { border-color: color-mix(in srgb, var(--swh) 45%, var(--line-strong)); }
+.eplist-full .jewel { width: 40px; height: 40px; }
+.eplist-full .jewel svg { width: 15px; height: 15px; }
+@media (max-width: 860px) { .eplist-full li { grid-template-columns: minmax(0, 1fr) 44px; } .eplist-full li .d { grid-column: 1 / -1; } }
+
+/* The Look picker (app Settings > Look) */
+.look-btn { background: none; border: 1px solid var(--line-strong); color: var(--kicker); width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; flex: none; }
+.look-btn:hover, .look-btn[aria-expanded="true"] { color: var(--text); border-color: var(--accent); }
+.look-btn svg { width: 18px; height: 18px; }
+.looks { position: absolute; right: 22px; top: 64px; width: min(360px, calc(100vw - 24px)); background: var(--panel); border: 1px solid var(--line-strong); border-radius: 16px; padding: 14px; box-shadow: var(--shadow); z-index: 70; }
+.looks[hidden] { display: none; }
+.looks .kicker { margin: 4px 6px 8px; }
+.look-row { display: grid; grid-template-columns: 46px minmax(0, 1fr) 22px; gap: 12px; align-items: center; width: 100%; background: none; border: 0; border-radius: 12px; padding: 10px 8px; color: var(--text); text-align: left; cursor: pointer; font: inherit; }
+.look-row:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.look-row b { display: block; font-weight: 600; }
+.look-row small { display: block; color: var(--muted); font-size: 0.82rem; line-height: 1.35; }
+.look-row[disabled] { opacity: 0.45; cursor: not-allowed; }
+.swatch { display: flex; } .swatch i { width: 16px; height: 16px; border-radius: 50%; margin-right: -4px; box-shadow: 0 0 0 1.5px var(--panel); }
+.radio { width: 20px; height: 20px; border-radius: 50%; border: 2px solid color-mix(in srgb, var(--text) 35%, transparent); }
+.look-row[aria-checked="true"] .radio { border-color: var(--accent); background: radial-gradient(circle, var(--accent) 45%, transparent 50%); }
+.look-opt { display: flex; gap: 12px; align-items: flex-start; padding: 12px 8px 4px; border-top: 1px solid var(--line); margin-top: 8px; font-size: 0.9rem; cursor: pointer; }
+.look-opt input { margin-top: 4px; accent-color: var(--accent); width: 18px; height: 18px; flex: none; }
+.look-opt small { display: block; color: var(--muted); font-size: 0.8rem; line-height: 1.4; }
+
+/* App-style bottom bar on phones: Today, Listen, Ask, Sky, Almanac */
+.tabbar { display: none; }
+@media (max-width: 860px) {
+  .tabbar { display: grid; grid-template-columns: repeat(5, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 55; padding: 6px 6px calc(6px + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(14px); border-top: 1px solid var(--line); }
+  .tabbar a { display: grid; justify-items: center; gap: 2px; padding: 4px 0; color: var(--muted); font-size: 0.68rem; font-weight: 500; }
+  .tabbar a span { display: grid; place-items: center; width: 56px; height: 30px; border-radius: 16px; }
+  .tabbar svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .tabbar a[aria-current="page"] { color: var(--text); }
+  .tabbar a[aria-current="page"] span { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+  body { padding-bottom: 72px; }
+  .top-in { gap: 10px; }
+  .look-btn { margin-left: auto; }
+  .burger { margin-left: 0; }
+  .looks { right: 10px; }
+  .today-cards { grid-template-columns: minmax(0, 1fr); }
+  .tarot-big { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; gap: 30px; }
+  .tarot-big .tcard { width: min(240px, 64vw); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .today-art img, .today-art .smoke i, .tcard::before, .tcard-face::after { animation: none !important; }
+  .tcard-in { transition: none; }
+}
+.tcard-in, .tcard-face, .tcard-back { display: block; }
+@media (max-width: 860px) { body.home .brand > span:last-child { display: none; } }
+/* tarot page card: size to the screen; the halo sits behind the card, and the floor reflection is a mirrored copy (all browsers) */
+.tcard { isolation: isolate; }
+.tcard::before { z-index: -1; inset: -16% -22%; }
+
+.tcard-refl { display: block; height: 22%; margin-top: 8px; overflow: hidden; border-radius: 4.5%/12%; transform: scaleY(-1); opacity: 0.32; filter: blur(2px); -webkit-mask: linear-gradient(to top, #000, transparent 85%); mask: linear-gradient(to top, #000, transparent 85%); }
+.tcard-refl { position: relative; aspect-ratio: 720 / 270; height: auto; }
+.tcard-refl img { position: absolute; left: 0; bottom: 0; width: 100%; height: auto; aspect-ratio: 720 / 1230; }
+@media (max-width: 860px) { .tarot-big .tcard { width: min(200px, 52vw); margin-top: 16px; } }
+/* the flip needs the 3D context kept: isolation flattens it, so the halo uses a wrapper-free stacking instead */
+.tcard { isolation: auto; z-index: 0; }
+.tcard::before { z-index: -1; }
+.tcard:focus { outline: none; }
+.tcard:focus-visible { outline: 2px solid var(--accent); outline-offset: 10px; border-radius: 10px; }
+.tarot-big + h2, .tarot-big ~ h2 { text-align: center; }
+@media (max-width: 860px) { .tarot-big { margin-top: 0; gap: 18px; } .tarot-big .tcard { width: min(170px, 46vw); margin-top: 0; } }
+@media (max-width: 860px) { .tarot-big > div:last-child { order: -1; } .tarot-big .tcard-hint { margin-top: 8px; } }
+/* mix-blend-mode on the sheen flattened the 3D context (the back never showed); a plain light band works without it */
+.tcard-face::after { mix-blend-mode: normal; background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,0.10) 50%, transparent 62%); background-size: 260% 100%; }
+.tcard-face, .tcard-back { transform-style: flat; }
+.tcard-face { transform: rotateY(0deg); }
+.tcard.flipped .tcard-refl { opacity: 0; transition: opacity 0.3s; }
+.tcard-refl { transition: opacity 0.3s 0.4s; }
+.top-in { position: relative; }
+.looks { right: 0; }
+@media (min-width: 861px) { .look-btn { order: 3; margin-left: 4px; } .menu { order: 2; } }
+/* review fixes: link titles read white like the app (accent only on actions), audio controls themed, readings 3+2, today's card in the frame */
+.np-body h2 a, .eplist a, .mini a, .hit-meta, .post-ep .t { color: var(--text); }
+.np-body h2 a:hover, .eplist a:hover, .mini a:hover { color: var(--ice); }
+.np-body audio, .ep-player audio, .post-ep audio { accent-color: var(--accent); filter: saturate(0.6) hue-rotate(0deg); }
+.np-art { border-color: var(--line-strong); box-shadow: 0 0 40px color-mix(in srgb, var(--glow) 80%, transparent); }
+.offers { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.offers .offer { grid-column: span 2; }
+.offers .offer:nth-child(4), .offers .offer:nth-child(5) { grid-column: span 3; }
+@media (max-width: 1000px) { .offers { grid-template-columns: repeat(2, minmax(0, 1fr)); } .offers .offer, .offers .offer:nth-child(4), .offers .offer:nth-child(5) { grid-column: auto; } }
+.cotd img { box-shadow: 0 0 0 1px color-mix(in srgb, var(--silver) 85%, transparent), 0 0 26px color-mix(in srgb, var(--accent) 30%, transparent); }
+.wheel .node .lbl { font-family: var(--f-ui); font-size: 12px; }
+.sign-chip { background: color-mix(in srgb, var(--panel) 80%, var(--card-hi)); }
+.sign-chip small { color: var(--kicker); }

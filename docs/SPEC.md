@@ -1,6 +1,6 @@
 # Back on the Broomstick website: specification
 
-Version 0.12 (2026-11-02). Owner: Chuck Forsyth, for Laylla and Chelle.
+Version 0.13 (2026-11-08). Owner: Chuck Forsyth, for Laylla and Chelle.
 
 
 > Naming (Chuck, 2026-10-07): the GitHub Pages site is the **dev site**. The hosts' **real site** is backonthebroomstick.com (Wix); nothing in these repos or services touches it. Only call ours the real site if the hosts ever switch over.
@@ -166,22 +166,59 @@ Portrait photos, charts and card spreads get `cover_fit: contain` so they show w
 `imported_from:` (its Wix URL); categories were picked by reading each post. Bodies pass the archive's `check_body`, so
 the hosts can edit or take down any of them through the blog tools like their own new posts.
 
-## 5. Visual design (Midnight Grimoire)
+## 5. Visual design (the Hybrid look, matching the Hedge Almanac app; site 0.13)
 
-Tokens in the `:root` block of `assets/css/grimoire.css`:
+The site looks and behaves like the Hedge Almanac Android app (app SPEC section 12). Midnight Grimoire (purple and candle
+gold, four fonts) was retired on 2026-11-08 at Chuck's request ("make the webpage look and act like the app").
 
-| Token | Value | Use |
-| --- | --- | --- |
-| `--bg` / `--bg2` / `--panel` | `#120d1a` / `#19122a` / `#211735` | Page, alternate bands, cards |
-| `--line` | `#3a2a55` | Hairlines |
-| `--text` / `--muted` | `#eee4d3` / `#b0a3bf` | Body, secondary |
-| `--accent` | `#d9a74a` | Candle gold: kickers, buttons, links |
-| `--accent2` | `#a67fd8` | Amethyst: SWH tags, glows |
+Tokens live in `assets/css/grimoire.css` (block "Theme tokens: the Hybrid look"), one set per look, the same values as the
+app's `ui/theme/Looks.kt`:
 
-Type: Cinzel (h1), Cormorant Garamond (display), EB Garamond (body), JetBrains Mono (kickers, labels). Motifs: starfield
-hero, broom-pentacle sigil (header, footer, favicon; faint pencil version behind the home hero), kickers with a four-point star, gold top rule on panels.
+| Token | Original | Moonlit | Stoned Witches |
+| --- | --- | --- | --- |
+| `--bg` / `--bg2` / `--panel` | `#05070D` / `#080B13` / `#0B0F18` | `#03050C` / `#060A16` / `#0A1022` | `#040805` / `#07100A` / `#0B170F` |
+| `--line` / `--line-strong` | `#182033` / `#26324D` | `#16213F` / `#253662` | `#17291C` / `#26422F` |
+| `--text` / `--muted` / `--kicker` | `#FFFFFF` / `#8B97AB` / `#C9D4E4` | same / `#8C9BB8` / `#D2DDF0` | `#F4FAF3` / `#8EA594` / `#CDE3CF` |
+| `--accent` (the ONE accent) | `#4C8DFF` | `#5A9CFF` | `#7CCB80` |
+| `--glow` (behind the hero only) | `#0E2A5C` | `#123574` | `#123D1F` |
+| `--swh` (Stoned Witches Hour identity) | `#6FBF73` | `#6FBF73` | `#9BD99E` |
+| `--silver`, `--ice`, `--card-hi/lo`, `--danger` | frame silver, ice blue, card back, `#C4584A` | | |
 
-The Ask the Archive service (Cloud Run) uses the same stylesheet and tokens so the two read as one site.
+Type: Cinzel (wordmark, h1/h2, sabbat and card names) and Inter (everything else, kickers in silver caps with the four-point
+star). Cards: 14-16 px corners, `--line-strong` hairline; SWH episode cards edged green. The Sky page canvases read the
+tokens (`theme()` in `astro-3d.js`): zodiac ring and glyphs silver, harmonious aspects accent, hard aspects danger.
+
+**Looks** (moon button in the top bar, panel `#looks`): Original (default), Moonlit, Stoned Witches. Stoned Witches is
+offered only after "I am 18 or older" is ticked; if that is unticked later the site falls back to Original. A second switch,
+"Show AI-made art", hides every AI-made picture (painted pentacle, sabbat scenes, cauldron, leaf wreath), leaving the show's
+own sigil, the NASA moon and the 1909 tarot, as in the app. All three choices live in `localStorage` (`botb.look`,
+`botb.adult`, `botb.aiart`) and are applied to `<html data-look data-aiart>` by an inline script in `default.html` before
+first paint. Nothing is sent anywhere.
+
+**Today hero** (home): Original = the painted besom pentacle (`assets/img/brand/hero_pentacle.webp`, breathing slowly);
+AI art off = the glowing sigil, turning once every 3 minutes; Moonlit = tonight's real Moon (`assets/img/moonbig/`, 30
+phases, slow rock); Stoned Witches = the Moon in the leaf wreath with drifting smoke. On a sabbat day (the fixed dates in
+`sky.js`) the hero becomes that sabbat's painting (`assets/img/sabbat/`, 1080 px copies of the app's 2K masters) and the date
+line reads "Blessed <Sabbat>". Under it: Cinzel wordmark, date kicker, moon line (real render + phase + % lit), next
+sabbat, then two cards: newest episode with the jewel play button (plays in place) and card of the day.
+
+**Art shared with the app** (copied from `botb-android/app/src/main/assets`; masters in `~/Projects/botb-concepts`):
+30 moon renders at 384 px (`assets/img/moon/`, the tonight's-sky widgets) and 768 px (`moonbig/`), Blender from NASA
+LRO/LOLA maps; 23 silver 3D sign/planet glyphs (`astro3d/`, Sky sign chips and sign pages); the 22 tarot cards at 720 px
+(1909 Pamela Colman Smith, public domain); brand art (`brand/`). Favicon, apple-touch and 512 icon = the app's launcher icon.
+
+**Tarot frame** (`.tcard`, port of the app's `TarotCard3D`): breathing accent halo, silver edge, a light sheen that slides
+across, idle 3D turn, drag to turn, tap/Enter to flip to the card back (navy, glowing pentacle, silver border), and a faded
+floor reflection on the big card (`/tarot/`). The three-card draw uses the same card back. Do not put `mix-blend-mode`,
+`isolation` or `-webkit-box-reflect` on the card: each one flattens the 3D context and the back never shows.
+
+**Phone bar**: below 860 px a fixed bottom bar (`_includes/tabbar.html`) gives the app's five tabs: Today (/), Listen
+(/episodes/), Search (/ask/), Sky (/sky/), Almanac (/wheel/), active tab = accent pill.
+
+Motion plays slowly and stops entirely under `prefers-reduced-motion`.
+
+The Ask the Archive service (Cloud Run) still has its own copy of the old Midnight Grimoire stylesheet; bringing it over is
+open item W-11.
 
 ## 6. Behaviour (`assets/js/`)
 
@@ -194,9 +231,9 @@ The Ask the Archive service (Cloud Run) uses the same stylesheet and tokens so t
 ## 7. Ask the Archive service (separate, Cloud Run `botb-mcp`)
 
 Live at https://botb-mcp-dsfh6rrlia-uc.a.run.app (source and full spec: `Back_on_the_Broomstick/archive`,
-`docs/SPEC.md`). Its public pages use the same Midnight Grimoire theme (`grimoire.css` copied from this repo); the
+`docs/SPEC.md`). Its public pages still use the old Midnight Grimoire copy of `grimoire.css` (W-11); the
 signed-in Studio is a light "workroom" version of it with its own Studio bar (archive 0.13.0), so the hosts can always
-tell the back office from the public site. This site's look is unchanged.
+tell the back office from the public site.
 
 Public: archive search (`/api/search?q=`, rate limited per visitor plus a daily cap), insights charts
 (`/insights`), and episode pages with full transcripts. Private (three logins: Chuck, Laylla, Chelle): the Studio
@@ -228,12 +265,15 @@ checks the feeds itself Friday 7pm, Saturday 1am and Saturday 9am Eastern (episo
 | W-7 | Done 2026-10-07: new episodes publish automatically; hosts edit content (4.1) |
 | W-8 | Press kit: fill Buzzsprout downloads and package prices with the hosts; source for any "#1 pagan podcast" claim (none found in public rankings on 2026-10-07; Apple Spirituality chart is the verifiable claim) |
 | W-9 | Real video on YouTube (today: audio over a still image from the feed) |
+| W-11 | Ask the Archive service (botb-mcp public pages: /, /insights, /episode) still in Midnight Grimoire; copy the 0.13 stylesheet and art into `web/static`, check the light Studio theme on top, redeploy |
+| W-12 | Spell Witch: a no-AI spell builder (intent, timing from moon/sabbat/planetary hour, correspondences, the witches' own clips, saved to an on-device spellbook). Chuck 2026-11-08: dev site first, then the app; after the 0.13 look |
 | W-10 | Search engines: the dev site and botb-mcp are noindex (meta tag here; header + robots.txt on botb-mcp; no sitemap) until the hosts adopt the site as their main one. Remove all three together on their say-so |
 
 ## 10. Change log
 
 | Version | Date | Change |
 | --- | --- | --- |
+| 0.13 | 2026-11-08 | The Hybrid look from the Hedge Almanac app (5): cobalt/silver tokens, Cinzel + Inter, three Looks (Original, Moonlit, Stoned Witches 18+) and an AI-art switch, Today hero (pentacle / real Moon / leaf wreath / sabbat painting on the day), jewel play, real moon renders, 3D sign glyphs, tarot frame with flip and reflection, sabbat paintings on the Wheel, cauldron empty states, episode cards, phone bottom bar, app icon. Sky canvases follow the look |
 | 0.11 | 2026-11-01 | W-2: Listen menu adds "Archive insights" (botb-mcp `/insights` charts) |
 | docs | 2026-11-01 | Spec review, no site change: refresh schedule adds Sat 1am, guest merge rule (4), every-refresh self-healing publish and auto commits don't bump the version (4.2), W-2 status |
 | 0.10 | 2026-10-09 | Top menu grouped (3.1): Listen / Explore / Book a Reading / About / Shop / Support, dropdowns with one-line descriptions, current group highlighted, phone menu shows groups as headings. Home page unchanged |
